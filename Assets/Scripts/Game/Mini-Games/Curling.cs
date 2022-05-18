@@ -8,5 +8,7 @@ namespace Game.Mini_Games
         public CelluloPlayer player;
         public CelluloBot bot;
         private Vector3 MapPos;
+        
+        public Timer timer;
     }
 }
