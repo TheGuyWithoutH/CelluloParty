@@ -13,60 +13,72 @@ namespace Game.Mini_Games
         public CelluloPlayer bot;
         public Timer timer;
         public GameObject playButton;
+        public GameObject startScreen;
+        public GameObject endScreen;
 
-        protected int maxSeconds;
+        protected int MaxSeconds;
 
-        private Vector3 _mapPos;
         private GameStatus _gameStatus;
+        private Winner _winner;
 
-        private void Start()
+        protected virtual void Start()
         {
-            throw new NotImplementedException();
+            _gameStatus = GameStatus.NONE;
+            _winner = Winner.NONE;
         }
 
         public virtual void Update()
         {
-            if (_gameStatus == GameStatus.NONE)
+            if (_gameStatus == GameStatus.READY && player1.IsReady() && player2.IsReady())
             {
-                if (player1.isReady && player2.isReady)
-                {
-                    playButton.SetActive(false);
-                    PlayerReady();
-                }
+                playButton.SetActive(false);
+                PlayerReady();
             }
         }
 
         public void PlayerReady()
         {
-            timer.StartTimer(maxSeconds, this);
-            //player1.SteeringReactivate();
-            //player2.SteeringReactivate();
+            timer.StartTimer(MaxSeconds, this);
+            player1.SteeringReactivate();
+            player2.SteeringReactivate();
             _gameStatus = GameStatus.STARTED;
         }
 
-        /**
-         * 
-         */
-        public abstract void StartGame();
-        
-        /**
-         * 
-         */
-        public abstract void OnGamePause();
-
-        /**
-         * 
-         */
-        public abstract void GameEnded();
-
-        /**
-         * 
-         */
-        private void GameQuit()
+        public virtual void StartGame()
         {
-         
+            _gameStatus = GameStatus.READY;
+            startScreen.SetActive(true);
+        }
+        
+        public virtual void OnGamePause()
+        {
+            _gameStatus = GameStatus.PAUSED;
+            player1.SteeringDesactivate();
+            player2.SteeringDesactivate();
         }
 
+        public virtual void GameEnded()
+        {
+            endScreen.SetActive(true);
+            if (player1.Score > player2.Score)
+            {
+                _winner = Winner.PLAYER1;
+            } 
+            else if (player1.Score < player2.Score)
+            {
+                _winner = Winner.PLAYER2;
+            }
+        }
+        
+        private void GameQuit()
+        {
+            endScreen.SetActive(false);
+            _gameStatus = GameStatus.NONE;
+            _winner = Winner.NONE;
+            player1.setNotReady();
+            player2.setNotReady();
+        }
+        
         private enum GameStatus
         {
             NONE = -1,

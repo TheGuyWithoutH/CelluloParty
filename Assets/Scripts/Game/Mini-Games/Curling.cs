@@ -6,6 +6,12 @@ namespace Game.Mini_Games
 {
     public class Curling : Mini_Game
     {
+        protected override void Start()
+        {
+            base.Start();
+            MaxSeconds = 15;
+        }
+        
         public override void Update()
         {
             base.Update();
@@ -13,18 +19,17 @@ namespace Game.Mini_Games
 
         public override void StartGame()
         {
-            throw new System.NotImplementedException();
+            base.StartGame();
         }
         
         public override void OnGamePause()
         {
-            throw new System.NotImplementedException();
+            base.OnGamePause();
         }
 
         public override void GameEnded()
         {
-            
-            throw new System.NotImplementedException();
+            base.GameEnded();
         }
     }
 }

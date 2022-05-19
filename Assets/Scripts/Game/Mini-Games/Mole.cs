@@ -4,24 +4,30 @@ namespace Game.Mini_Games
 {
     public class Mole : Mini_Game
     {
+        protected override void Start()
+        {
+            base.Start();
+            MaxSeconds = 60;
+        }
+        
         public override void Update()
         {
             base.Update();
         }
-        
+
         public override void StartGame()
         {
-            throw new System.NotImplementedException();
+            base.StartGame();
         }
         
         public override void OnGamePause()
         {
-            throw new System.NotImplementedException();
+            base.OnGamePause();
         }
-        
+
         public override void GameEnded()
         {
-            throw new System.NotImplementedException();
+            base.GameEnded();
         }
     }
 }
