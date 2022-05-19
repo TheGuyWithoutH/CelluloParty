@@ -8,7 +8,12 @@ namespace Game.Mini_Games
         {
             throw new System.NotImplementedException();
         }
-        
+
+        public override void OnGamePause()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void GameEnded()
         {
             throw new System.NotImplementedException();
