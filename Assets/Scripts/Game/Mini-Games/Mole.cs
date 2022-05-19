@@ -4,6 +4,11 @@ namespace Game.Mini_Games
 {
     public class Mole : Mini_Game
     {
+        public override void Update()
+        {
+            base.Update();
+        }
+        
         public override void StartGame()
         {
             throw new System.NotImplementedException();
@@ -15,11 +20,6 @@ namespace Game.Mini_Games
         }
         
         public override void GameEnded()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override Winner GameWinner()
         {
             throw new System.NotImplementedException();
         }
