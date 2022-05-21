@@ -8,7 +8,9 @@ namespace Game.Mini_Games
         {
             base.Start();
             MaxSeconds = 15;
-            player1.player.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 0);
+            player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.cyan, 0);
+            player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.green, 85);
+            player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.red, 170);
         }
         
         public override void Update()
