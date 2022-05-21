@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Transactions;
 using Game.Cellulos;
 using UnityEngine;
@@ -23,13 +24,13 @@ namespace Game.Mini_Games
 
             if (ValidThrow(player1, LINE) && _innerStatus == GameStatus.FIRST_THROW)
             {
-                //timer
+                timer(5f);
                 if (Throw(player1, LINE)) { _innerStatus = GameStatus.SECOND_THROW; }
             }
 
             if (ValidThrow(player2, LINE) && _innerStatus == GameStatus.SECOND_THROW)
             {
-                //timer
+                timer(5f);
                 if(Throw(player2, LINE)){ GameEnded(); }
             }
         }
@@ -62,6 +63,8 @@ namespace Game.Mini_Games
             
             base.GameEnded();
         }
+        
+        IEnumerator timer(float f) { yield return new WaitForSeconds(f); }
 
         private bool Line(CelluloPlayer player, int line)
         {
@@ -78,6 +81,11 @@ namespace Game.Mini_Games
             return !player.IsTouch && player.GetSteering().linear == new Vector3(0, 0, 0) && !Line(player, line);
         }
 
+        private bool ThrowInvalid(CelluloPlayer player, int line)
+        {
+            return player.IsTouch && !Line(player, line);
+        }
+
         private double eucl_dist(Vector3 vec_a, Vector3 vec_b)
         {
             return Math.Sqrt(Math.Pow(vec_a.x - vec_b.x, 2) + Math.Pow(vec_a.z - vec_b.z, 2));
@@ -88,7 +96,8 @@ namespace Game.Mini_Games
             FIRST_THROW,
             SECOND_THROW,
             WAITING_PHASE,
-            INVALID_THROW
+            INVALID_THROW_ONE,
+            INVALID_THROW_TWO
         }
     }
 }
