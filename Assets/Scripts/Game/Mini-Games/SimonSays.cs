@@ -20,12 +20,16 @@ namespace Game.Mini_Games
         public override void Update()
         {
             base.Update();
-            
+            foreach (var key in _gameKeys)
+            {
+                
+            }
         }
 
         public override void StartGame()
         {
             base.StartGame();
+            latence = 2000;
         }
         
         public override void OnGamePause()
@@ -53,6 +57,7 @@ namespace Game.Mini_Games
         
         private enum Status
         {
+            READY,
             PATTERN,
             PLAYING,
         }
