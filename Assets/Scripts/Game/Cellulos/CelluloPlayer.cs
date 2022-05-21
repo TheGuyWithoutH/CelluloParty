@@ -61,7 +61,11 @@ namespace Game.Cellulos
             _isActive = false;
         }
 
-        public int Score => _score;
+        public int Score
+        {
+            get => _score;
+            set => _score = value;
+        }
 
         public bool IsTouch => _isTouch;
     }
