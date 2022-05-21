@@ -73,12 +73,12 @@ namespace Game.Mini_Games
         
         private void GameQuit()
         {
-            manager.MiniGameQuit();
             endScreen.SetActive(false);
             GameStatus = GameStatus.NONE;
             _winner = Winner.NONE;
             player1.SetNotReady();
             player2.SetNotReady();
+            manager.MiniGameQuit(_winner);
         }
     }
     
