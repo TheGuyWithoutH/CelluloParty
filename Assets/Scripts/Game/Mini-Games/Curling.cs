@@ -9,7 +9,7 @@ namespace Game.Mini_Games
     {
         private GameStatus _innerStatus;
         private const int LINE = 3;
-        private const Vector3 TARGET = new Vector3(10f, 0f, 10f);
+        private Vector3 TARGET = new Vector3(10f, 0f, 10f);
         protected override void Start()
         {
             base.Start();
