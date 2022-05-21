@@ -49,10 +49,17 @@ namespace Game.Mini_Games
             double eucl_dist_one = eucl_dist(player1.transform.position, TARGET);
             double eucl_dist_two = eucl_dist(player2.transform.position, TARGET);
             
-            if (eucl_dist_one < eucl_dist_two)
+            if (eucl_dist_one < eucl_dist_two) 
             {
-                
+                player1.Score = 1;
+                player2.Score = 0;
+            } 
+            else if (eucl_dist_one > eucl_dist_two) 
+            {
+                player1.Score = 0;
+                player2.Score = 1;
             }
+            
             base.GameEnded();
         }
 
