@@ -12,6 +12,7 @@ namespace Game.Cellulos
         private bool _isActive = false;
         private int _cell; //position on the map
         private int _score;
+        private bool _isTouch;
 
         void Start()
         { 
@@ -31,12 +32,9 @@ namespace Game.Cellulos
             _isReady = true;
         }
 
-        public bool IsReady()
-        {
-            return _isReady;
-        }
+        public bool IsReady => _isReady;
 
-        public void setNotReady()
+        public void SetNotReady()
         {
             _isReady = false;
         }
@@ -52,5 +50,7 @@ namespace Game.Cellulos
         }
 
         public int Score => _score;
+
+        public bool IsTouch => _isTouch;
     }
 }

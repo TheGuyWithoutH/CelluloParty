@@ -29,7 +29,7 @@ namespace Game.Mini_Games
 
         public virtual void Update()
         {
-            if (GameStatus == GameStatus.READY && player1.IsReady() && player2.IsReady())
+            if (GameStatus == GameStatus.READY && player1.IsReady && player2.IsReady)
             {
                 playButton.SetActive(false);
                 PlayerReady();
@@ -59,6 +59,7 @@ namespace Game.Mini_Games
 
         public virtual void GameEnded()
         {
+            GameStatus = GameStatus.ENDED;
             endScreen.SetActive(true);
             if (player1.Score > player2.Score)
             {
@@ -76,8 +77,8 @@ namespace Game.Mini_Games
             endScreen.SetActive(false);
             GameStatus = GameStatus.NONE;
             _winner = Winner.NONE;
-            player1.setNotReady();
-            player2.setNotReady();
+            player1.SetNotReady();
+            player2.SetNotReady();
         }
     }
     
