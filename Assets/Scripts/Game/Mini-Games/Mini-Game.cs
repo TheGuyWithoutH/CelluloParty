@@ -17,19 +17,19 @@ namespace Game.Mini_Games
         public GameObject endScreen;
 
         protected int MaxSeconds;
-
-        private GameStatus _gameStatus;
+        protected GameStatus GameStatus;
+        
         private Winner _winner;
 
         protected virtual void Start()
         {
-            _gameStatus = GameStatus.NONE;
+            GameStatus = GameStatus.NONE;
             _winner = Winner.NONE;
         }
 
         public virtual void Update()
         {
-            if (_gameStatus == GameStatus.READY && player1.IsReady() && player2.IsReady())
+            if (GameStatus == GameStatus.READY && player1.IsReady() && player2.IsReady())
             {
                 playButton.SetActive(false);
                 PlayerReady();
@@ -41,18 +41,18 @@ namespace Game.Mini_Games
             timer.StartTimer(MaxSeconds, this);
             player1.SteeringReactivate();
             player2.SteeringReactivate();
-            _gameStatus = GameStatus.STARTED;
+            GameStatus = GameStatus.STARTED;
         }
 
         public virtual void StartGame()
         {
-            _gameStatus = GameStatus.READY;
+            GameStatus = GameStatus.READY;
             startScreen.SetActive(true);
         }
         
         public virtual void OnGamePause()
         {
-            _gameStatus = GameStatus.PAUSED;
+            GameStatus = GameStatus.PAUSED;
             player1.SteeringDesactivate();
             player2.SteeringDesactivate();
         }
@@ -72,31 +72,29 @@ namespace Game.Mini_Games
         
         private void GameQuit()
         {
+            manager.MiniGameQuit();
             endScreen.SetActive(false);
-            _gameStatus = GameStatus.NONE;
+            GameStatus = GameStatus.NONE;
             _winner = Winner.NONE;
             player1.setNotReady();
             player2.setNotReady();
         }
-        
-        private enum GameStatus
-        {
-            NONE = -1,
-            READY,
-            STARTED,
-            ENDED,
-            PAUSED
-        }
     }
-
-    /**
-     * 
-     */
+    
     public enum Winner
     {
         NONE,
         PLAYER1,
         PLAYER2
+    }
+    
+    public enum GameStatus
+    {
+        NONE = -1,
+        READY,
+        STARTED,
+        ENDED,
+        PAUSED
     }
 
 }

@@ -62,10 +62,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void MiniGameQuit()
+    {
+        
+    }
+
     private enum CameraView
     {
         MainCamera,
         Player1,
         Player2,
     }
+    
 }
