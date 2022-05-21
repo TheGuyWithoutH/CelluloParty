@@ -32,6 +32,18 @@ namespace Game.Cellulos
             _isReady = true;
         }
 
+        public override void OnCelluloTouchBegan(int key)
+        {
+            base.OnCelluloTouchBegan(key);
+            _isTouch = true;
+        }
+
+        public override void OnCelluloTouchReleased(int key)
+        {
+            base.OnCelluloTouchReleased(key);
+            _isTouch = false;
+        }
+        
         public bool IsReady => _isReady;
 
         public void SetNotReady()
