@@ -47,8 +47,11 @@ namespace Game.Map
         [CellAttribute(10.3, -9.3)] Cell37,
         [CellAttribute(9.3, -9.3)] Cell38,
         [CellAttribute(8.3, -9.3)] Cell39,
-        [CellAttribute(8.3, -8.35)] Cell40, 
+        [CellAttribute(8.3, -8.35)] Cell40,
     }
+
+
+
 
     class CellAttribute : Attribute
     {
@@ -60,5 +63,12 @@ namespace Game.Map
         }
         public double x { get; private set; }
         public double z { get; private set; }
+
+        public bool occup { get; set; }
+
+        public double x2 { get; private set; }
+
+        public double z2 { get; private set; }
+
     }
 }
