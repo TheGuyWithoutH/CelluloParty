@@ -18,22 +18,22 @@ namespace Game.Dices
             {
                 switch (col.gameObject.name) {
                     case "Side1":
-                        dice.SetDiceResult(DiceFace.Face1);
+                        dice.SetDiceResult(DiceFace.Face6);
                         break;
                     case "Side2":
-                        dice.SetDiceResult(DiceFace.Face2);
-                        break;
-                    case "Side3":
-                        dice.SetDiceResult(DiceFace.Face3);
-                        break;
-                    case "Side4":
-                        dice.SetDiceResult(DiceFace.Face4);
-                        break;
-                    case "Side5":
                         dice.SetDiceResult(DiceFace.Face5);
                         break;
+                    case "Side3":
+                        dice.SetDiceResult(DiceFace.Face4);
+                        break;
+                    case "Side4":
+                        dice.SetDiceResult(DiceFace.Face3);
+                        break;
+                    case "Side5":
+                        dice.SetDiceResult(DiceFace.Face2);
+                        break;
                     case "Side6":
-                        dice.SetDiceResult(DiceFace.Face6);
+                        dice.SetDiceResult(DiceFace.Face1);
                         break;
                 }
             }

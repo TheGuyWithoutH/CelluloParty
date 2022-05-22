@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Game.Cellulos;
+using Game.Dices;
 using Game.Mini_Games;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,12 +13,21 @@ public class GameManager : MonoBehaviour
     private int _player1Tile;
     public CelluloPlayer player2;
     private int _player2Tile;
+    private Winner _currentWinner;
 
     public Mini_Game curling;
     public Mini_Game mole;
     public Mini_Game quiz;
     public Mini_Game simonSays;
     private bool _miniGameRunning;
+
+    public Dice normalDice;
+    public Dice winnerDice;
+    public Dice looserDice;
+    private Winner _dicePlayer;
+    private Dice _currentDice;
+    private int _diceResultPlayer1;
+    private int _diceResultPlayer2;
 
     public Camera mainCamera;
     public Camera player1Camera;
@@ -37,6 +47,9 @@ public class GameManager : MonoBehaviour
         _player2Tile = 0;
         _state = GameState.Start;
         _miniGameRunning = false;
+        _currentWinner = Winner.NONE;
+        _dicePlayer = Winner.NONE;
+        _currentDice = normalDice;
     }
 
     // Update is called once per frame
@@ -75,6 +88,58 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameState.DiceRoll:
+                if (_dicePlayer == Winner.NONE)
+                {
+                    _dicePlayer = Winner.PLAYER1;
+                    
+                    if (_currentWinner == Winner.PLAYER1)
+                    {
+                        SetDiceThrow(winnerDice);
+                    }
+                    else if (_currentWinner == Winner.PLAYER2)
+                    {
+                        SetDiceThrow(looserDice);
+                    }
+                    else
+                    {
+                        SetDiceThrow(normalDice);
+                    }
+                    
+                    _currentDice.ThrowDice();
+                } else if (_dicePlayer == Winner.PLAYER1)
+                {
+                    if (_currentDice.DiceThrowDone())
+                    {
+                        _diceResultPlayer1 = _currentDice.GetDiceScore();
+                        
+                        _dicePlayer = Winner.PLAYER2;
+                    
+                        if (_currentWinner == Winner.PLAYER2)
+                        {
+                            SetDiceThrow(winnerDice);
+                        }
+                        else if (_currentWinner == Winner.PLAYER1)
+                        {
+                            SetDiceThrow(looserDice);
+                        }
+                        else
+                        {
+                            SetDiceThrow(normalDice);
+                        }
+                    
+                        _currentDice.ThrowDice();
+                    }
+                } else if (_dicePlayer == Winner.PLAYER2)
+                {
+                    if (_currentDice.DiceThrowDone())
+                    {
+                        _diceResultPlayer2 = _currentDice.GetDiceScore();
+                        
+                        _dicePlayer = Winner.NONE;
+
+                        _state = GameState.Podium;
+                    }
+                }
                 break;
             case GameState.Podium:
                 break;
@@ -113,6 +178,30 @@ public class GameManager : MonoBehaviour
     public void MiniGameQuit(Winner winner)
     {
         
+    }
+
+    private void SetDiceThrow(Dice dice)
+    {
+        if (dice == normalDice)
+        {
+            normalDice.enabled = true;
+            looserDice.enabled = false;
+            winnerDice.enabled = false;
+            _currentDice = normalDice;
+        } else if (dice == winnerDice) 
+        {
+            normalDice.enabled = false;
+            looserDice.enabled = false;
+            winnerDice.enabled = true;
+            _currentDice = winnerDice;
+        }
+        else
+        {
+            normalDice.enabled = false;
+            looserDice.enabled = true;
+            winnerDice.enabled = false;
+            _currentDice = looserDice;
+        }
     }
 
     private enum CameraView
