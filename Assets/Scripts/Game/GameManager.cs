@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Game.Cellulos;
 using Game.Dices;
+using Game.Map;
 using Game.Mini_Games;
 using UnityEngine;
 using Random = UnityEngine.Random;
