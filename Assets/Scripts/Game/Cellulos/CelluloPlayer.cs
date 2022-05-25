@@ -13,6 +13,7 @@ namespace Game.Cellulos
         private int _cell; //position on the map
         private int _score;
         private bool _isTouch;
+        private int _key;
 
         void Start()
         { 
@@ -30,12 +31,14 @@ namespace Game.Cellulos
         {
             base.OnCelluloLongTouch(key);
             _isReady = true;
+            _key = key;
         }
 
         public override void OnCelluloTouchBegan(int key)
         {
             base.OnCelluloTouchBegan(key);
             _isTouch = true;
+            _key = key;
         }
 
         public override void OnCelluloTouchReleased(int key)
@@ -68,5 +71,11 @@ namespace Game.Cellulos
         }
 
         public bool IsTouch => _isTouch;
+
+        public int Key
+        {
+            get => _key;
+            set => _key = value;
+        }
     }
 }
