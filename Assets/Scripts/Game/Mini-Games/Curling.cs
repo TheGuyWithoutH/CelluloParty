@@ -94,9 +94,6 @@ namespace Game.Mini_Games
         {
             FIRST_THROW,
             SECOND_THROW,
-            WAITING_PHASE,
-            INVALID_THROW_ONE,
-            INVALID_THROW_TWO
         }
     }
 }
