@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Mini_Games
@@ -31,6 +34,26 @@ namespace Game.Mini_Games
         public override void GameEnded()
         {
             base.GameEnded();
+        }
+
+        private Question[] _questions =
+        {
+            new Question("l", 2, new Dictionary<int, String>())
+        };
+
+        IEnumerator timer(float f) { yield return new WaitForSeconds(f); }
+
+        public class Question
+        {
+            private String _question;
+            private int _answer;
+            private Dictionary<int, String> _responses;
+            public Question(String question, int answer, Dictionary<int, String> responses)
+            {
+                _question = question;
+                _answer = answer;
+                _responses = responses;
+            }
         }
     }
 }
