@@ -33,7 +33,7 @@ namespace Game.Cellulos
         private void UpdateMove() // problem this will be called a 100 times per second, so cell will be == to target very very fast
         {
             if (_isActive)
-            {
+            {//really need this check?
                 if(_cell != target_cell)
                 {
                     
