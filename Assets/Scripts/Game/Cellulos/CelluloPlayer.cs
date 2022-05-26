@@ -14,6 +14,8 @@ namespace Game.Cellulos
         private int _score;
         private bool _isTouch;
         private int _key;
+        private Vector3 _move;
+        private int target_cell;
 
         void Start()
         { 
@@ -24,9 +26,82 @@ namespace Game.Cellulos
         void Update()
         {
             //update the position in function of the outcome of the dice throw
+            
             //update the score in function of the outcome of the game
         }
-        
+
+        private void UpdateMove() // problem this will be called a 100 times per second, so cell will be == to target very very fast
+        {
+            if (_isActive)
+            {
+                if(_cell != target_cell)
+                {
+                    
+                    UpdateCell();
+
+                    if (Enum.IsDefined(typeof(Map.GameCell), _cell))
+                    {
+                        if (!Map.GameCells.GetCellOccupied((Map.GameCell)_cell))
+                        {
+                            _move = MoveFromPosition(Map.GameCells.GetCellPosition((Map.GameCell)_cell));
+                            
+                        }
+                        else
+                        {
+                            _move = MoveFromPosition(Map.GameCells.GetCellShiftedPosition((Map.GameCell)_cell));
+                        }
+                    }
+                }
+            }
+        }
+
+        private Vector3 MoveFromPosition(Vector3 coord)
+        {
+            Vector3 currentPos = transform.position; //in theory if the cellulo is already in the correct cell the movement will be 0
+            Vector3 move = (coord - currentPos).normalized;
+            return new Vector3 (move.x, 0, move.z);
+
+        }
+
+        //update cell only if close enough to the position desired
+        private void UpdateCell()
+        {
+            if (!Map.GameCells.GetCellOccupied((Map.GameCell)_cell))
+            {
+                if ((transform.position - Map.GameCells.GetCellPosition((Map.GameCell)_cell)).magnitude < 0.5) //to check if good enough
+                {
+                    ++_cell;               
+                }
+
+            }
+            else
+            {
+                if ((transform.position - Map.GameCells.GetCellShiftedPosition((Map.GameCell)_cell)).magnitude < 0.5) //to check if good enough
+                {
+                    ++_cell;
+                }
+            }
+        }
+
+        public override Steering GetSteering()
+        {
+            Steering steering = new Steering();
+
+            if (_isActive)
+            {
+                UpdateMove();
+            }
+
+            steering.linear = _move;
+            steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear, agent.maxAccel));
+            return steering;
+        }
+
+        public void SetTargetCell(int a)
+        {
+            target_cell = a;
+        }
+
         public override void OnCelluloLongTouch(int key)
         {
             base.OnCelluloLongTouch(key);
