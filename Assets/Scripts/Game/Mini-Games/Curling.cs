@@ -9,7 +9,7 @@ namespace Game.Mini_Games
     {
         private GameStatus _innerStatus;
         private const int LINE = 3;
-        private Vector3 TARGET = new Vector3(10f, 0f, 10f);
+        private Vector3 TARGET = new Vector3(12f, 0f, -5f);
         protected override void Start()
         {
             base.Start();
@@ -23,13 +23,15 @@ namespace Game.Mini_Games
 
             if (ValidThrow(player1, LINE) && _innerStatus == GameStatus.FIRST_THROW)
             {
-                timer(5f);
+                timer(15f);
+                //afficher un timer à l'écran
                 if (Throw(player1, LINE)) { _innerStatus = GameStatus.SECOND_THROW; }
             }
 
             if (ValidThrow(player2, LINE) && _innerStatus == GameStatus.SECOND_THROW)
             {
-                timer(5f);
+                timer(15f);
+                //afficher un timer à l'écran
                 if(Throw(player2, LINE)){ GameEnded(); }
             }
         }
@@ -79,12 +81,7 @@ namespace Game.Mini_Games
         {
             return !player.IsTouch && player.GetSteering().linear == new Vector3(0, 0, 0) && !Line(player, line);
         }
-
-        private bool ThrowInvalid(CelluloPlayer player, int line)
-        {
-            return player.IsTouch && !Line(player, line);
-        }
-
+        
         private double eucl_dist(Vector3 vec_a, Vector3 vec_b)
         {
             return Math.Sqrt(Math.Pow(vec_a.x - vec_b.x, 2) + Math.Pow(vec_a.z - vec_b.z, 2));
@@ -93,7 +90,7 @@ namespace Game.Mini_Games
         private enum GameStatus
         {
             FIRST_THROW,
-            SECOND_THROW,
+            SECOND_THROW
         }
     }
 }
