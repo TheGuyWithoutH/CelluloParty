@@ -31,72 +31,37 @@ namespace Game.Cellulos
             //update the score in function of the outcome of the game
         }
 
-        private void UpdateMove() // problem this will be called a 100 times per second, so cell will be == to target very very fast
+        private void MoveToTarget()
         {
             if (_isActive)
-            {//really need this check?
-                if(_cell != _targetCell)
+            {
+                while(_cell != _targetCell)
                 {
-                    
-                    UpdateCell();
 
                     if (Enum.IsDefined(typeof(Map.GameCell), _cell))
                     {
                         if (!Map.GameCells.GetCellOccupied(_cell))
                         {
-                            _move = MoveFromPosition(Map.GameCells.GetCellPosition(_cell));
+                            Vector3 pos = Map.GameCells.GetCellPosition(_cell);
+                            player.SetGoalPosition(pos.x,pos.z,2);
+                            if (transform.position == Map.GameCells.GetCellPosition(_cell))
+                            {
+                                _cell++;
+                            }
                             
                         }
                         else
                         {
-                            _move = MoveFromPosition(Map.GameCells.GetCellShiftedPosition(_cell));
+                            Vector3 pos = Map.GameCells.GetCellShiftedPosition(_cell);
+                            player.SetGoalPosition(pos.x, pos.z, 2);
+                            if (transform.position == Map.GameCells.GetCellShiftedPosition(_cell))
+                            {
+                                _cell++;
+                            }
                         }
                     }
                 }
             }
-        }
-
-        private Vector3 MoveFromPosition(Vector3 coord)
-        {
-            Vector3 currentPos = transform.position; //in theory if the cellulo is already in the correct cell the movement will be 0
-            Vector3 move = (coord - currentPos).normalized;
-            return new Vector3 (move.x, 0, move.z);
-
-        }
-
-        //update cell only if close enough to the position desired
-        private void UpdateCell()
-        {
-            if (!Map.GameCells.GetCellOccupied(_cell))
-            {
-                if ((transform.position - Map.GameCells.GetCellPosition(_cell)).magnitude < 0.5) //to check if good enough
-                {
-                    ++_cell;               
-                }
-
-            }
-            else
-            {
-                if ((transform.position - Map.GameCells.GetCellShiftedPosition(_cell)).magnitude < 0.5) //to check if good enough
-                {
-                    ++_cell;
-                }
-            }
-        }
-
-        public override Steering GetSteering()
-        {
-            Steering steering = new Steering();
-
-            if (_isActive)
-            {
-                UpdateMove();
-                steering.linear = _move;
-                steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear, agent.maxAccel));
-                return steering;
-            }
-            return steering;
-            
         }
 
         public void SetTargetCell(Map.GameCell a)
