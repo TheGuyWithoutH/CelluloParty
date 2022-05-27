@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
     public Dice normalDice;
     public Dice winnerDice;
     public Dice looserDice;
-    private Winner _dicePlayer;
     private Dice _currentDice;
     private int _diceResultPlayer1;
     private int _diceResultPlayer2;
@@ -49,8 +48,10 @@ public class GameManager : MonoBehaviour
         _state = GameState.Start;
         _miniGameRunning = false;
         _currentWinner = Winner.NONE;
-        _dicePlayer = Winner.NONE;
         _currentDice = normalDice;
+        
+        player1.SetNotReady();
+        player2.SetNotReady();
     }
 
     // Update is called once per frame
@@ -61,8 +62,7 @@ public class GameManager : MonoBehaviour
             case GameState.Start:
                 if (player1.IsReady && player2.IsReady)
                 {
-                    
-                    _state = GameState.DiceRoll;
+                    _state = GameState.DiceRollPlayer1;
                 }
                 break;
             case GameState.MiniGame:
@@ -88,33 +88,28 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
-            case GameState.DiceRoll:
-                if (_dicePlayer == Winner.NONE)
+            case GameState.DiceRollPlayer1:
+                
+                if (_currentWinner == Winner.PLAYER1)
                 {
-                    _dicePlayer = Winner.PLAYER1;
-                    
-                    if (_currentWinner == Winner.PLAYER1)
-                    {
-                        SetDiceThrow(winnerDice);
-                    }
-                    else if (_currentWinner == Winner.PLAYER2)
-                    {
-                        SetDiceThrow(looserDice);
-                    }
-                    else
-                    {
-                        SetDiceThrow(normalDice);
-                    }
-                    
-                    _currentDice.ThrowDice();
-                } else if (_dicePlayer == Winner.PLAYER1)
+                    SetDiceThrow(winnerDice);
+                }
+                else if (_currentWinner == Winner.PLAYER2)
                 {
+                    SetDiceThrow(looserDice);
+                }
+                else
+                {
+                    SetDiceThrow(normalDice);
+                }
+                    
+                _currentDice.ThrowDice();
+                break;
+            case GameState.DiceRollPlayer2:
                     if (_currentDice.DiceThrowDone())
                     {
                         _diceResultPlayer1 = _currentDice.GetDiceScore();
-                        
-                        _dicePlayer = Winner.PLAYER2;
-                    
+
                         if (_currentWinner == Winner.PLAYER2)
                         {
                             SetDiceThrow(winnerDice);
@@ -130,19 +125,7 @@ public class GameManager : MonoBehaviour
                     
                         _currentDice.ThrowDice();
                     }
-                } else if (_dicePlayer == Winner.PLAYER2)
-                {
-                    if (_currentDice.DiceThrowDone())
-                    {
-                        _diceResultPlayer2 = _currentDice.GetDiceScore();
-                        
-                        _dicePlayer = Winner.NONE;
-
-                        _state = GameState.Podium;
-                    }
-                }
-                break;
-            case GameState.Podium:
+                
                 break;
             case GameState.End:
                 break;
@@ -215,9 +198,11 @@ public class GameManager : MonoBehaviour
     private enum GameState
     {
         Start,
-        DiceRoll,
         MiniGame,
-        Podium,
+        DiceRollPlayer1,
+        MovementPlayer1,
+        DiceRollPlayer2,
+        MovementPlayer2,
         End
     }
 

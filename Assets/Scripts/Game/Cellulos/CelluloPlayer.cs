@@ -10,12 +10,12 @@ namespace Game.Cellulos
         
         private bool _isReady = false;
         private bool _isActive = false;
-        private int _cell; //position on the map
+        private Map.GameCell _cell; //position on the map
         private int _score;
         private bool _isTouch;
         private int _key;
         private Vector3 _move;
-        private int target_cell;
+        private Map.GameCell _targetCell;
 
         void Start()
         { 
@@ -34,21 +34,21 @@ namespace Game.Cellulos
         {
             if (_isActive)
             {//really need this check?
-                if(_cell != target_cell)
+                if(_cell != _targetCell)
                 {
                     
                     UpdateCell();
 
                     if (Enum.IsDefined(typeof(Map.GameCell), _cell))
                     {
-                        if (!Map.GameCells.GetCellOccupied((Map.GameCell)_cell))
+                        if (!Map.GameCells.GetCellOccupied(_cell))
                         {
-                            _move = MoveFromPosition(Map.GameCells.GetCellPosition((Map.GameCell)_cell));
+                            _move = MoveFromPosition(Map.GameCells.GetCellPosition(_cell));
                             
                         }
                         else
                         {
-                            _move = MoveFromPosition(Map.GameCells.GetCellShiftedPosition((Map.GameCell)_cell));
+                            _move = MoveFromPosition(Map.GameCells.GetCellShiftedPosition(_cell));
                         }
                     }
                 }
@@ -66,9 +66,9 @@ namespace Game.Cellulos
         //update cell only if close enough to the position desired
         private void UpdateCell()
         {
-            if (!Map.GameCells.GetCellOccupied((Map.GameCell)_cell))
+            if (!Map.GameCells.GetCellOccupied(_cell))
             {
-                if ((transform.position - Map.GameCells.GetCellPosition((Map.GameCell)_cell)).magnitude < 0.5) //to check if good enough
+                if ((transform.position - Map.GameCells.GetCellPosition(_cell)).magnitude < 0.5) //to check if good enough
                 {
                     ++_cell;               
                 }
@@ -76,7 +76,7 @@ namespace Game.Cellulos
             }
             else
             {
-                if ((transform.position - Map.GameCells.GetCellShiftedPosition((Map.GameCell)_cell)).magnitude < 0.5) //to check if good enough
+                if ((transform.position - Map.GameCells.GetCellShiftedPosition(_cell)).magnitude < 0.5) //to check if good enough
                 {
                     ++_cell;
                 }
@@ -97,9 +97,9 @@ namespace Game.Cellulos
             return steering;
         }
 
-        public void SetTargetCell(int a)
+        public void SetTargetCell(Map.GameCell a)
         {
-            target_cell = a;
+            _targetCell = a;
         }
 
         public override void OnCelluloLongTouch(int key)
