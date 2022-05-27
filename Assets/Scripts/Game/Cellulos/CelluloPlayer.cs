@@ -1,4 +1,5 @@
 using System;
+using Game.Map;
 using UnityEngine;
 
 namespace Game.Cellulos
@@ -9,7 +10,7 @@ namespace Game.Cellulos
         //Félix veut qu'on puisse gérer les texts à partir d'ici, j'ai pas très bien compris mais chill
         
         private bool _isReady = false;
-        private bool _isActive = true;
+        private bool _isActive = false;
         private Map.GameCell _cell; //position on the map
         private int _score;
         private bool _isTouch;
@@ -20,7 +21,7 @@ namespace Game.Cellulos
         void Start()
         { 
             _score = 0;
-            _cell = 0;
+            _cell = GameCell.Cell1;
         }
 
         void Update()

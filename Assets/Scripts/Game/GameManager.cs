@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour
         
         player1.SetNotReady();
         player2.SetNotReady();
-        player1.SetTargetCell(GameCell.Cell31);
     }
 
     // Update is called once per frame
