@@ -10,7 +10,7 @@ namespace Game.Cellulos
         //Félix veut qu'on puisse gérer les texts à partir d'ici, j'ai pas très bien compris mais chill
         
         private bool _isReady = false;
-        private bool _isActive = false;
+        private bool _isActive = true;
         private Map.GameCell _cell; //position on the map
         private int _score;
         private bool _isTouch;
@@ -27,7 +27,7 @@ namespace Game.Cellulos
         void Update()
         {
             //update the position in function of the outcome of the dice throw
-            
+            MoveToTarget();
             //update the score in function of the outcome of the game
         }
 
@@ -35,29 +35,25 @@ namespace Game.Cellulos
         {
             if (_isActive)
             {
-                while(_cell != _targetCell)
+                while (_cell != _targetCell)
                 {
 
                     if (Enum.IsDefined(typeof(Map.GameCell), _cell))
                     {
-                        if (!Map.GameCells.GetCellOccupied(_cell))
+
+                        if ((transform.position - Map.GameCells.GetCellPosition(_cell)).magnitude <= 0.1)
                         {
-                            Vector3 pos = Map.GameCells.GetCellPosition(_cell);
-                            player.SetGoalPosition(pos.x,pos.z,2);
-                            if (transform.position == Map.GameCells.GetCellPosition(_cell))
-                            {
-                                _cell++;
-                            }
-                            
-                        }
-                        else
-                        {
-                            Vector3 pos = Map.GameCells.GetCellShiftedPosition(_cell);
+                            _cell++;
+                            Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
                             player.SetGoalPosition(pos.x, pos.z, 2);
-                            if (transform.position == Map.GameCells.GetCellShiftedPosition(_cell))
-                            {
-                                _cell++;
-                            }
+                        }
+
+
+                        if ((transform.position - Map.GameCells.GetCellShiftedPosition(_cell)).magnitude <= 0.1)
+                        {
+                            _cell++;
+                            Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
+                            player.SetGoalPosition(pos.x, pos.z, 2);
                         }
                     }
                 }
