@@ -9,16 +9,11 @@ namespace Game.Mini_Games
 {
     public class Quiz : Mini_Game
     {
-        private Timer _timer;
-        
         private GameStatus _innerStatus;
         private Question _currentQuestion;
-        
-        private bool _answer_both;
-        private bool _answer1;
-        private bool _answer2;
 
-        private const int NUM_QUESTIONS = 15;
+        private const int NumQuestions = 15;
+        private const int TimeQuestions = 15;
         protected override void Start()
         {
             base.Start();
@@ -28,9 +23,40 @@ namespace Game.Mini_Games
         public override void Update()
         {
             base.Update();
+
+            if (_innerStatus == GameStatus.NEXT) { NextQuestion(); }
+
+            if (_innerStatus == GameStatus.REFLEXION && HasAnswered(player1))
+            {
+                timer.PauseTimer();
+                if (CheckAnswer(player1, _currentQuestion))
+                {
+                    ++player1.Score;
+                    _innerStatus = GameStatus.NEXT;
+                    //faire un truc graphique pour dire que c'est tout bon
+                }
+                else
+                {
+                    player1.Key = -1;
+                    timer.ResumeTimer();
+                }
+            }
             
-            
-            
+            if (_innerStatus == GameStatus.REFLEXION && HasAnswered(player2))
+            {
+                timer.PauseTimer();
+                if (CheckAnswer(player2, _currentQuestion))
+                {
+                    ++player2.Score;
+                    _innerStatus = GameStatus.NEXT;
+                    //faire un truc graphique pour dire que c'est tout bon
+                }
+                else
+                {
+                    player1.Key = -1;
+                    timer.ResumeTimer();
+                }
+            }
         }
 
         public override void StartGame()
@@ -62,9 +88,10 @@ namespace Game.Mini_Games
 
         private void NextQuestion()
         {
-            int rand = Random.Range(0, NUM_QUESTIONS - 1);
+            int rand = Random.Range(0, NumQuestions - 1);
             _currentQuestion = _questions[rand];
-            timer.StartTimer(15, this);
+            timer.StartTimer(TimeQuestions, this);
+            _innerStatus = GameStatus.REFLEXION;
         }
 
         private Question[] _questions =
@@ -89,7 +116,6 @@ namespace Game.Mini_Games
         private enum GameStatus
         {
             REFLEXION,
-            CHECK,
             NEXT
         }
     }
