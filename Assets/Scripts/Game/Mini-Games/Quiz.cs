@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Game.Cellulos;
 using UnityEngine;
@@ -65,7 +64,7 @@ namespace Game.Mini_Games
         public override void StartGame()
         {
             base.StartGame();
-            
+
             player1.Key = -1;
             player2.Key = -1;
             
