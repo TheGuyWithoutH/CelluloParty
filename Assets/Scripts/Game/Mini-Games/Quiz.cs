@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Game.Cellulos;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game.Mini_Games
 {
@@ -16,6 +17,8 @@ namespace Game.Mini_Games
         private bool _answer_both;
         private bool _answer1;
         private bool _answer2;
+
+        private const int NUM_QUESTIONS = 15;
         protected override void Start()
         {
             base.Start();
@@ -26,6 +29,8 @@ namespace Game.Mini_Games
         {
             base.Update();
             
+            
+            
         }
 
         public override void StartGame()
@@ -34,7 +39,8 @@ namespace Game.Mini_Games
             
             player1.Key = -1;
             player2.Key = -1;
-            _currentQuestion = _questions[0];
+            
+            NextQuestion();
             
             player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.cyan, 0);
             player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.green, 85);
@@ -53,6 +59,13 @@ namespace Game.Mini_Games
 
         private bool HasAnswered(CelluloPlayer player) { return player.Key != -1; }
         private bool CheckAnswer(CelluloPlayer player, Question question) { return player.Key == question.Answer; }
+
+        private void NextQuestion()
+        {
+            int rand = Random.Range(0, NUM_QUESTIONS - 1);
+            _currentQuestion = _questions[rand];
+            timer.StartTimer(15, this);
+        }
 
         private Question[] _questions =
         {
@@ -75,9 +88,9 @@ namespace Game.Mini_Games
         
         private enum GameStatus
         {
-            ANSWER_P1,
-            ANSWER_P2,
-            ANSWER_BOTH,
+            REFLEXION,
+            CHECK,
+            NEXT
         }
     }
 }

@@ -90,7 +90,7 @@ namespace Game.Mini_Games
         private enum GameStatus
         {
             FIRST_THROW,
-            SECOND_THROW,
+            SECOND_THROW
         }
     }
 }
