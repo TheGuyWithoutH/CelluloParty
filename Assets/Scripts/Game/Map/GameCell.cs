@@ -79,7 +79,7 @@ namespace Game.Map
         
         private static CellAttribute GetAttr(GameCell p)
         {
-            return (CellAttribute)Attribute.GetCustomAttribute(ForValue(p), typeof(GameCell));
+            return (CellAttribute)Attribute.GetCustomAttribute(ForValue(p), typeof(CellAttribute));
         }
 
         private static MemberInfo ForValue(GameCell p)
