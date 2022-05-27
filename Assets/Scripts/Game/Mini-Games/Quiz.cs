@@ -23,6 +23,8 @@ namespace Game.Mini_Games
         public override void Update()
         {
             base.Update();
+            
+            /*
 
             if (_innerStatus == GameStatus.NEXT) { NextQuestion(); }
 
@@ -57,6 +59,7 @@ namespace Game.Mini_Games
                     timer.ResumeTimer();
                 }
             }
+            */
         }
 
         public override void StartGame()
