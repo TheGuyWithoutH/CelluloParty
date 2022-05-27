@@ -8,8 +8,12 @@ namespace Game.Mini_Games
     public class Curling : Mini_Game
     {
         private GameStatus _innerStatus;
-        private const int LINE = 3;
-        private Vector3 TARGET = new Vector3(12f, 0f, -5f);
+        
+        private int POWER_FACTOR = 7;
+        private Vector3 VECT_NULL = new Vector3(0, 0, 0);
+        private Vector3 START = new Vector3(2.26f, 0, -4.76f);
+        private Vector3 TARGET = new Vector3(11.98f, 0f, -4.76f);
+        
         protected override void Start()
         {
             base.Start();
@@ -19,26 +23,29 @@ namespace Game.Mini_Games
         public override void Update()
         {
             base.Update();
-            if (base.GameStatus == Mini_Games.GameStatus.STARTED) { _innerStatus = GameStatus.FIRST_THROW; }
+            if (_innerStatus == GameStatus.PREPARATION && player1.IsTouch) { _innerStatus = GameStatus.FIRST_THROW; }
 
-            if (ValidThrow(player1, LINE) && _innerStatus == GameStatus.FIRST_THROW)
+            if (_innerStatus == GameStatus.FIRST_THROW && !player1.IsTouch)
             {
-                timer(15f);
-                //afficher un timer à l'écran
-                if (Throw(player1, LINE)) { _innerStatus = GameStatus.SECOND_THROW; }
+                Throw(player1);
+                _innerStatus = GameStatus.PREPARATION;
             }
 
-            if (ValidThrow(player2, LINE) && _innerStatus == GameStatus.SECOND_THROW)
+            if (_innerStatus == GameStatus.PREPARATION && player2.IsTouch) { _innerStatus = GameStatus.SECOND_THROW; }
+
+            if (_innerStatus == GameStatus.SECOND_THROW && !player2.IsTouch)
             {
-                timer(15f);
-                //afficher un timer à l'écran
-                if(Throw(player2, LINE)){ GameEnded(); }
+                Throw(player2);
+                _innerStatus = GameStatus.END;
             }
+
+            if (_innerStatus == GameStatus.END && player2.GetSteering().linear == VECT_NULL) { GameEnded(); }
         }
 
         public override void StartGame()
         {
             base.StartGame();
+            _innerStatus = GameStatus.PREPARATION;
         }
         
         public override void OnGamePause()
@@ -65,23 +72,12 @@ namespace Game.Mini_Games
             base.GameEnded();
         }
         
-        IEnumerator timer(float f) { yield return new WaitForSeconds(f); }
-
-        private bool Line(CelluloPlayer player, int line)
+        private void Throw(CelluloPlayer player)
         {
-            return player.transform.position.x <= line;
+            Vector3 power_throw = (START - player.transform.position) * POWER_FACTOR;
+            player.player.SetGoalPosition(power_throw.x, power_throw.z, 2f);
         }
 
-        private bool ValidThrow(CelluloPlayer player, int line)
-        {
-            return Line(player, line) && player.IsTouch;
-        }
-
-        private bool Throw(CelluloPlayer player, int line)
-        {
-            return !player.IsTouch && player.GetSteering().linear == new Vector3(0, 0, 0) && !Line(player, line);
-        }
-        
         private double eucl_dist(Vector3 vec_a, Vector3 vec_b)
         {
             return Math.Sqrt(Math.Pow(vec_a.x - vec_b.x, 2) + Math.Pow(vec_a.z - vec_b.z, 2));
@@ -89,8 +85,10 @@ namespace Game.Mini_Games
 
         private enum GameStatus
         {
+            PREPARATION,
             FIRST_THROW,
-            SECOND_THROW
+            SECOND_THROW,
+            END
         }
     }
 }
