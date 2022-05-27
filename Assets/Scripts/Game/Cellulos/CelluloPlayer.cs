@@ -9,7 +9,7 @@ namespace Game.Cellulos
         //Félix veut qu'on puisse gérer les texts à partir d'ici, j'ai pas très bien compris mais chill
         
         private bool _isReady = false;
-        private bool _isActive = false;
+        private bool _isActive = true;
         private Map.GameCell _cell; //position on the map
         private int _score;
         private bool _isTouch;
@@ -90,11 +90,12 @@ namespace Game.Cellulos
             if (_isActive)
             {
                 UpdateMove();
+                steering.linear = _move;
+                steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear, agent.maxAccel));
+                return steering;
             }
-
-            steering.linear = _move;
-            steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear, agent.maxAccel));
             return steering;
+            
         }
 
         public void SetTargetCell(Map.GameCell a)

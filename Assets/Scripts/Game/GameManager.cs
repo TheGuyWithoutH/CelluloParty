@@ -52,12 +52,13 @@ public class GameManager : MonoBehaviour
         
         player1.SetNotReady();
         player2.SetNotReady();
+        player1.SetTargetCell(GameCell.Cell31);
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (_state)
+       /* switch (_state)
         {
             case GameState.Start:
                 if (player1.IsReady && player2.IsReady)
@@ -130,6 +131,8 @@ public class GameManager : MonoBehaviour
             case GameState.End:
                 break;
         }
+       */
+
     } 
 
     private void EnableCamera(CameraView cameraChoice)
