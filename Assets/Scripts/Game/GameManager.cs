@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private int _player1Tile;
     public CelluloPlayer player2;
     private int _player2Tile;
-    private Winner _currentWinner;
+    private Player _currentWinner;
 
     public Mini_Game curling;
     public Mini_Game mole;
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         _player2Tile = 0;
         _state = GameState.Start;
         _miniGameRunning = false;
-        _currentWinner = Winner.NONE;
+        _currentWinner = Player.NONE;
         _currentDice = normalDice;
         
         player1.SetNotReady();
@@ -58,11 +58,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       /* switch (_state)
+        switch (_state)
         {
             case GameState.Start:
                 if (player1.IsReady && player2.IsReady)
                 {
+                    player1.SetNotReady();
+                    player2.SetNotReady();
                     _state = GameState.DiceRollPlayer1;
                 }
                 break;
@@ -90,48 +92,74 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameState.DiceRollPlayer1:
-                
-                if (_currentWinner == Winner.PLAYER1)
+                if (player1.IsReady)
                 {
-                    SetDiceThrow(winnerDice);
-                }
-                else if (_currentWinner == Winner.PLAYER2)
-                {
-                    SetDiceThrow(looserDice);
-                }
-                else
-                {
-                    SetDiceThrow(normalDice);
-                }
+                    if (_currentWinner == Player.PLAYER1)
+                    {
+                        SetDiceThrow(winnerDice);
+                    }
+                    else if (_currentWinner == Player.PLAYER2)
+                    {
+                        SetDiceThrow(looserDice);
+                    }
+                    else
+                    {
+                        SetDiceThrow(normalDice);
+                    }
+                                        
                     
-                _currentDice.ThrowDice();
+                    _state = GameState.DiceRollPlayer2;
+                }
                 break;
             case GameState.DiceRollPlayer2:
-                    if (_currentDice.DiceThrowDone())
-                    {
-                        _diceResultPlayer1 = _currentDice.GetDiceScore();
+                if (_currentDice.DiceThrowDone() && player2.IsReady)
+                {
+                    _diceResultPlayer1 = _currentDice.GetDiceScore();
 
-                        if (_currentWinner == Winner.PLAYER2)
-                        {
-                            SetDiceThrow(winnerDice);
-                        }
-                        else if (_currentWinner == Winner.PLAYER1)
-                        {
-                            SetDiceThrow(looserDice);
-                        }
-                        else
-                        {
-                            SetDiceThrow(normalDice);
-                        }
-                    
-                        _currentDice.ThrowDice();
+                    if (_currentWinner == Player.PLAYER2)
+                    {
+                        SetDiceThrow(winnerDice);
                     }
-                
+                    else if (_currentWinner == Player.PLAYER1)
+                    {
+                        SetDiceThrow(looserDice);
+                    }
+                    else
+                    {
+                        SetDiceThrow(normalDice);
+                    }
+                    
+                    _currentDice.ThrowDice();
+                    _state = GameState.MovementPlayer1;
+                }
+                break;
+            case GameState.MovementPlayer1:
+                if (_currentDice.DiceThrowDone())
+                {
+                    _diceResultPlayer2 = _currentDice.GetDiceScore();
+                    SetDiceThrow(null);
+                    EnableCamera(CameraView.Player1);
+                    player1.SetTargetCell(GameCell.Cell1);  //TODO: find way to get the cell targeted
+                    _state = GameState.MovementPlayer2;
+                }
+                break;
+            case GameState.MovementPlayer2:
+                if (player1.MoveIsDone())
+                {
+                    EnableCamera(CameraView.Player2);
+                    player2.SetTargetCell(GameCell.Cell1);  //TODO: find way to get the cell targeted
+                    _state = GameState.AdditionalFeatures;
+                }
+                break;
+            case GameState.AdditionalFeatures:
+                if (player2.MoveIsDone())
+                {
+                    
+                }
                 break;
             case GameState.End:
                 break;
         }
-       */
 
     } 
 
@@ -162,9 +190,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void MiniGameQuit(Winner winner)
+    public void MiniGameQuit(Player winner)
     {
-        
+        _currentWinner = winner;
+        player1.GoBackInCell();
+        player2.GoBackInCell();
+        ExecuteAfterDelay(10, () => _state = GameState.DiceRollPlayer1);
     }
 
     private void SetDiceThrow(Dice dice)
@@ -182,15 +213,24 @@ public class GameManager : MonoBehaviour
             winnerDice.enabled = true;
             _currentDice = winnerDice;
         }
-        else
+        else if(dice == looserDice)
         {
             normalDice.enabled = false;
             looserDice.enabled = true;
             winnerDice.enabled = false;
             _currentDice = looserDice;
         }
+        else
+        {
+            normalDice.enabled = false;
+            looserDice.enabled = false;
+            winnerDice.enabled = false;
+            _currentDice = null;
+        }
     }
 
+    //============================= Useful Enums Across Game =======================================//
+    
     private enum CameraView
     {
         MainCamera,
@@ -206,6 +246,7 @@ public class GameManager : MonoBehaviour
         MovementPlayer1,
         DiceRollPlayer2,
         MovementPlayer2,
+        AdditionalFeatures,
         End
     }
 
@@ -215,5 +256,33 @@ public class GameManager : MonoBehaviour
         Mole,
         Quiz,
         SimonSays
+    }
+    
+    public enum Player
+    {
+        NONE,
+        PLAYER1,
+        PLAYER2
+    }
+    
+    //****************************************************************************************//
+    //************************ Helper Method For Delayed Execution ***************************//
+    //****************************************************************************************//
+    
+    private bool _isCoroutineExecuting = false;
+        
+    private IEnumerator ExecuteAfterTime(float time, Action task)
+    {
+        if (_isCoroutineExecuting)
+            yield break;
+        _isCoroutineExecuting = true;
+        yield return new WaitForSeconds(time);
+        task();
+        _isCoroutineExecuting = false;
+    }
+
+    public void ExecuteAfterDelay(float time, Action task)
+    {
+        StartCoroutine(ExecuteAfterTime(0.5f, task));
     }
 }

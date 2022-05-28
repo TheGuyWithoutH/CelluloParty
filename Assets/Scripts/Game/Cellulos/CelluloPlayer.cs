@@ -10,13 +10,13 @@ namespace Game.Cellulos
         //Félix veut qu'on puisse gérer les texts à partir d'ici, j'ai pas très bien compris mais chill
         
         private bool _isReady = false;
-        private bool _isActive = true;
-        private Map.GameCell _cell; //position on the map
+        private bool _isActive = false;
+        private GameCell _cell; //position on the map
         private int _score;
         private bool _isTouch;
         private int _key;
         private Vector3 _move;
-        private Map.GameCell _targetCell;
+        private GameCell _targetCell;
 
         void Start()
         { 
@@ -60,9 +60,31 @@ namespace Game.Cellulos
             }
         }
 
+        /**
+         * Set a target cell the Cellulo must reach by going cell by cell
+         */
         public void SetTargetCell(Map.GameCell a)
         {
             _targetCell = a;
+        }
+
+        /**
+         * Methode that put the Cellulo player into his cell after Mini-games finishes
+         */
+        public void GoBackInCell()
+        {
+            player.isMoved = false;
+            Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
+            player.SetGoalPosition(pos.x, pos.z, 2);
+        }
+
+        /**
+         * Returns true if the movement of the Cellulo to its target cell is done
+         */
+        public bool MoveIsDone()
+        {
+            //TODO: implement this
+            throw new NotImplementedException();
         }
 
         public override void OnCelluloLongTouch(int key)
