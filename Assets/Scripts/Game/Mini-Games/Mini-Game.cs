@@ -16,7 +16,6 @@ namespace Game.Mini_Games
         public GameObject startScreen;
         public GameObject endScreen;
 
-        protected int MaxSeconds;
         protected GameStatus GameStatus;
         
         private Winner _winner;
@@ -36,9 +35,8 @@ namespace Game.Mini_Games
             }
         }
 
-        public void PlayerReady()
+        protected virtual void PlayerReady()
         {
-            timer.StartTimer(MaxSeconds, this);
             player1.SteeringReactivate();
             player2.SteeringReactivate();
             GameStatus = GameStatus.STARTED;

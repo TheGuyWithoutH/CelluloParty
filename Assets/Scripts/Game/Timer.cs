@@ -36,10 +36,10 @@ namespace Game
                 if (!_end && _currentTime >= _maxSeconds)
                 {
                     _end = true;
+                    TimerEnded();
                 }
                 else if (!_end)
                 {
-                        
                     //timerText.SetText(string.Format("{0:00}:{1:00}", minutes, seconds));
                 }
             }
@@ -62,6 +62,7 @@ namespace Game
         {
             _currentMiniGame.GameEnded();
         }
-        
+
+        public float CurrentTime => _currentTime;
     }
 }

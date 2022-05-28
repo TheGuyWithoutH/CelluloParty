@@ -17,6 +17,7 @@ namespace Game.Mini_Games
         private Status _status;
         private bool _touch1;
         private bool _touch2;
+        private int _actualKey;
 
         protected override void Start()
         {
@@ -27,20 +28,17 @@ namespace Game.Mini_Games
         {
             base.Update();
             
-            /*if (GameStatus == GameStatus.STARTED) {
+            if (GameStatus == GameStatus.STARTED) {
                 if (_status == Status.Pattern) {
                     GenerateKeys();
                     _status = Status.None;
                     for (int i = 0; i < _numKeys; i++)
                     {
-                        ShowKey(i);
+                        _actualKey = i;
+                        Invoke(nameof(LedOn), i*_latence);
                         if (i == _numKeys - 1)
                         {
-                            var task7 = Task.Run(() => Status.Playing);
-                            if (task7.Wait(TimeSpan.FromSeconds(i*_latence)))
-                            {
-                                _status = task7.Result;
-                            }
+                            Invoke(nameof(StartPlaying), i*_latence + 0.2f);
                         }
                     }
                 }
@@ -91,16 +89,16 @@ namespace Game.Mini_Games
                     {
                         _status = Status.Pattern;
                         _numKeys += 1;
-                        _latence -= _latence > 200 ? 200 : 0;
+                        _latence -= _latence > 0.2f ? 0.2f : 0f;
                     }
                 }
-            }*/
+            }
         }
 
         public override void StartGame()
         {
             base.StartGame();
-            _latence = 2000;
+            _latence = 2.0f;
             _status = Status.Pattern;
         }
         
@@ -114,6 +112,11 @@ namespace Game.Mini_Games
             base.GameEnded();
         }
 
+        private void StartPlaying()
+        {
+            _status = Status.Playing;
+        }
+
         private void GenerateKeys()
         {
             for (int i = 0; i < _numKeys; i++) {
@@ -122,17 +125,17 @@ namespace Game.Mini_Games
             }
         }
 
-        private void ShowKey(int index)
+        private void LedOn()
         {
-            var task = Task.Run(() => true);
-            if (task.Wait(TimeSpan.FromSeconds(index*_latence)))
-            {
-                if (task.Result)
-                {
-                    player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _gameKeys[index]);
-                    player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _gameKeys[index]);
-                }
-            }
+            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _gameKeys[_actualKey]);
+            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _gameKeys[_actualKey]);
+            Invoke(nameof(LedOff), 0.2f);
+        }
+        
+        private void LedOff()
+        {
+            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _gameKeys[_actualKey]);
+            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _gameKeys[_actualKey]);
         }
 
         private enum Status
