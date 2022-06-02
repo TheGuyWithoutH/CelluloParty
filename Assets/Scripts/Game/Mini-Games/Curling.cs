@@ -9,11 +9,9 @@ namespace Game.Mini_Games
     {
         private GameStatus _innerStatus;
         
-        private int POWER_FACTOR = 7;
-        private Vector3 VECT_NULL = new Vector3(0, 0, 0);
-        private Vector3 START_ONE = new Vector3(2.26f, 0, -4.76f);
-        private Vector3 START_TWO = new Vector3(11.98f, 0f, -4.76f);
-        private Vector3 TARGET = new Vector3(7.12f, 0f, -4.76f);
+        private const int PowerFactor = 7;
+        private Vector3 _vect_null = new Vector3(0, 0, 0);
+        private Vector3 _target = new Vector3(7.12f, 0f, -4.76f);
         
         protected override void Start()
         {
@@ -28,7 +26,7 @@ namespace Game.Mini_Games
 
             if (_innerStatus == GameStatus.FIRST_THROW && !player1.IsTouch)
             {
-                Throw(player1, START_ONE);
+                Throw(player1, StartOne);
                 _innerStatus = GameStatus.PREPARATION;
             }
 
@@ -36,17 +34,15 @@ namespace Game.Mini_Games
 
             if (_innerStatus == GameStatus.SECOND_THROW && !player2.IsTouch)
             {
-                Throw(player2, START_TWO);
+                Throw(player2, StartTwo);
                 _innerStatus = GameStatus.END;
             }
 
-            if (_innerStatus == GameStatus.END && player2.GetSteering().linear == VECT_NULL) { GameEnded(); }
+            if (_innerStatus == GameStatus.END && player2.GetSteering().linear == _vect_null) { GameEnded(); }
         }
 
         public override void StartGame()
         {
-            player1.player.SetGoalPosition(START_ONE.x, START_ONE.z, 2f);
-            player2.player.SetGoalPosition(START_TWO.x, START_TWO.z, 2f);
             base.StartGame();
             _innerStatus = GameStatus.PREPARATION;
         }
@@ -58,8 +54,8 @@ namespace Game.Mini_Games
 
         public override void GameEnded()
         {
-            double eucl_dist_one = eucl_dist(player1.transform.position, TARGET);
-            double eucl_dist_two = eucl_dist(player2.transform.position, TARGET);
+            double eucl_dist_one = eucl_dist(player1.transform.position, _target);
+            double eucl_dist_two = eucl_dist(player2.transform.position, _target);
             
             if (eucl_dist_one < eucl_dist_two) 
             {
@@ -77,7 +73,7 @@ namespace Game.Mini_Games
         
         private void Throw(CelluloPlayer player, Vector3 start)
         {
-            Vector3 power_throw = (start - player.transform.position) * POWER_FACTOR;
+            Vector3 power_throw = (start - player.transform.position) * PowerFactor;
             player.player.SetGoalPosition(power_throw.x, power_throw.z, 2f);
         }
 

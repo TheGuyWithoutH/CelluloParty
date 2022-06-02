@@ -17,9 +17,6 @@ namespace Game.Mini_Games
         private const int NumQuestions = 6;
         private const int TimeQuestions = 15;
 
-        private Vector3 START_ONE = new Vector3(2.26f, 0, -4.76f);
-        private Vector3 START_TWO = new Vector3(11.98f, 0f, -4.76f);
-
         protected override void Start()
         {
             base.Start();
@@ -69,9 +66,6 @@ namespace Game.Mini_Games
 
         public override void StartGame()
         {
-            player1.player.SetGoalPosition(START_ONE.x, START_ONE.z, 2f);
-            player2.player.SetGoalPosition(START_TWO.x, START_TWO.z, 2f);
-            
             base.StartGame();
             
             _sets = new List<Question[]>{ _questions_set_one, _questions_set_two };

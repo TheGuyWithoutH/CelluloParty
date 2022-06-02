@@ -20,6 +20,9 @@ namespace Game.Mini_Games
         protected GameStatus GameStatus;
         
         private GameManager.Player _winner;
+        
+        protected Vector3 StartOne = new Vector3(2.26f, 0, -4.76f);
+        protected Vector3 StartTwo = new Vector3(11.98f, 0f, -4.76f);
 
         protected virtual void Start()
         {
@@ -46,6 +49,8 @@ namespace Game.Mini_Games
 
         public virtual void StartGame()
         {
+            player1.player.SetGoalPosition(StartOne.x, StartOne.z, 2f);
+            player2.player.SetGoalPosition(StartTwo.x, StartTwo.z, 2f);
             GameStatus = GameStatus.READY;
             //startScreen.enabled = true;
         }
