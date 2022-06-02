@@ -50,7 +50,7 @@ namespace Game.Cellulos
                         Debug.Log("next cell");
                             ++_cell;
                             Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
-                            player.SetGoalPosition(pos.x, pos.z, 2);
+                            player.SetGoalPosition(pos.x, pos.z, 1);
                         }
 
 
@@ -59,7 +59,7 @@ namespace Game.Cellulos
                         Debug.Log("next cell");
                         ++_cell;
                             Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
-                            player.SetGoalPosition(pos.x, pos.z, 2);
+                            player.SetGoalPosition(pos.x, pos.z, 1);
                         }
                     
                 }
@@ -80,7 +80,7 @@ namespace Game.Cellulos
         {
             player.isMoved = false;
             Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
-            player.SetGoalPosition(pos.x, pos.z, 2);
+            player.SetGoalPosition(pos.x, pos.z, 1);
         }
 
         /**
