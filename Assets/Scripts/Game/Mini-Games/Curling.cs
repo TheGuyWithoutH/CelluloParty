@@ -17,7 +17,6 @@ namespace Game.Mini_Games
         protected override void Start()
         {
             base.Start();
-            MaxSeconds = 15;
         }
         
         public override void Update()

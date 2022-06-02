@@ -16,15 +16,14 @@ namespace Game.Mini_Games
         public GameObject startScreen;
         public GameObject endScreen;
 
-        protected int MaxSeconds;
         protected GameStatus GameStatus;
         
-        private Winner _winner;
+        private GameManager.Player _winner;
 
         protected virtual void Start()
         {
             GameStatus = GameStatus.NONE;
-            _winner = Winner.NONE;
+            _winner = GameManager.Player.NONE;
         }
 
         public virtual void Update()
@@ -36,9 +35,8 @@ namespace Game.Mini_Games
             }
         }
 
-        public void PlayerReady()
+        protected virtual void PlayerReady()
         {
-            timer.StartTimer(MaxSeconds, this);
             player1.SteeringReactivate();
             player2.SteeringReactivate();
             GameStatus = GameStatus.STARTED;
@@ -63,11 +61,11 @@ namespace Game.Mini_Games
             endScreen.SetActive(true);
             if (player1.Score > player2.Score)
             {
-                _winner = Winner.PLAYER1;
+                _winner = GameManager.Player.PLAYER1;
             } 
             else if (player1.Score < player2.Score)
             {
-                _winner = Winner.PLAYER2;
+                _winner = GameManager.Player.PLAYER2;
             }
         }
         
@@ -75,20 +73,13 @@ namespace Game.Mini_Games
         {
             endScreen.SetActive(false);
             GameStatus = GameStatus.NONE;
-            _winner = Winner.NONE;
+            _winner = GameManager.Player.NONE;
             player1.SetNotReady();
             player2.SetNotReady();
             manager.MiniGameQuit(_winner);
         }
     }
-    
-    public enum Winner
-    {
-        NONE,
-        PLAYER1,
-        PLAYER2
-    }
-    
+
     public enum GameStatus
     {
         NONE = -1,

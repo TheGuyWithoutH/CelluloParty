@@ -73,6 +73,25 @@ namespace Game.Cellulos
             _targetCell = a;
         }
 
+        /**
+         * Methode that put the Cellulo player into his cell after Mini-games finishes
+         */
+        public void GoBackInCell()
+        {
+            player.isMoved = false;
+            Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
+            player.SetGoalPosition(pos.x, pos.z, 2);
+        }
+
+        /**
+         * Returns true if the movement of the Cellulo to its target cell is done
+         */
+        public bool MoveIsDone()
+        {
+            //TODO: implement this
+            throw new NotImplementedException();
+        }
+
         public override void OnCelluloLongTouch(int key)
         {
             base.OnCelluloLongTouch(key);
