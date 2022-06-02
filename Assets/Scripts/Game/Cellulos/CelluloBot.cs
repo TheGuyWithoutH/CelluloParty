@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Cellulos
 {
-    public class CelluloBot : MonoBehaviour
+    public class CelluloBot : AgentBehaviour
     {
         
     }

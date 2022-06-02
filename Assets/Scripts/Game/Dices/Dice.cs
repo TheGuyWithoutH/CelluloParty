@@ -27,12 +27,18 @@ namespace Game.Dices
         {
             _done = false;
             _result = -1;
-            float dirX = Random.Range(100, 800);
-            float dirY = Random.Range(100, 800);
-            float dirZ = Random.Range(100, 800);
+            float rotX = Random.Range(0, 180);
+            float rotY = Random.Range(0, 180);
+            float rotZ = Random.Range(0, 180);
+            float dirX = Random.Range(-3000, 3000);
+            float dirY = Random.Range(-3000, 3000);
+            float dirZ = Random.Range(-3000, 3000);
             transform.position = new Vector3 (9.5f, 9f, -9f);
-            transform.rotation = Quaternion.identity;
-            _rb.AddForce (transform.up * 500);
+            transform.rotation = Quaternion.Euler(new Vector3(rotX, rotY, rotZ));
+            
+            Debug.Log(dirX + " " + dirY + " " + dirZ);
+            
+            _rb.AddForce (transform.up * 200);
             _rb.AddTorque (dirX, dirY, dirZ);
         }
 
