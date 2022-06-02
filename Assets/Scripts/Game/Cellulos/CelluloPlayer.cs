@@ -7,16 +7,15 @@ namespace Game.Cellulos
     public class CelluloPlayer : AgentBehaviour
     {
         public CelluloAgent player;
-        //Félix veut qu'on puisse gérer les texts à partir d'ici, j'ai pas très bien compris mais chill
         
         private bool _isReady = false;
         private bool _isActive = true;
-        private Map.GameCell _cell; //position on the map
+        private GameCell _cell; //position on the map
         private int _score;
         private bool _isTouch;
         private int _key;
         private Vector3 _move;
-        private Map.GameCell _targetCell;
+        private GameCell _targetCell;
 
         void Start()
         { 
@@ -27,41 +26,50 @@ namespace Game.Cellulos
         void Update()
         {
             //update the position in function of the outcome of the dice throw
-            MoveToTarget();
+            if (_isActive)
+            {
+                MoveToTarget();
+                
+            }
             //update the score in function of the outcome of the game
         }
 
         private void MoveToTarget()
         {
+            Debug.Log("moving1...");
             if (_isActive)
             {
-                while (_cell != _targetCell)
+                Debug.Log("moving2...");
+                Debug.Log(_cell);
+                Debug.Log(_targetCell);
+                if (_cell != _targetCell)
                 {
-
-                    if (Enum.IsDefined(typeof(Map.GameCell), _cell))
-                    {
-
-                        if ((transform.position - Map.GameCells.GetCellPosition(_cell)).magnitude <= 0.1)
+                    Debug.Log("moving3...");
+                    if ((transform.position - Map.GameCells.GetCellPosition(_cell)).magnitude <= 0.3)
                         {
-                            _cell++;
+                        Debug.Log("next cell");
+                            ++_cell;
                             Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
                             player.SetGoalPosition(pos.x, pos.z, 2);
                         }
 
 
-                        if ((transform.position - Map.GameCells.GetCellShiftedPosition(_cell)).magnitude <= 0.1)
+                    if ((transform.position - Map.GameCells.GetCellShiftedPosition(_cell)).magnitude <= 0.3)
                         {
-                            _cell++;
+                        Debug.Log("next cell");
+                        ++_cell;
                             Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
                             player.SetGoalPosition(pos.x, pos.z, 2);
                         }
-                    }
+                    
                 }
             }
         }
 
-        public void SetTargetCell(Map.GameCell a)
+        public void SetTargetCell(GameCell a)
         {
+            Debug.Log(a);
+            Debug.Log("cell Update");
             _targetCell = a;
         }
 
