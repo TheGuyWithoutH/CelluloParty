@@ -28,7 +28,7 @@ namespace Game.Mini_Games
         public override void Update()
         {
             base.Update();
-
+            
             /*
 
             if (_innerStatus == GameStatus.NEXT) { NextQuestion(); }
@@ -71,9 +71,9 @@ namespace Game.Mini_Games
         {
             player1.player.SetGoalPosition(START_ONE.x, START_ONE.z, 2f);
             player2.player.SetGoalPosition(START_TWO.x, START_TWO.z, 2f);
-
+            
             base.StartGame();
-
+            
             _sets = new List<Question[]>{ _questions_set_one, _questions_set_two };
             int rand = Random.Range(0, NumSets - 1);
             _current_set = _sets[rand];

@@ -23,6 +23,7 @@ namespace Game.Mini_Games
         public override void Update()
         {
             base.Update();
+            
             if (_innerStatus == GameStatus.PREPARATION && player1.IsTouch) { _innerStatus = GameStatus.FIRST_THROW; }
 
             if (_innerStatus == GameStatus.FIRST_THROW && !player1.IsTouch)
