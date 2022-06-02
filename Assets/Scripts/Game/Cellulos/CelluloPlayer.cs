@@ -39,8 +39,8 @@ namespace Game.Cellulos
                 {
                     if (_cell < _targetCell) ++_cell;
                     else --_cell;
-                    Vector3 pos = _cell.GetCellOccupied() ? _cell.GetCellPosition() : _cell.GetCellShiftedPosition();
-                    player.SetGoalPosition(pos.x, pos.z, 2);
+                    Vector3 pos = _cell.GetCellOccupied() ? _cell.GetCellShiftedPosition() : _cell.GetCellPosition();
+                    player.SetGoalPosition(pos.x, pos.z, 1);
                 }
             }
         }

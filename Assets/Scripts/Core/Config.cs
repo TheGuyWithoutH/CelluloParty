@@ -19,7 +19,7 @@ public static class Config
     // Cellulo constant
     public const int CELLULO_KEYS = 6;
     public const float DEFAULT_CONTROL_PERIOD = 0.1f;
-    public const float goalPoseThreshold = 1f;
+    public const float goalPoseThreshold = 0.1f;
     public const float goalRotationThreshold = 10f;
 
     ///////////////////

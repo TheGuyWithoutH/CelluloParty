@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
 
         player1.SetNotReady();
         player2.SetNotReady();
+        DisplayStart(true);
     }
 
     // Update is called once per frame
@@ -64,15 +65,16 @@ public class GameManager : MonoBehaviour
         switch (_state)
         {
             case GameState.Start:
-                player1.player.SetGoalPosition(GameCell.Cell1.GetCellPosition().x, GameCell.Cell1.GetCellPosition().z, 1);
+                /*player1.player.SetGoalPosition(GameCell.Cell1.GetCellPosition().x, GameCell.Cell1.GetCellPosition().z, 1);
                 player1.SetTargetCell(GameCell.Cell32);
-                _state = GameState.End;
-                // if (player1.IsReady && player2.IsReady)
-                // {
-                //     player1.SetNotReady();
-                //     player2.SetNotReady();
-                //     _state = GameState.DiceRollPlayer1;
-                // }
+                _state = GameState.End;*/
+                if (player1.IsReady && player2.IsReady)
+                {
+                    DisplayStart(false);
+                    player1.SetNotReady();
+                    player2.SetNotReady();
+                    _state = GameState.DiceRollPlayer1;
+                }
                 break;
             case GameState.MiniGame:
                 if (!_miniGameRunning)
@@ -298,6 +300,11 @@ public class GameManager : MonoBehaviour
             winnerDice.gameObject.SetActive(false);
             _currentDice = null;
         }
+    }
+    
+    private void DisplayStart(bool disp)
+    {
+        
     }
 
     private void DisplayMiniGame(bool disp)
