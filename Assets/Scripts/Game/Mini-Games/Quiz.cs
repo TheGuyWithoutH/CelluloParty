@@ -90,14 +90,73 @@ namespace Game.Mini_Games
         private void NextQuestion()
         {
             int rand = Random.Range(0, NumQuestions - 1);
-            _currentQuestion = _questions[rand];
+            _currentQuestion = _questions_set_one[rand];
             timer.StartTimer(TimeQuestions, this);
             _innerStatus = GameStatus.REFLEXION;
         }
 
-        private Question[] _questions =
+        private Question[] _questions_set_one =
         {
-            new Question("l", 2, new Dictionary<int, String>())
+            new Question("Which city is the capital of Spain ?", 2, 
+                new Dictionary<int, string>
+                {
+                    {1, "Barcelona"},
+                    {2, "Madrid"},
+                    {3, "Liverpool"}
+                }),
+            new Question("Who is Joe ?", 1,
+                new Dictionary<int, string>
+                {
+                    {1, "Joe Mama"},
+                    {2, "Jose Mourinho"},
+                    {3, "Joey Wheeler"}
+                }),
+            new Question("What is the prefect size ?", 1,
+                new Dictionary<int, string>
+                {
+                    {1, "5 inches"},
+                    {2, "2 inches"},
+                    {3, "It doesnt matter"}
+                }),
+            new Question("Which country has the most pyramids in the world ?", 1, 
+                new Dictionary<int, string>
+                {
+                    {1, "Sudan"},
+                    {2, "Egypt"},
+                    {3, "Peru"}
+                }),
+            new Question("Which part of the body does not contain a sigle blood vessel ?", 3,
+                new Dictionary<int, string>
+                {
+                    {1, "Ear lobes"},
+                    {2, "Tits"},
+                    {3, "Cornea"}
+                }),
+            new Question("Which aliment is entirely consumed by the human body ?", 2, 
+                new Dictionary<int, string>
+                {
+                    {1, "Rice"},
+                    {2, "Honey"},
+                    {3, "Lait"}
+                })
+        };
+        
+        private Question[] _questions_set_two =
+        {
+            new Question("Where was the first animated feature movie made ?", 1,
+                new Dictionary<int, string>
+                {
+                    {1, "Argentina"},
+                    {2, "United States"},
+                    {3, "France"}
+                }),
+            new Question("How many islands constitute de Philippines ?", 3,
+                new Dictionary<int, string>
+                {
+                    {1, ""},
+                    {2, ""},
+                    {3, ""}
+                })
         };
 
         public class Question
