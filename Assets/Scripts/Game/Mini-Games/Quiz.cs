@@ -125,12 +125,12 @@ namespace Game.Mini_Games
                     {2, "Madrid"},
                     {3, "Liverpool"}
                 }),
-            new Question("Who is Joe ?", 1,
+            new Question("How many synonyms for snow has Scotland ?", 1,
                 new Dictionary<int, string>
                 {
-                    {1, "Joe Mama"},
-                    {2, "Jose Mourinho"},
-                    {3, "Joey Wheeler"}
+                    {1, "421"},
+                    {2, "373"},
+                    {3, "53"}
                 }),
             new Question("What is the prefect size ?", 1,
                 new Dictionary<int, string>
@@ -158,7 +158,7 @@ namespace Game.Mini_Games
                 {
                     {1, "Rice"},
                     {2, "Honey"},
-                    {3, "Lait"}
+                    {3, "Milk"}
                 })
         };
         
