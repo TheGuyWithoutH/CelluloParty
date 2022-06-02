@@ -9,23 +9,26 @@ namespace Game.Mini_Games
     public class Quiz : Mini_Game
     {
         private GameStatus _innerStatus;
+        private List<Question[]> _sets;
+        private Question[] _current_set;
         private Question _currentQuestion;
 
+        private const int NumSets = 2;
         private const int NumQuestions = 6;
         private const int TimeQuestions = 15;
-        
+
         private Vector3 START_ONE = new Vector3(2.26f, 0, -4.76f);
         private Vector3 START_TWO = new Vector3(11.98f, 0f, -4.76f);
-        
+
         protected override void Start()
         {
             base.Start();
         }
-        
+
         public override void Update()
         {
             base.Update();
-            
+
             /*
 
             if (_innerStatus == GameStatus.NEXT) { NextQuestion(); }
@@ -68,19 +71,23 @@ namespace Game.Mini_Games
         {
             player1.player.SetGoalPosition(START_ONE.x, START_ONE.z, 2f);
             player2.player.SetGoalPosition(START_TWO.x, START_TWO.z, 2f);
-            
+
             base.StartGame();
+
+            _sets = new List<Question[]>{ _questions_set_one, _questions_set_two };
+            int rand = Random.Range(0, NumSets - 1);
+            _current_set = _sets[rand];
 
             player1.Key = -1;
             player2.Key = -1;
-            
-            NextQuestion();
-            
+
+            NextQuestion(_current_set);
+
             player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.cyan, 0);
             player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.green, 85);
             player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.red, 170);
         }
-        
+
         public override void OnGamePause()
         {
             base.OnGamePause();
@@ -91,13 +98,20 @@ namespace Game.Mini_Games
             base.GameEnded();
         }
 
-        private bool HasAnswered(CelluloPlayer player) { return player.Key != -1; }
-        private bool CheckAnswer(CelluloPlayer player, Question question) { return player.Key == question.Answer; }
+        private bool HasAnswered(CelluloPlayer player)
+        {
+            return player.Key != -1;
+        }
 
-        private void NextQuestion()
+        private bool CheckAnswer(CelluloPlayer player, Question question)
+        {
+            return player.Key == question.Answer;
+        }
+
+        private void NextQuestion(Question[] set)
         {
             int rand = Random.Range(0, NumQuestions - 1);
-            _currentQuestion = _questions_set_one[rand];
+            _currentQuestion = set[rand];
             timer.StartTimer(TimeQuestions, this);
             _innerStatus = GameStatus.REFLEXION;
         }
