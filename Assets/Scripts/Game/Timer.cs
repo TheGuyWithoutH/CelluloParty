@@ -14,6 +14,15 @@ namespace Game
 
         private Mini_Game _currentMiniGame;
 
+        private void Awake()
+        {
+            _maxSeconds = 0;
+            _currentTime = 0;
+            _lastTime = Time.time;
+            _paused = false;
+            _end = true;
+        }
+
         public void StartTimer(int seconds, Mini_Game game)
         {
             _maxSeconds = seconds;
@@ -26,7 +35,7 @@ namespace Game
         
         public void Update()
         {
-            if (!_paused)
+            if (!_paused && !_end)
             {
                 _currentTime += Time.time - _lastTime;
             

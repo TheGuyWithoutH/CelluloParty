@@ -229,6 +229,7 @@ public class CelluloAgent : SteeringAgent
         StopCoroutine(CheckIfPoseReached());
         trackingGoalPose = false;
         ClearTracking();
+        SendMessage("OnCelluloGoalPoseReached",SendMessageOptions.DontRequireReceiver);
     }
 
     /// <summary>

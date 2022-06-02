@@ -26,42 +26,19 @@ namespace Game.Cellulos
         void Update()
         {
             //update the position in function of the outcome of the dice throw
-            if (_isActive)
-            {
-                MoveToTarget();
-                
-            }
             //update the score in function of the outcome of the game
         }
 
         private void MoveToTarget()
         {
-            Debug.Log("moving1...");
             if (_isActive)
             {
-                Debug.Log("moving2...");
-                Debug.Log(_cell);
-                Debug.Log(_targetCell);
                 if (_cell != _targetCell)
                 {
-                    Debug.Log("moving3...");
-                    if ((transform.position - Map.GameCells.GetCellPosition(_cell)).magnitude <= 0.3)
-                        {
-                        Debug.Log("next cell");
-                            ++_cell;
-                            Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
-                            player.SetGoalPosition(pos.x, pos.z, 2);
-                        }
-
-
-                    if ((transform.position - Map.GameCells.GetCellShiftedPosition(_cell)).magnitude <= 0.3)
-                        {
-                        Debug.Log("next cell");
-                        ++_cell;
-                            Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
-                            player.SetGoalPosition(pos.x, pos.z, 2);
-                        }
-                    
+                    if (_cell < _targetCell) ++_cell;
+                    else --_cell;
+                    Vector3 pos = _cell.GetCellOccupied() ? _cell.GetCellPosition() : _cell.GetCellShiftedPosition();
+                    player.SetGoalPosition(pos.x, pos.z, 2);
                 }
             }
         }
@@ -111,7 +88,13 @@ namespace Game.Cellulos
             base.OnCelluloTouchReleased(key);
             _isTouch = false;
         }
-        
+
+        public override void OnCelluloGoalPoseReached()
+        {
+            base.OnCelluloGoalPoseReached();
+            MoveToTarget();
+        }
+
         public bool IsReady => _isReady;
 
         public void SetNotReady()

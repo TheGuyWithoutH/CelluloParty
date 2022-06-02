@@ -6,33 +6,34 @@ namespace Game.Dices
 {
     public abstract class Dice : MonoBehaviour
     {
-        static Rigidbody rb;
+        private Rigidbody _rb;
         public Vector3 diceVelocity;
         protected bool _done;
         protected int _result;
         
-        void Start () {
-            rb = GetComponent<Rigidbody> ();
+        void Awake () {
+            _rb = GetComponent<Rigidbody> ();
+            Debug.Log("enter here");
             _done = false;
             _result = -1;
         }
 
         private void Update()
         {
-            diceVelocity = rb.velocity;
+            diceVelocity = _rb.velocity;
         }
 
         public void ThrowDice()
         {
             _done = false;
             _result = -1;
-            float dirX = Random.Range (0, 500);
-            float dirY = Random.Range (0, 500);
-            float dirZ = Random.Range (0, 500);
-            transform.position = new Vector3 (0, 2, 0);
+            float dirX = Random.Range(100, 800);
+            float dirY = Random.Range(100, 800);
+            float dirZ = Random.Range(100, 800);
+            transform.position = new Vector3 (9.5f, 9f, -9f);
             transform.rotation = Quaternion.identity;
-            rb.AddForce (transform.up * 500);
-            rb.AddTorque (dirX, dirY, dirZ);
+            _rb.AddForce (transform.up * 500);
+            _rb.AddTorque (dirX, dirY, dirZ);
         }
 
         public bool DiceThrowDone()
