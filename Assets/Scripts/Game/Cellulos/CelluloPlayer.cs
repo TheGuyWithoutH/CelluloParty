@@ -16,11 +16,13 @@ namespace Game.Cellulos
         private int _key;
         private Vector3 _move;
         private GameCell _targetCell;
+        private bool _moveDone;
 
         void Start()
         { 
             _score = 0;
             _cell = GameCell.Cell1;
+            _moveDone = false;
         }
 
         void Update()
@@ -48,6 +50,8 @@ namespace Game.Cellulos
             Debug.Log(a);
             Debug.Log("cell Update");
             _targetCell = a;
+            _moveDone = false;
+            MoveToTarget();
         }
 
         /**
@@ -65,8 +69,13 @@ namespace Game.Cellulos
          */
         public bool MoveIsDone()
         {
-            //TODO: implement this
-            throw new NotImplementedException();
+            if (_moveDone)
+            {
+                _moveDone = false;
+                return true;
+            }
+
+            return false;
         }
 
         public override void OnCelluloLongTouch(int key)
@@ -92,6 +101,7 @@ namespace Game.Cellulos
         public override void OnCelluloGoalPoseReached()
         {
             base.OnCelluloGoalPoseReached();
+            if (_cell == _targetCell) _moveDone = true;
             MoveToTarget();
         }
 

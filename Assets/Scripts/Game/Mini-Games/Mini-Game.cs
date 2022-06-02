@@ -2,6 +2,7 @@ using System;
 using Game.Cellulos;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 namespace Game.Mini_Games
 {
@@ -12,9 +13,9 @@ namespace Game.Mini_Games
         public CelluloPlayer player2;
         public CelluloPlayer bot;
         public Timer timer;
-        public GameObject playButton;
-        public GameObject startScreen;
-        public GameObject endScreen;
+        public Button playButton;
+        public Canvas startScreen;
+        public Canvas endScreen;
 
         protected GameStatus GameStatus;
         
@@ -30,8 +31,9 @@ namespace Game.Mini_Games
         {
             if (GameStatus == GameStatus.READY && player1.IsReady && player2.IsReady)
             {
-                playButton.SetActive(false);
                 PlayerReady();
+                player1.SetNotReady();
+                player2.SetNotReady();
             }
         }
 
@@ -45,7 +47,7 @@ namespace Game.Mini_Games
         public virtual void StartGame()
         {
             GameStatus = GameStatus.READY;
-            startScreen.SetActive(true);
+            startScreen.enabled = true;
         }
         
         public virtual void OnGamePause()
@@ -58,7 +60,8 @@ namespace Game.Mini_Games
         public virtual void GameEnded()
         {
             GameStatus = GameStatus.ENDED;
-            endScreen.SetActive(true);
+            startScreen.enabled = false;
+            endScreen.enabled = true;
             if (player1.Score > player2.Score)
             {
                 _winner = GameManager.Player.PLAYER1;
@@ -71,11 +74,9 @@ namespace Game.Mini_Games
         
         private void GameQuit()
         {
-            endScreen.SetActive(false);
+            endScreen.enabled = false;
             GameStatus = GameStatus.NONE;
             _winner = GameManager.Player.NONE;
-            player1.SetNotReady();
-            player2.SetNotReady();
             manager.MiniGameQuit(_winner);
         }
     }
