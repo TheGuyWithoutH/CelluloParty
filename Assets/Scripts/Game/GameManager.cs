@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         EnableCamera(CameraView.MainCamera);
+        SetDiceThrow(null);
     }
 
     // Start is called before the first frame update
@@ -48,11 +49,9 @@ public class GameManager : MonoBehaviour
         _state = GameState.Start;
         _miniGameRunning = false;
         _currentWinner = Player.NONE;
-        _currentDice = normalDice;
-        
+
         player1.SetNotReady();
         player2.SetNotReady();
-        player1.SetTargetCell(GameCell.Cell32);
     }
 
     // Update is called once per frame
@@ -61,12 +60,17 @@ public class GameManager : MonoBehaviour
         switch (_state)
         {
             case GameState.Start:
-                if (player1.IsReady && player2.IsReady)
+                player1.player.SetGoalPosition(GameCell.Cell1.GetCellPosition().x, GameCell.Cell1.GetCellPosition().z, 1);
+                player1.SetTargetCell(GameCell.Cell32);
+                /*SetDiceThrow(looserDice);
+                _currentDice.ThrowDice();*/
+                _state = GameState.End;
+                /*if (player1.IsReady && player2.IsReady)
                 {
                     player1.SetNotReady();
                     player2.SetNotReady();
                     _state = GameState.DiceRollPlayer1;
-                }
+                }*/
                 break;
             case GameState.MiniGame:
                 if (!_miniGameRunning)
@@ -107,7 +111,7 @@ public class GameManager : MonoBehaviour
                         SetDiceThrow(normalDice);
                     }
                                         
-                    
+                    _currentDice.ThrowDice();
                     _state = GameState.DiceRollPlayer2;
                 }
                 break;
@@ -202,29 +206,29 @@ public class GameManager : MonoBehaviour
     {
         if (dice == normalDice)
         {
-            normalDice.enabled = true;
-            looserDice.enabled = false;
-            winnerDice.enabled = false;
+            normalDice.gameObject.SetActive(true);
+            looserDice.gameObject.SetActive(false);
+            winnerDice.gameObject.SetActive(false);
             _currentDice = normalDice;
         } else if (dice == winnerDice) 
         {
-            normalDice.enabled = false;
-            looserDice.enabled = false;
-            winnerDice.enabled = true;
+            normalDice.gameObject.SetActive(false);
+            looserDice.gameObject.SetActive(false);
+            winnerDice.gameObject.SetActive(true);
             _currentDice = winnerDice;
         }
         else if(dice == looserDice)
         {
-            normalDice.enabled = false;
-            looserDice.enabled = true;
-            winnerDice.enabled = false;
+            normalDice.gameObject.SetActive(false);
+            looserDice.gameObject.SetActive(true);
+            winnerDice.gameObject.SetActive(false);
             _currentDice = looserDice;
         }
         else
         {
-            normalDice.enabled = false;
-            looserDice.enabled = false;
-            winnerDice.enabled = false;
+            normalDice.gameObject.SetActive(false);
+            looserDice.gameObject.SetActive(false);
+            winnerDice.gameObject.SetActive(false);
             _currentDice = null;
         }
     }
@@ -281,7 +285,7 @@ public class GameManager : MonoBehaviour
         _isCoroutineExecuting = false;
     }
 
-    public void ExecuteAfterDelay(float time, Action task)
+    private void ExecuteAfterDelay(float time, Action task)
     {
         StartCoroutine(ExecuteAfterTime(0.5f, task));
     }

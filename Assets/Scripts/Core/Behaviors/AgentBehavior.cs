@@ -99,5 +99,7 @@ public class AgentBehaviour : MonoBehaviour
     /// Event signaled when robot is kidnapped
     /// </summary>
     public virtual void OnCelluloKidnapped(){}
+    
+    public virtual void OnCelluloGoalPoseReached(){}
 
 }
