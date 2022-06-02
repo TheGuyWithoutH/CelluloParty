@@ -11,7 +11,7 @@ namespace Game.Mini_Games
         private GameStatus _innerStatus;
         private Question _currentQuestion;
 
-        private const int NumQuestions = 15;
+        private const int NumQuestions = 6;
         private const int TimeQuestions = 15;
         
         private Vector3 START_ONE = new Vector3(2.26f, 0, -4.76f);
@@ -19,8 +19,6 @@ namespace Game.Mini_Games
         
         protected override void Start()
         {
-            player1.player.SetGoalPosition(START_ONE.x, START_ONE.z, 2f);
-            player2.player.SetGoalPosition(START_TWO.x, START_TWO.z, 2f);
             base.Start();
         }
         
@@ -68,6 +66,9 @@ namespace Game.Mini_Games
 
         public override void StartGame()
         {
+            player1.player.SetGoalPosition(START_ONE.x, START_ONE.z, 2f);
+            player2.player.SetGoalPosition(START_TWO.x, START_TWO.z, 2f);
+            
             base.StartGame();
 
             player1.Key = -1;
@@ -177,15 +178,19 @@ namespace Game.Mini_Games
                     {2, "It has amazing vertues for skincare"},
                     {3, "It the world's second biggest type of fungus"}
                 }),
-            new Question("", 3, 
+            new Question("Which single letter does not appear in the states of the United States", 3, 
                 new Dictionary<int, string>
                 {
-                    
+                    {1, "Z"},
+                    {2, "X"},
+                    {3, "Q"}
                 }),
-            new Question("", 1, 
+            new Question("How is named a cow-bison hypbrid ?", 1, 
                 new Dictionary<int, string>
                 {
-                    
+                    {1, "Beefalo"},
+                    {2, "Cow-Bison"},
+                    {3, "Cowfalo"}
                 })
         };
 

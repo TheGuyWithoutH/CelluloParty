@@ -17,8 +17,6 @@ namespace Game.Mini_Games
         
         protected override void Start()
         {
-            player1.player.SetGoalPosition(START_ONE.x, START_ONE.z, 2f);
-            player2.player.SetGoalPosition(START_TWO.x, START_TWO.z, 2f);
             base.Start();
         }
         
@@ -46,6 +44,8 @@ namespace Game.Mini_Games
 
         public override void StartGame()
         {
+            player1.player.SetGoalPosition(START_ONE.x, START_ONE.z, 2f);
+            player2.player.SetGoalPosition(START_TWO.x, START_TWO.z, 2f);
             base.StartGame();
             _innerStatus = GameStatus.PREPARATION;
         }
