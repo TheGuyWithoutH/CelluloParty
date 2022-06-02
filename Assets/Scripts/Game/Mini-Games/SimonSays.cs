@@ -22,14 +22,23 @@ namespace Game.Mini_Games
         protected override void Start()
         {
             base.Start();
+            _gameKeys = new List<int>();
+            _player1Keys = new List<int>();
+            _player2Keys = new List<int>();
         }
 
         public override void Update()
         {
             base.Update();
-            
+            if (GameStatus == GameStatus.NONE)
+            {
+                Debug.Log("test1");
+                StartGame();
+                GameStatus = GameStatus.STARTED;
+            }
             if (GameStatus == GameStatus.STARTED) {
                 if (_status == Status.Pattern) {
+                    Debug.Log("test2");
                     GenerateKeys();
                     _status = Status.None;
                     for (int i = 0; i < _numKeys; i++)
@@ -45,6 +54,7 @@ namespace Game.Mini_Games
 
                 if (_status == Status.Playing)
                 {
+                    Debug.Log("test3");
                     int player1KeysCount = _player1Keys.Count;
                     int player2KeysCount = _player2Keys.Count;
 
@@ -100,6 +110,7 @@ namespace Game.Mini_Games
             base.StartGame();
             _latence = 2.0f;
             _status = Status.Pattern;
+            _numKeys = 3;
         }
         
         public override void OnGamePause()
@@ -110,6 +121,7 @@ namespace Game.Mini_Games
         public override void GameEnded()
         {
             base.GameEnded();
+            Debug.Log("fin");
         }
 
         private void StartPlaying()

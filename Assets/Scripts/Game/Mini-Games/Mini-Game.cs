@@ -47,7 +47,7 @@ namespace Game.Mini_Games
         public virtual void StartGame()
         {
             GameStatus = GameStatus.READY;
-            startScreen.enabled = true;
+            //startScreen.enabled = true;
         }
         
         public virtual void OnGamePause()
@@ -60,8 +60,8 @@ namespace Game.Mini_Games
         public virtual void GameEnded()
         {
             GameStatus = GameStatus.ENDED;
-            startScreen.enabled = false;
-            endScreen.enabled = true;
+            //startScreen.enabled = false;
+            //endScreen.enabled = true;
             if (player1.Score > player2.Score)
             {
                 _winner = GameManager.Player.PLAYER1;

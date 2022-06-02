@@ -64,15 +64,15 @@ public class GameManager : MonoBehaviour
         switch (_state)
         {
             case GameState.Start:
-                /*player1.player.SetGoalPosition(GameCell.Cell1.GetCellPosition().x, GameCell.Cell1.GetCellPosition().z, 1);
+                player1.player.SetGoalPosition(GameCell.Cell1.GetCellPosition().x, GameCell.Cell1.GetCellPosition().z, 1);
                 player1.SetTargetCell(GameCell.Cell32);
-                _state = GameState.End;*/
-                if (player1.IsReady && player2.IsReady)
-                {
-                    player1.SetNotReady();
-                    player2.SetNotReady();
-                    _state = GameState.DiceRollPlayer1;
-                }
+                _state = GameState.End;
+                // if (player1.IsReady && player2.IsReady)
+                // {
+                //     player1.SetNotReady();
+                //     player2.SetNotReady();
+                //     _state = GameState.DiceRollPlayer1;
+                // }
                 break;
             case GameState.MiniGame:
                 if (!_miniGameRunning)
