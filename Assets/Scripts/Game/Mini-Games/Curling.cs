@@ -11,11 +11,14 @@ namespace Game.Mini_Games
         
         private int POWER_FACTOR = 7;
         private Vector3 VECT_NULL = new Vector3(0, 0, 0);
-        private Vector3 START = new Vector3(2.26f, 0, -4.76f);
-        private Vector3 TARGET = new Vector3(11.98f, 0f, -4.76f);
+        private Vector3 START_ONE = new Vector3(2.26f, 0, -4.76f);
+        private Vector3 START_TWO = new Vector3(11.98f, 0f, -4.76f);
+        private Vector3 TARGET = new Vector3(7.12f, 0f, -4.76f);
         
         protected override void Start()
         {
+            player1.player.SetGoalPosition(START_ONE.x, START_ONE.z, 2f);
+            player2.player.SetGoalPosition(START_TWO.x, START_TWO.z, 2f);
             base.Start();
         }
         
@@ -26,7 +29,7 @@ namespace Game.Mini_Games
 
             if (_innerStatus == GameStatus.FIRST_THROW && !player1.IsTouch)
             {
-                Throw(player1);
+                Throw(player1, START_ONE);
                 _innerStatus = GameStatus.PREPARATION;
             }
 
@@ -34,7 +37,7 @@ namespace Game.Mini_Games
 
             if (_innerStatus == GameStatus.SECOND_THROW && !player2.IsTouch)
             {
-                Throw(player2);
+                Throw(player2, START_TWO);
                 _innerStatus = GameStatus.END;
             }
 
@@ -71,9 +74,9 @@ namespace Game.Mini_Games
             base.GameEnded();
         }
         
-        private void Throw(CelluloPlayer player)
+        private void Throw(CelluloPlayer player, Vector3 start)
         {
-            Vector3 power_throw = (START - player.transform.position) * POWER_FACTOR;
+            Vector3 power_throw = (start - player.transform.position) * POWER_FACTOR;
             player.player.SetGoalPosition(power_throw.x, power_throw.z, 2f);
         }
 

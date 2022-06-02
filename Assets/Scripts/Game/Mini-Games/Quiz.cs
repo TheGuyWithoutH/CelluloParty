@@ -153,9 +153,33 @@ namespace Game.Mini_Games
             new Question("How many islands constitute de Philippines ?", 3,
                 new Dictionary<int, string>
                 {
-                    {1, ""},
-                    {2, ""},
-                    {3, ""}
+                    {1, "15"},
+                    {2, "52"},
+                    {3, "7641"}
+                }),
+            new Question("What is the weirdest flavor McDonald' once made for their bubblegums ?", 2,
+                new Dictionary<int, string>
+                {
+                    {1, "Petrol"},
+                    {2, "Broccoli"},
+                    {3, "Olive"}
+                }),
+            new Question("Biggest feature of the tropical fungus Ophiocordyceps", 1, 
+                new Dictionary<int, string>
+                {
+                    {1, "It can control ants"},
+                    {2, "It has amazing vertues for skincare"},
+                    {3, "It the world's second biggest type of fungus"}
+                }),
+            new Question("", 3, 
+                new Dictionary<int, string>
+                {
+                    
+                }),
+            new Question("", 1, 
+                new Dictionary<int, string>
+                {
+                    
                 })
         };
 
