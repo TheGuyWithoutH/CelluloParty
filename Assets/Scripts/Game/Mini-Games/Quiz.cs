@@ -8,7 +8,7 @@ namespace Game.Mini_Games
 {
     public class Quiz : Mini_Game
     {
-        private GameStatus _innerStatus;
+        private InnerGameStatus _innerStatus;
         private List<Question[]> _sets;
         private Question[] _current_set;
         private Question _currentQuestion;
@@ -26,39 +26,43 @@ namespace Game.Mini_Games
         {
             base.Update();
 
-            if (_innerStatus == GameStatus.NEXT) { NextQuestion(_current_set); }
-
-            if (_innerStatus == GameStatus.REFLEXION && HasAnswered(player1))
+            if (GameStatus == GameStatus.STARTED)
             {
-                timer.PauseTimer();
-                if (CheckAnswer(player1, _currentQuestion))
+                if (_innerStatus == InnerGameStatus.NEXT) { NextQuestion(_current_set); }
+
+                if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player1))
                 {
-                    ++player1.Score;
-                    _innerStatus = GameStatus.NEXT;
-                    //faire un truc graphique pour dire que c'est tout bon
+                    timer.PauseTimer();
+                    if (CheckAnswer(player1, _currentQuestion))
+                    {
+                        ++player1.Score;
+                        _innerStatus = InnerGameStatus.NEXT;
+                        //faire un truc graphique pour dire que c'est tout bon
+                    }
+                    else
+                    {
+                        player1.Key = -1;
+                        timer.ResumeTimer();
+                    }
                 }
-                else
+            
+                if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player2))
                 {
-                    player1.Key = -1;
-                    timer.ResumeTimer();
+                    timer.PauseTimer();
+                    if (CheckAnswer(player2, _currentQuestion))
+                    {
+                        ++player2.Score;
+                        _innerStatus = InnerGameStatus.NEXT;
+                        //faire un truc graphique pour dire que c'est tout bon
+                    }
+                    else
+                    {
+                        player1.Key = -1;
+                        timer.ResumeTimer();
+                    }
                 }
             }
             
-            if (_innerStatus == GameStatus.REFLEXION && HasAnswered(player2))
-            {
-                timer.PauseTimer();
-                if (CheckAnswer(player2, _currentQuestion))
-                {
-                    ++player2.Score;
-                    _innerStatus = GameStatus.NEXT;
-                    //faire un truc graphique pour dire que c'est tout bon
-                }
-                else
-                {
-                    player1.Key = -1;
-                    timer.ResumeTimer();
-                }
-            }
             
         }
 
@@ -105,7 +109,7 @@ namespace Game.Mini_Games
             int rand = Random.Range(0, NumQuestions - 1);
             _currentQuestion = set[rand];
             timer.StartTimer(TimeQuestions, this);
-            _innerStatus = GameStatus.REFLEXION;
+            _innerStatus = InnerGameStatus.REFLEXION;
         }
 
         private Question[] _questions_set_one =
@@ -214,7 +218,7 @@ namespace Game.Mini_Games
             public int Answer => _answer;
         }
         
-        private enum GameStatus
+        private enum InnerGameStatus
         {
             REFLEXION,
             NEXT

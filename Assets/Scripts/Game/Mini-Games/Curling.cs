@@ -7,7 +7,7 @@ namespace Game.Mini_Games
 {
     public class Curling : Mini_Game
     {
-        private GameStatus _innerStatus;
+        private InnerGameStatus _innerStatus;
         
         private const int PowerFactor = 7;
         private Vector3 _vect_null = new Vector3(0, 0, 0);
@@ -21,30 +21,36 @@ namespace Game.Mini_Games
         public override void Update()
         {
             base.Update();
-            
-            if (_innerStatus == GameStatus.PREPARATION && player1.IsTouch) { _innerStatus = GameStatus.FIRST_THROW; }
 
-            if (_innerStatus == GameStatus.FIRST_THROW && !player1.IsTouch)
+            if (GameStatus == GameStatus.STARTED)
             {
-                Throw(player1, StartOne);
-                _innerStatus = GameStatus.PREPARATION;
+                if (_innerStatus == InnerGameStatus.PREPARATION && player1.IsTouch) { _innerStatus = InnerGameStatus.FIRST_THROW; }
+
+                if (_innerStatus == InnerGameStatus.FIRST_THROW && !player1.IsTouch)
+                {
+                    Throw(player1, StartOne);
+                    _innerStatus = InnerGameStatus.PREPARATION;
+                }
+
+                if (_innerStatus == InnerGameStatus.PREPARATION && player2.IsTouch)
+                {
+                    _innerStatus = InnerGameStatus.SECOND_THROW;
+                }
+
+                if (_innerStatus == InnerGameStatus.SECOND_THROW && !player2.IsTouch)
+                {
+                    Throw(player2, StartTwo);
+                    _innerStatus = InnerGameStatus.END;
+                }
+
+                if (_innerStatus == InnerGameStatus.END && player2.GetSteering().linear == _vect_null) { GameEnded(); }
             }
-
-            if (_innerStatus == GameStatus.PREPARATION && player2.IsTouch) { _innerStatus = GameStatus.SECOND_THROW; }
-
-            if (_innerStatus == GameStatus.SECOND_THROW && !player2.IsTouch)
-            {
-                Throw(player2, StartTwo);
-                _innerStatus = GameStatus.END;
-            }
-
-            if (_innerStatus == GameStatus.END && player2.GetSteering().linear == _vect_null) { GameEnded(); }
         }
 
         public override void StartGame()
         {
             base.StartGame();
-            _innerStatus = GameStatus.PREPARATION;
+            _innerStatus = InnerGameStatus.PREPARATION;
         }
         
         public override void OnGamePause()
@@ -82,7 +88,7 @@ namespace Game.Mini_Games
             return Math.Sqrt(Math.Pow(vec_a.x - vec_b.x, 2) + Math.Pow(vec_a.z - vec_b.z, 2));
         }
 
-        private enum GameStatus
+        private enum InnerGameStatus
         {
             PREPARATION,
             FIRST_THROW,
