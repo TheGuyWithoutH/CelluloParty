@@ -12,7 +12,6 @@ namespace Game.Mini_Games
         public CelluloPlayer player1;
         public CelluloPlayer player2;
         public CelluloPlayer bot;
-        public Timer timer;
         public Button playButton;
         public Canvas startScreen;
         public Canvas endScreen;

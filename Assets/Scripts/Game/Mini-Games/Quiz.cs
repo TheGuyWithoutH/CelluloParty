@@ -18,8 +18,9 @@ namespace Game.Mini_Games
         private const int NumQuestions = 6;
         private const int TimeQuestions = 15;
 
-        public TextMeshProUGUI timerText;
+        public Timer timer;
         
+        public TextMeshProUGUI timerText;
         public TextMeshProUGUI q;
         public TextMeshProUGUI a1;
         public TextMeshProUGUI a2;
