@@ -12,6 +12,9 @@ namespace Game
         private bool _paused;
         private bool _end;
 
+        private int minutes;
+        private int seconds;
+
         private Mini_Game _currentMiniGame;
 
         private void Awake()
@@ -39,8 +42,8 @@ namespace Game
             {
                 _currentTime += Time.time - _lastTime;
             
-                var minutes = (int)Math.Floor(_currentTime / 60);
-                var seconds = (int)Math.Floor(_currentTime % 60);
+                minutes = (int)Math.Floor(_currentTime / 60);
+                seconds = (int)Math.Floor(_currentTime % 60);
                     
                 if (!_end && _currentTime >= _maxSeconds)
                 {
@@ -73,5 +76,9 @@ namespace Game
         }
 
         public float CurrentTime => _currentTime;
+        
+        public int Minutes => minutes;
+
+        public int Seconds => seconds;
     }
 }

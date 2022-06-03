@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Game.Cellulos;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,6 +18,13 @@ namespace Game.Mini_Games
         private const int NumQuestions = 6;
         private const int TimeQuestions = 15;
 
+        public TextMeshProUGUI timerText;
+        
+        public TextMeshProUGUI q;
+        public TextMeshProUGUI a1;
+        public TextMeshProUGUI a2;
+        public TextMeshProUGUI a3;
+
         protected override void Start()
         {
             base.Start();
@@ -25,6 +33,8 @@ namespace Game.Mini_Games
         public override void Update()
         {
             base.Update();
+            
+            timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, timer.Seconds));
 
             if (GameStatus == GameStatus.STARTED)
             {
@@ -69,7 +79,7 @@ namespace Game.Mini_Games
         public override void StartGame()
         {
             base.StartGame();
-            
+
             _sets = new List<Question[]>{ _questions_set_one, _questions_set_two };
             int rand = Random.Range(0, NumSets - 1);
             _current_set = _sets[rand];
@@ -108,7 +118,15 @@ namespace Game.Mini_Games
         {
             int rand = Random.Range(0, NumQuestions - 1);
             _currentQuestion = set[rand];
+
+            q.text = _currentQuestion.Question1;
+            a1.text = _currentQuestion.Responses[1];
+            a2.text = _currentQuestion.Responses[2];
+            a3.text = _currentQuestion.Responses[3];
+            
             timer.StartTimer(TimeQuestions, this);
+            timerText.SetText(string.Format("{0:00}:{1:00}", 0, 0));
+            
             _innerStatus = InnerGameStatus.REFLEXION;
         }
 
@@ -207,6 +225,7 @@ namespace Game.Mini_Games
         public class Question
         {
             private String _question;
+
             private int _answer;
             private Dictionary<int, String> _responses;
             public Question(String question, int answer, Dictionary<int, String> responses)
@@ -216,6 +235,10 @@ namespace Game.Mini_Games
                 _responses = responses;
             }
             public int Answer => _answer;
+            
+            public string Question1 => _question;
+
+            public Dictionary<int, string> Responses => _responses;
         }
         
         private enum InnerGameStatus
