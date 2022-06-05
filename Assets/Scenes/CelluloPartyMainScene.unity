@@ -9208,7 +9208,7 @@ MonoBehaviour:
   manager: {fileID: 0}
   player1: {fileID: 1804942521}
   player2: {fileID: 1929773132}
-  bot: {fileID: 0}
+  bot: {fileID: 528867638}
   timer: {fileID: 0}
   playButton: {fileID: 0}
   startScreen: {fileID: 0}

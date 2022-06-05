@@ -40,6 +40,7 @@ namespace Game.Cellulos
                     if (_cell < _targetCell) ++_cell;
                     else --_cell;
                     Vector3 pos = _cell.GetCellOccupied() ? _cell.GetCellShiftedPosition() : _cell.GetCellPosition();
+                    Debug.Log("Cell : " + _cell + " " + pos);
                     player.SetGoalPosition(pos.x, pos.z, 1);
                 }
             }
