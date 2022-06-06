@@ -131,6 +131,17 @@ namespace Game.Cellulos
 
         public bool IsTouch => _isTouch;
 
+        public bool getOneTouch()
+        {
+            if (_isTouch)
+            {
+                _isTouch = false;
+                return true;
+            }
+
+            return false;
+        }
+
         public int Key
         {
             get => _key;

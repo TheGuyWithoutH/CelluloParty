@@ -31,11 +31,20 @@ namespace Game.Mini_Games
 
         public virtual void Update()
         {
-            if (GameStatus == GameStatus.READY && player1.IsReady && player2.IsReady)
+            if (player1.IsReady && player2.IsReady)
             {
-                PlayerReady();
-                player1.SetNotReady();
-                player2.SetNotReady();
+                if (GameStatus == GameStatus.READY)
+                {
+                    PlayerReady();
+                    player1.SetNotReady();
+                    player2.SetNotReady();
+                }
+                else if (GameStatus == GameStatus.PAUSED)
+                {
+                    OnGameResume();
+                    player1.SetNotReady();
+                    player2.SetNotReady();
+                }
             }
         }
 
@@ -51,7 +60,6 @@ namespace Game.Mini_Games
             player1.celluloAgent.SetGoalPosition(StartOne.x, StartOne.z, 2f);
             player2.celluloAgent.SetGoalPosition(StartTwo.x, StartTwo.z, 2f);
             GameStatus = GameStatus.READY;
-            PlayerReady();
             //startScreen.enabled = true;
         }
         
@@ -60,6 +68,13 @@ namespace Game.Mini_Games
             GameStatus = GameStatus.PAUSED;
             player1.SteeringDesactivate();
             player2.SteeringDesactivate();
+        }
+
+        public virtual void OnGameResume()
+        {
+            player1.SteeringReactivate();
+            player2.SteeringReactivate();
+            GameStatus = GameStatus.STARTED;
         }
 
         public virtual void GameEnded()
