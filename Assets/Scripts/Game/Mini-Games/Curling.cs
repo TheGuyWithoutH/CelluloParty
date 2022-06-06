@@ -80,7 +80,7 @@ namespace Game.Mini_Games
         private void Throw(CelluloPlayer player, Vector3 start)
         {
             Vector3 power_throw = (start - player.transform.position) * PowerFactor;
-            player.player.SetGoalPosition(power_throw.x, power_throw.z, 2f);
+            player.celluloAgent.SetGoalPosition(power_throw.x, power_throw.z, 2f);
         }
 
         private double eucl_dist(Vector3 vec_a, Vector3 vec_b)

@@ -145,14 +145,14 @@ namespace Game.Mini_Games
         private void LedOn()
         {
             int key = _gameKeys[_actualIndex];
-            bot.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, getColor(key), key);
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, getColor(key), key);
             Invoke(nameof(LedOff), 0.2f);
         }
         
         private void LedOff()
         {
             int key = _gameKeys[_actualIndex];
-            bot.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, getColor(-1), key);
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, getColor(-1), key);
         }
 
         private Color getColor(int key)

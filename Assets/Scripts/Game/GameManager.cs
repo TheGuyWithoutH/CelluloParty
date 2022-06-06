@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
                     _state = GameState.DiceRollPlayer1;
                 }*/
                 _miniGameRunning = true;
-                simonSays.StartGame();
+                mole.StartGame();
                 _state = GameState.MiniGame;
                 break;
             case GameState.MiniGame:

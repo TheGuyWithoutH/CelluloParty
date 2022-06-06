@@ -12,7 +12,6 @@ namespace Game.Mini_Games
         public CelluloPlayer player1;
         public CelluloPlayer player2;
         public CelluloBot bot;
-        public Timer timer;
         public Button playButton;
         public Canvas startScreen;
         public Canvas endScreen;
@@ -49,9 +48,10 @@ namespace Game.Mini_Games
 
         public virtual void StartGame()
         {
-            player1.player.SetGoalPosition(StartOne.x, StartOne.z, 2f);
-            player2.player.SetGoalPosition(StartTwo.x, StartTwo.z, 2f);
+            player1.celluloAgent.SetGoalPosition(StartOne.x, StartOne.z, 2f);
+            player2.celluloAgent.SetGoalPosition(StartTwo.x, StartTwo.z, 2f);
             GameStatus = GameStatus.READY;
+            PlayerReady();
             //startScreen.enabled = true;
         }
         

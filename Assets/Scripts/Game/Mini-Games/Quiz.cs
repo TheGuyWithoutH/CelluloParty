@@ -23,7 +23,8 @@ namespace Game.Mini_Games
         public TextMeshProUGUI a1;
         public TextMeshProUGUI a2;
         public TextMeshProUGUI a3;
-
+        public Timer timer;
+        
         protected override void Start()
         {
             base.Start();
@@ -32,11 +33,11 @@ namespace Game.Mini_Games
         public override void Update()
         {
             base.Update();
-            
-            timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, timer.Seconds));
 
             if (GameStatus == GameStatus.STARTED)
             {
+                timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, timer.Seconds));
+                
                 if (_innerStatus == InnerGameStatus.NEXT) { NextQuestion(_current_set); }
 
                 if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player1))
@@ -88,9 +89,9 @@ namespace Game.Mini_Games
 
             NextQuestion(_current_set);
 
-            player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.cyan, 0);
-            player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.green, 85);
-            player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.red, 170);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.cyan, 0);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.green, 85);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.red, 170);
         }
 
         public override void OnGamePause()

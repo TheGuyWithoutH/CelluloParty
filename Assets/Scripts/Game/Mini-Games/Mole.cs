@@ -4,11 +4,13 @@ namespace Game.Mini_Games
 {
     public class Mole : Mini_Game
     {
+        public Timer timer;
+        
         private float _latence;
         private int _led;
         private bool _delay;
         private int _maxSeconds;
-        
+
         protected override void Start()
         {
             base.Start();
@@ -26,9 +28,25 @@ namespace Game.Mini_Games
             else if (GameStatus == GameStatus.STARTED)
             {
                 timer.ResumeTimer();
-                if (timer.CurrentTime % 10 == 0)
+                if (timer.CurrentTime >= 10 && timer.CurrentTime < 20)
                 {
-                    _latence -= 0.05f;
+                    _latence = 0.45f;
+                } 
+                else if (timer.CurrentTime >= 20 && timer.CurrentTime < 30)
+                {
+                    _latence = 0.4f;
+                } 
+                else if (timer.CurrentTime >= 30 && timer.CurrentTime < 40)
+                {
+                    _latence = 0.35f;
+                } 
+                else if (timer.CurrentTime >= 40 && timer.CurrentTime < 50)
+                {
+                    _latence = 0.3f;
+                } 
+                else
+                {
+                    _latence = 0.25f;
                 }
 
                 if (player1.IsTouch && !_delay)
@@ -89,17 +107,16 @@ namespace Game.Mini_Games
         private void MoleAppear()
         {
             _led = Random.Range(0, 6);
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
             Invoke(nameof(MoleDisappear), _latence);
             Invoke(nameof(MoleAppear), Random.Range(0.5f, 3.0f));
         }
 
         private void MoleDisappear()
         {
-            _led = -1;
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _led);
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _led);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _led);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _led);
         }
 
         private void FinishDelay()
