@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Game.Cellulos;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Game.Mini_Games
@@ -28,11 +29,7 @@ namespace Game.Mini_Games
         public TextMeshProUGUI a2;
         public TextMeshProUGUI a3;
         public Timer timer;
-        
-        protected override void Start()
-        {
-            base.Start();
-        }
+        public Image questionLayout;
 
         public override void Update()
         {
@@ -43,7 +40,7 @@ namespace Game.Mini_Games
                 timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, timer.Seconds));
                 LedBot();
                 
-                if (_innerStatus == InnerGameStatus.NEXT) { NextQuestion(_current_set); }
+                if (_innerStatus == InnerGameStatus.NEXT) { NextQuestion(); }
                 
                 if (_innerStatus == InnerGameStatus.REFLEXION && timer.Seconds >= TimeQuestions) { _innerStatus = InnerGameStatus.NEXT; }
 
@@ -89,6 +86,14 @@ namespace Game.Mini_Games
 
             player1.Key = -1;
             player2.Key = -1;
+            
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
+                        player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+                        player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+                        
+                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
+                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
         }
 
         protected override void PlayerReady()
@@ -103,7 +108,8 @@ namespace Game.Mini_Games
             player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
             player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
             
-            ExecuteAfterDelay(5, () => NextQuestion(_current_set));
+            Debug.Log("ready2");
+            Invoke(nameof(NextQuestion), 5f);
         }
 
         public override void OnGamePause()
@@ -114,6 +120,7 @@ namespace Game.Mini_Games
         public override void GameEnded()
         {
             base.GameEnded();
+            questionLayout.enabled = false;
         }
 
         private bool HasAnswered(CelluloPlayer player) { return player.getOneTouch(); }
@@ -123,11 +130,12 @@ namespace Game.Mini_Games
             return player.Key == question.Answer;
         }
 
-        private void NextQuestion(Question[] set)
+        private void NextQuestion()
         {
+            Debug.Log("ready3");
             int rand = Random.Range(0, NumQuestions - 1);
-            _currentQuestion = set[rand];
-            
+            _currentQuestion = _current_set[rand];
+
             Debug.Log("Question : " + _currentQuestion.Question1 + "\n");
             Debug.Log("Anwer : " + _currentQuestion.Answer + "\n");
 
@@ -135,6 +143,8 @@ namespace Game.Mini_Games
             a1.text = _currentQuestion.Responses[0];
             a2.text = _currentQuestion.Responses[2];
             a3.text = _currentQuestion.Responses[4];
+
+            questionLayout.enabled = true;
             
             timer.StartTimer(TimeQuestions, this);
             timerText.SetText(string.Format("{0:00}:{1:00}", 0, 0));
