@@ -9,6 +9,7 @@ namespace Game.Mini_Games
         private float _latence;
         private int _led;
         private int _maxSeconds;
+        private bool _isMole;
 
         protected override void Start()
         {
@@ -50,7 +51,7 @@ namespace Game.Mini_Games
 
                 if (player1.getOneTouch())
                 {
-                    if (player1.Key == _led)
+                    if (player1.Key == _led && _isMole)
                     {
                         Debug.Log("Player 1 +");
                         player1.Score += 1;
@@ -64,7 +65,7 @@ namespace Game.Mini_Games
                 
                 if (player2.getOneTouch())
                 {
-                    if (player2.Key == _led)
+                    if (player2.Key == _led && _isMole)
                     {
                         Debug.Log("Player 2 +");
                         player2.Score += 1;
@@ -101,7 +102,7 @@ namespace Game.Mini_Games
             base.OnGamePause();
             timer.PauseTimer();
             bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectWaiting, Color.red, 0);
-            _led = -1;
+            _isMole = false;
         }
 
         public override void OnGameResume()
@@ -132,7 +133,9 @@ namespace Game.Mini_Games
 
         private void MoleAppear()
         {
-            if (GameStatus == GameStatus.STARTED) {
+            if (GameStatus == GameStatus.STARTED)
+            {
+                _isMole = true;
                 _led = Random.Range(0, 6);
                 player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
                 player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
@@ -147,7 +150,7 @@ namespace Game.Mini_Games
             {
                 player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
                 player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
-                _led = -1;
+                _isMole = false;
             }
         }
     }
