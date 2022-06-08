@@ -17,6 +17,7 @@ namespace Game.Cellulos
         private Vector3 _move;
         private GameCell _targetCell;
         private bool _moveDone;
+        public string playerName;
 
         void Start()
         { 

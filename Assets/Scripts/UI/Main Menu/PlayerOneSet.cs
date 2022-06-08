@@ -12,8 +12,6 @@ public class PlayerOneSet : MonoBehaviour
     public void updateName(string val)
     {
         PlayerPrefs.SetString("name1", val);
-        Debug.Log(val);
-        Debug.Log("works");
 
     }
 }
