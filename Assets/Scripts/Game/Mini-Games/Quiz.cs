@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Game.Cellulos;
 using TMPro;
@@ -73,8 +74,6 @@ namespace Game.Mini_Games
                     { timer.ResumeTimer(); }
                 }
             }
-            
-            
         }
 
         public override void StartGame()
