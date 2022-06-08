@@ -51,9 +51,8 @@ namespace Game.Mini_Games
                     int player1KeysCount = _player1Keys.Count;
                     int player2KeysCount = _player2Keys.Count;
 
-                    if (player1.IsTouch && !_touch1)
+                    if (player1.getOneTouch() && player2.Score == 0)
                     {
-                        _touch1 = true;
                         int key = player1.Key;
                         Debug.Log("Player 1 : " + key);
                         if (player1KeysCount < _numKeys) {
@@ -64,15 +63,12 @@ namespace Game.Mini_Games
                             else
                             {
                                 player2.Score += 1;
-                                GameEnded();
                             }
                         }
                     }
-                    _touch1 = player1.IsTouch;
 
-                    if (player2.IsTouch && !_touch2)
+                    if (player2.getOneTouch() && player1.Score == 0)
                     {
-                        _touch2 = true;
                         int key = player2.Key;
                         Debug.Log("Player 2 : " + key);
                         if (player2KeysCount < _numKeys)
@@ -84,11 +80,9 @@ namespace Game.Mini_Games
                             else
                             {
                                 player1.Score += 1;
-                                GameEnded();
                             }
                         }
                     }
-                    _touch2 = player2.IsTouch;
 
                     if (player1KeysCount == _numKeys && player2KeysCount == _numKeys)
                     {
@@ -98,6 +92,11 @@ namespace Game.Mini_Games
                         _numKeys += 1;
                         _latence -= _latence > 0.2f ? 0.2f : 0f;
                         _status = Status.Pattern;
+                    }
+
+                    if ((player1.Score == 1 && player2.Score == 1) || (player1KeysCount == _numKeys && player2.Score == 1) || (player2KeysCount == _numKeys && player1.Score == 1))
+                    {
+                        GameEnded();
                     }
                 }
             }
@@ -151,7 +150,7 @@ namespace Game.Mini_Games
         
         private void LedOff()
         {
-            int key = _gameKeys[_actualIndex];
+            int key = _gameKeys[_actualIndex++];
             bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, getColor(-1), key);
         }
 
@@ -162,7 +161,7 @@ namespace Game.Mini_Games
                 case 0: return Color.blue;
                 case 1: return Color.green;
                 case 2: return Color.yellow;
-                case 3: return new Color(255, 165, 0);
+                case 3: return Color.white;
                 case 4: return Color.red;
                 case 5: return Color.magenta;
                 default: return Color.black;
