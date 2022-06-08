@@ -46,6 +46,7 @@ namespace Game.Mini_Games
 
                 if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player1))
                 {
+                    Debug.Log("Answer of player one : " + player1.Key + "\n");
                     timer.PauseTimer();
                     if (CheckAnswer(player1, _currentQuestion))
                     {
@@ -53,15 +54,12 @@ namespace Game.Mini_Games
                         _innerStatus = InnerGameStatus.NEXT;
                         //faire un truc graphique pour dire que c'est tout bon
                     }
-                    else
-                    {
-                        player1.Key = -1;
-                        timer.ResumeTimer();
-                    }
+                    else { timer.ResumeTimer(); }
                 }
             
                 if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player2))
                 {
+                    Debug.Log("Answer of player two : " + player2.Key + "\n");
                     timer.PauseTimer();
                     if (CheckAnswer(player2, _currentQuestion))
                     {
@@ -70,10 +68,7 @@ namespace Game.Mini_Games
                         //faire un truc graphique pour dire que c'est tout bon
                     }
                     else
-                    {
-                        player1.Key = -1;
-                        timer.ResumeTimer();
-                    }
+                    { timer.ResumeTimer(); }
                 }
             }
             
@@ -86,6 +81,7 @@ namespace Game.Mini_Games
 
             _sets = new List<Question[]>{ _questions_set_one, _questions_set_two };
             int rand = Random.Range(0, NumSets - 1);
+            Debug.Log("Set : " + rand + "\n");
             _current_set = _sets[rand];
 
             player1.Key = -1;
@@ -112,7 +108,7 @@ namespace Game.Mini_Games
             base.GameEnded();
         }
 
-        private bool HasAnswered(CelluloPlayer player) { return player.Key != -1; }
+        private bool HasAnswered(CelluloPlayer player) { return player.getOneTouch(); }
 
         private bool CheckAnswer(CelluloPlayer player, Question question)
         {
@@ -123,6 +119,9 @@ namespace Game.Mini_Games
         {
             int rand = Random.Range(0, NumQuestions - 1);
             _currentQuestion = set[rand];
+            
+            Debug.Log("Question : " + _currentQuestion.Question1 + "\n");
+            Debug.Log("Anwer : " + _currentQuestion.Answer + "\n");
 
             q.text = _currentQuestion.Question1;
             a1.text = _currentQuestion.Responses[1];
