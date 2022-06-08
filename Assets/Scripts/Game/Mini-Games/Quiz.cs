@@ -26,7 +26,8 @@ namespace Game.Mini_Games
         public TextMeshProUGUI a1;
         public TextMeshProUGUI a2;
         public TextMeshProUGUI a3;
-
+        public Timer timer;
+        
         protected override void Start()
         {
             base.Start();

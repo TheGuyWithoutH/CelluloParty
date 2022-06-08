@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     {
         _player1Tile = GameCell.Cell1;
         _player2Tile = GameCell.Cell1;
-        _state = GameState.Start;
+        ExecuteAfterDelay(10, () => _state = GameState.Start);
         _miniGameRunning = false;
         _currentWinner = Player.NONE;
         _diceThrown = false;
@@ -65,16 +65,21 @@ public class GameManager : MonoBehaviour
         switch (_state)
         {
             case GameState.Start:
-                /*player1.player.SetGoalPosition(GameCell.Cell1.GetCellPosition().x, GameCell.Cell1.GetCellPosition().z, 1);
-                player1.SetTargetCell(GameCell.Cell32);
+                /*GameCell.Cell10.SetCellOccupied(true);
+                Debug.Log(GameCell.Cell10.GetCellOccupied());
+                player1.player.SetGoalPosition(GameCell.Cell1.GetCellPosition().x, GameCell.Cell1.GetCellPosition().z, 1);
+                ExecuteAfterDelay(5, () => player1.SetTargetCell(GameCell.Cell10));
                 _state = GameState.End;*/
-                if (player1.IsReady && player2.IsReady)
+                /*if (player1.IsReady && player2.IsReady)
                 {
                     DisplayStart(false);
                     player1.SetNotReady();
                     player2.SetNotReady();
                     _state = GameState.DiceRollPlayer1;
-                }
+                }*/
+                _miniGameRunning = true;
+                mole.StartGame();
+                _state = GameState.MiniGame;
                 break;
             case GameState.MiniGame:
                 if (!_miniGameRunning)

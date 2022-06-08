@@ -63,8 +63,8 @@ namespace Game.Mini_Games
                             }
                             else
                             {
-                                GameEnded();
                                 player2.Score += 1;
+                                GameEnded();
                             }
                         }
                     }
@@ -83,8 +83,8 @@ namespace Game.Mini_Games
                             }
                             else
                             {
-                                GameEnded();
                                 player1.Score += 1;
+                                GameEnded();
                             }
                         }
                     }
@@ -109,6 +109,13 @@ namespace Game.Mini_Games
             _latence = 2.0f;
             _numKeys = 3;
             _status = Status.Pattern;
+            for (int i = 0; i < 6; i++)
+            {
+                player1.GetComponent<CelluloAgentRigidBody>()
+                    .SetVisualEffect(VisualEffect.VisualEffectConstSingle, getColor(i), i);
+                player2.GetComponent<CelluloAgentRigidBody>()
+                    .SetVisualEffect(VisualEffect.VisualEffectConstSingle, getColor(i), i);
+            }
         }
         
         public override void OnGamePause()
@@ -137,15 +144,29 @@ namespace Game.Mini_Games
 
         private void LedOn()
         {
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _gameKeys[_actualIndex]);
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _gameKeys[_actualIndex]);
+            int key = _gameKeys[_actualIndex];
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, getColor(key), key);
             Invoke(nameof(LedOff), 0.2f);
         }
         
         private void LedOff()
         {
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _gameKeys[_actualIndex]);
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _gameKeys[_actualIndex++]);
+            int key = _gameKeys[_actualIndex];
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, getColor(-1), key);
+        }
+
+        private Color getColor(int key)
+        {
+            switch (key)
+            {
+                case 0: return Color.blue;
+                case 1: return Color.green;
+                case 2: return Color.yellow;
+                case 3: return new Color(255, 165, 0);
+                case 4: return Color.red;
+                case 5: return Color.magenta;
+                default: return Color.black;
+            }
         }
 
         private enum Status

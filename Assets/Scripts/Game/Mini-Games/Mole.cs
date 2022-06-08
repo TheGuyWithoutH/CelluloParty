@@ -4,11 +4,13 @@ namespace Game.Mini_Games
 {
     public class Mole : Mini_Game
     {
+        public Timer timer;
+        
         private float _latence;
         private int _led;
-        private bool _delay;
         private int _maxSeconds;
-        
+        private bool _isMole;
+
         protected override void Start()
         {
             base.Start();
@@ -18,47 +20,61 @@ namespace Game.Mini_Games
         public override void Update()
         {
             base.Update();
-            
-            if (GameStatus == GameStatus.PAUSED)
+
+            if (GameStatus == GameStatus.STARTED)
             {
-                timer.PauseTimer();
-            } 
-            else if (GameStatus == GameStatus.STARTED)
-            {
-                timer.ResumeTimer();
-                if (timer.CurrentTime % 10 == 0)
+                if (timer.CurrentTime >= 10 && timer.CurrentTime < 20)
                 {
-                    _latence -= 0.05f;
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, 0);
+                    _latence = 0.35f;
+                } 
+                if (timer.CurrentTime >= 20 && timer.CurrentTime < 30)
+                {
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, 1);
+                    _latence = 0.3f;
+                } 
+                if (timer.CurrentTime >= 30 && timer.CurrentTime < 40)
+                {
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, 2);
+                    _latence = 0.25f;
+                } 
+                if (timer.CurrentTime >= 40 && timer.CurrentTime < 50)
+                {
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, 3);
+                    _latence = 0.2f;
+                } 
+                if (timer.CurrentTime >= 50 && timer.CurrentTime < 60)
+                {
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, 4);
+                    _latence = 0.15f;
                 }
 
-                if (player1.IsTouch && !_delay)
+                if (player1.getOneTouch())
                 {
-                    if (player1.Key == _led)
+                    if (player1.Key == _led && _isMole)
                     {
+                        Debug.Log("Player 1 +");
                         player1.Score += 1;
-                        _delay = true;
                     }
                     else
                     {
+                        Debug.Log("Player 1 -");
                         player1.Score -= 1;
-                        _delay = true;
                     }
-                    Invoke(nameof(FinishDelay), 1.0f);
                 }
                 
-                if (player2.IsTouch && !_delay)
+                if (player2.getOneTouch())
                 {
-                    if (player2.Key == _led)
+                    if (player2.Key == _led && _isMole)
                     {
+                        Debug.Log("Player 2 +");
                         player2.Score += 1;
-                        _delay = true;
                     }
                     else
                     {
+                        Debug.Log("Player 2 -");
                         player2.Score -= 1;
-                        _delay = true;
                     }
-                    Invoke(nameof(FinishDelay), 1.0f);
                 }
             }
         }
@@ -66,45 +82,76 @@ namespace Game.Mini_Games
         public override void StartGame()
         {
             base.StartGame();
-            _latence = 0.5f;
+            _latence = 0.4f;
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.white, 0);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.white, 0);
+            PlayerReady();
         }
 
         protected override void PlayerReady()
         {
             base.PlayerReady();
-            timer.StartTimer(_maxSeconds, this);
-            Invoke("MoleAppear", Random.Range(0.5f, 3.0f));
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectAlertAll, Color.red, 0);
+            Invoke(nameof(GameBegin), 3.0f);
+            Invoke(nameof(MoleAppear), Random.Range(3.0f, 6.0f));
         }
 
         public override void OnGamePause()
         {
             base.OnGamePause();
+            timer.PauseTimer();
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectWaiting, Color.red, 0);
+            _isMole = false;
+        }
+
+        public override void OnGameResume()
+        {
+            base.OnGameResume();
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectAlertAll, Color.red, 0);
+            Invoke(nameof(timer.ResumeTimer), 3.0f);
+            Invoke(nameof(BotLedsOn), 3.0f);
+            Invoke(nameof(MoleAppear), Random.Range(3.0f, 6.0f));
         }
 
         public override void GameEnded()
         {
             base.GameEnded();
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
+        }
+
+        private void GameBegin()
+        {
+            timer.StartTimer(_maxSeconds, this);
+            BotLedsOn();
+        }
+
+        private void BotLedsOn()
+        {
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
         }
 
         private void MoleAppear()
         {
-            _led = Random.Range(0, 6);
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
-            Invoke(nameof(MoleDisappear), _latence);
-            Invoke(nameof(MoleAppear), Random.Range(0.5f, 3.0f));
+            if (GameStatus == GameStatus.STARTED)
+            {
+                _isMole = true;
+                _led = Random.Range(0, 6);
+                player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
+                player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
+                Invoke(nameof(MoleDisappear), _latence);
+                Invoke(nameof(MoleAppear), Random.Range(0.5f, 3.0f));
+            }
         }
 
         private void MoleDisappear()
         {
-            _led = -1;
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _led);
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _led);
-        }
-
-        private void FinishDelay()
-        {
-            _delay = false;
+            if (GameStatus == GameStatus.STARTED)
+            {
+                player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
+                player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
+                _isMole = false;
+            }
         }
     }
 }

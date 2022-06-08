@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -301,13 +301,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
-  player1: {fileID: 0}
-  player2: {fileID: 0}
-  bot: {fileID: 0}
-  timer: {fileID: 0}
+  player1: {fileID: 1804942521}
+  player2: {fileID: 1929773132}
+  bot: {fileID: 528867638}
   playButton: {fileID: 0}
   startScreen: {fileID: 0}
   endScreen: {fileID: 0}
+  timer: {fileID: 60792173}
 --- !u!1 &36271546
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,7 +355,6 @@ MonoBehaviour:
   player1: {fileID: 1804942521}
   player2: {fileID: 1929773132}
   bot: {fileID: 0}
-  timer: {fileID: 60792173}
   playButton: {fileID: 0}
   startScreen: {fileID: 0}
   endScreen: {fileID: 0}
@@ -3256,6 +3255,18 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
+  celluloAgent: {fileID: 528867639}
+--- !u!114 &528867639 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+  m_PrefabInstance: {fileID: 528867636}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528867637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22fc8145a85444459acb654a0e35eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &552403624
 GameObject:
   m_ObjectHideFlags: 0
@@ -3860,7 +3871,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &640513282
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6617,15 +6628,15 @@ MonoBehaviour:
   player1: {fileID: 1804942521}
   player2: {fileID: 1929773132}
   bot: {fileID: 0}
-  timer: {fileID: 60792173}
   playButton: {fileID: 0}
   startScreen: {fileID: 0}
   endScreen: {fileID: 0}
   timerText: {fileID: 0}
-  q: {fileID: 508027474}
-  a1: {fileID: 1540788327}
-  a2: {fileID: 398066711}
-  a3: {fileID: 327066433}
+  q: {fileID: 0}
+  a1: {fileID: 0}
+  a2: {fileID: 0}
+  a3: {fileID: 0}
+  timer: {fileID: 60792173}
 --- !u!1 &1498882128
 GameObject:
   m_ObjectHideFlags: 0
@@ -8057,6 +8068,30 @@ PrefabInstance:
       propertyPath: isMoved
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[0]
+      value: 116
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[1]
+      value: 114
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[2]
+      value: 102
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[3]
+      value: 118
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[4]
+      value: 98
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[5]
+      value: 104
+      objectReference: {fileID: 0}
     - target: {fileID: 4052793752220753789, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
       propertyPath: m_Name
       value: Player 1
@@ -8452,7 +8487,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
-  player: {fileID: 1804942522}
+  celluloAgent: {fileID: 1804942522}
 --- !u!114 &1804942522 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
@@ -9073,7 +9108,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
-  player: {fileID: 1929773133}
+  celluloAgent: {fileID: 1929773133}
 --- !u!114 &1929773133 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
@@ -9208,8 +9243,7 @@ MonoBehaviour:
   manager: {fileID: 0}
   player1: {fileID: 1804942521}
   player2: {fileID: 1929773132}
-  bot: {fileID: 0}
-  timer: {fileID: 0}
+  bot: {fileID: 528867638}
   playButton: {fileID: 0}
   startScreen: {fileID: 0}
   endScreen: {fileID: 0}

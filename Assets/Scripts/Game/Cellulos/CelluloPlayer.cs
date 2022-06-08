@@ -6,7 +6,7 @@ namespace Game.Cellulos
 {
     public class CelluloPlayer : AgentBehaviour
     {
-        public CelluloAgent player;
+        public CelluloAgent celluloAgent;
         
         private bool _isReady = false;
         private bool _isActive = true;
@@ -40,7 +40,8 @@ namespace Game.Cellulos
                     if (_cell < _targetCell) ++_cell;
                     else --_cell;
                     Vector3 pos = _cell.GetCellOccupied() ? _cell.GetCellShiftedPosition() : _cell.GetCellPosition();
-                    player.SetGoalPosition(pos.x, pos.z, 1);
+                    Debug.Log("Cell : " + _cell + " " + pos);
+                    celluloAgent.SetGoalPosition(pos.x, pos.z, 1);
                 }
             }
         }
@@ -59,9 +60,9 @@ namespace Game.Cellulos
          */
         public void GoBackInCell()
         {
-            player.isMoved = false;
+            celluloAgent.isMoved = false;
             Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
-            player.SetGoalPosition(pos.x, pos.z, 1);
+            celluloAgent.SetGoalPosition(pos.x, pos.z, 1);
         }
 
         /**
@@ -129,6 +130,17 @@ namespace Game.Cellulos
         }
 
         public bool IsTouch => _isTouch;
+
+        public bool getOneTouch()
+        {
+            if (_isTouch)
+            {
+                _isTouch = false;
+                return true;
+            }
+
+            return false;
+        }
 
         public int Key
         {

@@ -32,7 +32,7 @@ namespace Game
             _currentTime = 0;
             _lastTime = Time.time;
             _paused = false;
-
+            _end = false;
             _currentMiniGame = game;
         }
         
