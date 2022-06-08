@@ -46,8 +46,12 @@ namespace Game.Mini_Games
                 LedBot();
                 
                 if (_innerStatus == InnerGameStatus.NEXT) { NextQuestion(); }
-                
-                if (_innerStatus == InnerGameStatus.REFLEXION && timer.Seconds >= TimeQuestions) { _innerStatus = InnerGameStatus.NEXT; }
+
+                if (_innerStatus == InnerGameStatus.REFLEXION && timer.Seconds >= TimeQuestions ||
+                    _false_one && _false_two)
+                {
+                    _innerStatus = InnerGameStatus.NEXT;
+                }
 
                 if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player1) && !_false_one)
                 {
