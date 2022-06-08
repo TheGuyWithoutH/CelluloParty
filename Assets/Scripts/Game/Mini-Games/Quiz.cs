@@ -22,7 +22,10 @@ namespace Game.Mini_Games
         
         private int _curr_seconds;
         private int _curr_value;
-
+        
+        private bool _false_one;
+        private bool _false_two;
+        
         public TextMeshProUGUI timerText;
         public TextMeshProUGUI q;
         public TextMeshProUGUI a1;
@@ -44,7 +47,7 @@ namespace Game.Mini_Games
                 
                 if (_innerStatus == InnerGameStatus.REFLEXION && timer.Seconds >= TimeQuestions) { _innerStatus = InnerGameStatus.NEXT; }
 
-                if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player1))
+                if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player1) && !_false_one)
                 {
                     Debug.Log("Answer of player one : " + player1.Key + "\n");
                     timer.PauseTimer();
@@ -58,7 +61,7 @@ namespace Game.Mini_Games
                     else { timer.ResumeTimer(); }
                 }
             
-                if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player2))
+                if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player2) && !_false_two)
                 {
                     Debug.Log("Answer of player two : " + player2.Key + "\n");
                     timer.PauseTimer();
@@ -73,8 +76,6 @@ namespace Game.Mini_Games
                     { timer.ResumeTimer(); }
                 }
             }
-            
-            
         }
 
         public override void StartGame()
@@ -87,9 +88,9 @@ namespace Game.Mini_Games
             Debug.Log("Set : " + rand + "\n");
             _current_set = _sets[rand];
 
-            player1.Key = -1;
-            player2.Key = -1;
-            
+            _false_one = false;
+            _false_two = false;
+
             player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
                         player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
                         player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
@@ -152,11 +153,14 @@ namespace Game.Mini_Games
 
             questionLayout.enabled = true;
             
-            timer.StartTimer(TimeQuestions, this);
+            timer.StartTimer(TimeQuestions + 10, this);
             timerText.SetText(string.Format("{0:00}:{1:00}", 0, 0));
             
             _curr_seconds = 0;
             _curr_value = 0;
+            
+            _false_one = false;
+            _false_two = false;
             
             _innerStatus = InnerGameStatus.REFLEXION;
         }
