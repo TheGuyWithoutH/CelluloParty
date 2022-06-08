@@ -38,15 +38,14 @@ namespace Game.Mini_Games
                 if (GameStatus == GameStatus.READY)
                 {
                     PlayerReady();
-                    player1.SetNotReady();
-                    player2.SetNotReady();
                 }
                 else if (GameStatus == GameStatus.PAUSED)
                 {
                     OnGameResume();
-                    player1.SetNotReady();
-                    player2.SetNotReady();
                 }
+                
+                player1.SetNotReady();
+                player2.SetNotReady();
             }
         }
 

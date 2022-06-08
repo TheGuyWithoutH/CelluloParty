@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Game.Cellulos;
 using TMPro;
@@ -36,15 +37,15 @@ namespace Game.Mini_Games
         public override void Update()
         {
             base.Update();
-            
-            timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, timer.Seconds));
-            LedBot();
 
             if (GameStatus == GameStatus.STARTED)
             {
+                timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, timer.Seconds));
+                LedBot();
+                
                 if (_innerStatus == InnerGameStatus.NEXT) { NextQuestion(_current_set); }
                 
-                if (_innerStatus == InnerGameStatus.REFLEXION && timer.Seconds == 18) { _innerStatus = InnerGameStatus.NEXT; }
+                if (_innerStatus == InnerGameStatus.REFLEXION && timer.Seconds >= TimeQuestions) { _innerStatus = InnerGameStatus.NEXT; }
 
                 if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player1))
                 {
@@ -88,16 +89,21 @@ namespace Game.Mini_Games
 
             player1.Key = -1;
             player2.Key = -1;
+        }
 
-            NextQuestion(_current_set);
+        protected override void PlayerReady()
+        {
+            base.PlayerReady();
 
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
             
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+            
+            ExecuteAfterDelay(5, () => NextQuestion(_current_set));
         }
 
         public override void OnGamePause()
@@ -126,9 +132,9 @@ namespace Game.Mini_Games
             Debug.Log("Anwer : " + _currentQuestion.Answer + "\n");
 
             q.text = _currentQuestion.Question1;
-            a1.text = _currentQuestion.Responses[1];
+            a1.text = _currentQuestion.Responses[0];
             a2.text = _currentQuestion.Responses[2];
-            a3.text = _currentQuestion.Responses[3];
+            a3.text = _currentQuestion.Responses[4];
             
             timer.StartTimer(TimeQuestions, this);
             timerText.SetText(string.Format("{0:00}:{1:00}", 0, 0));
@@ -260,10 +266,27 @@ namespace Game.Mini_Games
             public Dictionary<int, string> Responses => _responses;
         }
         
+        private bool _isCoroutineExecuting = false;
+        
         private enum InnerGameStatus
         {
             REFLEXION,
             NEXT
+        }
+        
+        private IEnumerator ExecuteAfterTime(float time, Action task)
+        {
+            if (_isCoroutineExecuting)
+                yield break;
+            _isCoroutineExecuting = true;
+            yield return new WaitForSeconds(time);
+            task();
+            _isCoroutineExecuting = false;
+        }
+
+        private void ExecuteAfterDelay(float time, Action task)
+        {
+            StartCoroutine(ExecuteAfterTime(time, task));
         }
     }
 }
