@@ -43,6 +43,8 @@ namespace Game.Mini_Games
             if (GameStatus == GameStatus.STARTED)
             {
                 if (_innerStatus == InnerGameStatus.NEXT) { NextQuestion(_current_set); }
+                
+                if (_innerStatus == InnerGameStatus.REFLEXION && timer.Seconds == 18) { _innerStatus = InnerGameStatus.NEXT; }
 
                 if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player1))
                 {
