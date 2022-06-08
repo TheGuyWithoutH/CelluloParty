@@ -41,14 +41,59 @@ public class GameManager : MonoBehaviour
     {
         EnableCamera(CameraView.MainCamera);
         SetDiceThrow(null);
+
+        //default case not managed
+        if (PlayerPrefs.HasKey("name1"))
+        {
+            player1.playerName = getName("name1");
+        }
+        else
+        {
+            player1.playerName = "Player 1";
+        }
+
+        if (PlayerPrefs.HasKey("name2"))
+        {
+            player2.playerName = getName("name2");
+        }
+        else
+        {
+            player2.playerName = "Player 2";
+        }
+
+        if (PlayerPrefs.HasKey("couleur1"))
+        {
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, getColor("couleur1"), 255);
+        }
+        else
+        {
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 255);
+        }
+
+        if (PlayerPrefs.HasKey("couleur2"))
+        {
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, getColor("couleur2"), 255);
+        }
+        else
+        {
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.blue, 255);
+        }
+
+
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        _state = GameState.None;
         _player1Tile = GameCell.Cell1;
         _player2Tile = GameCell.Cell1;
-        ExecuteAfterDelay(10, () => _state = GameState.Start);
+        ExecuteAfterDelay(10, () =>
+        {
+            Debug.Log("10s after");
+            _state = GameState.Start;
+        });
         _miniGameRunning = false;
         _currentWinner = Player.NONE;
         _diceThrown = false;
@@ -70,6 +115,7 @@ public class GameManager : MonoBehaviour
                 player1.player.SetGoalPosition(GameCell.Cell1.GetCellPosition().x, GameCell.Cell1.GetCellPosition().z, 1);
                 ExecuteAfterDelay(5, () => player1.SetTargetCell(GameCell.Cell10));
                 _state = GameState.End;*/
+                Debug.Log("start the game");
                 _miniGameRunning = true;
                 quiz.StartGame();
                 _state = GameState.MiniGame;
@@ -323,6 +369,23 @@ public class GameManager : MonoBehaviour
     private void DisplayEndRound(bool disp)
     {
         
+    }
+
+    private string getName(string name)
+    {
+        return PlayerPrefs.GetString(name);
+    }
+
+    private Color getColor(string name)
+    {
+        switch (PlayerPrefs.GetInt(name))
+        {
+            case 0: return Color.red;
+            case 1: return Color.blue;
+            case 2: return Color.green;
+            default: return Color.white;
+        }
+            
     }
 
     //============================= Useful Enums Across Game =======================================//

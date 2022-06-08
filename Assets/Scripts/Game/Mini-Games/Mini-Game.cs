@@ -13,8 +13,8 @@ namespace Game.Mini_Games
         public CelluloPlayer player2;
         public CelluloBot bot;
         public Button playButton;
-        public Canvas startScreen;
-        public Canvas endScreen;
+        public Image startScreen;
+        public Image endScreen;
 
         protected GameStatus GameStatus;
         
@@ -34,18 +34,14 @@ namespace Game.Mini_Games
         {
             if (player1.IsReady && player2.IsReady)
             {
-                Debug.Log("Ready");
                 if (GameStatus == GameStatus.READY)
                 {
+                    Debug.Log("Ready");
                     PlayerReady();
-                    player1.SetNotReady();
-                    player2.SetNotReady();
                 }
                 else if (GameStatus == GameStatus.PAUSED)
                 {
                     OnGameResume();
-                    player1.SetNotReady();
-                    player2.SetNotReady();
                 }
             }
         }
@@ -63,6 +59,7 @@ namespace Game.Mini_Games
             player2.celluloAgent.SetGoalPosition(StartTwo.x, StartTwo.z, 2f);
             bot.celluloAgent.SetGoalPosition(StartBot.x, StartBot.z, 2f);
             GameStatus = GameStatus.READY;
+            Debug.Log("test11111");
             //startScreen.enabled = true;
         }
         

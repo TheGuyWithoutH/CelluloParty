@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Game.Cellulos;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Game.Mini_Games
@@ -30,28 +31,20 @@ namespace Game.Mini_Games
         public TextMeshProUGUI a2;
         public TextMeshProUGUI a3;
         public Timer timer;
-        
-        protected override void Start()
-        {
-            base.Start();
-        }
+        public Image questionLayout;
 
         public override void Update()
         {
             base.Update();
-            
-            timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, timer.Seconds));
-            LedBot();
 
             if (GameStatus == GameStatus.STARTED)
             {
-                if (_innerStatus == InnerGameStatus.NEXT) { NextQuestion(_current_set); }
-
-                if (_innerStatus == InnerGameStatus.REFLEXION && timer.Seconds >= 18 || _false_one && _false_two)
-                {
-                    _innerStatus = InnerGameStatus.NEXT;
-                    Debug.Log("Answer was : " + _currentQuestion.Responses[_currentQuestion.Answer]);
-                }
+                timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, timer.Seconds));
+                LedBot();
+                
+                if (_innerStatus == InnerGameStatus.NEXT) { NextQuestion(); }
+                
+                if (_innerStatus == InnerGameStatus.REFLEXION && timer.Seconds >= TimeQuestions) { _innerStatus = InnerGameStatus.NEXT; }
 
                 if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player1) && !_false_one)
                 {
@@ -80,6 +73,8 @@ namespace Game.Mini_Games
                     { timer.ResumeTimer(); }
                 }
             }
+            
+            
         }
 
         public override void StartGame()
@@ -94,15 +89,29 @@ namespace Game.Mini_Games
             _false_one = false;
             _false_two = false;
 
-            NextQuestion(_current_set);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
+                        player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+                        player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+                        
+                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
+                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+        }
 
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
-            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+        protected override void PlayerReady()
+        {
+            base.PlayerReady();
+
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
             
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
-            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+            
+            Debug.Log("ready2");
+            Invoke(nameof(NextQuestion), 5f);
         }
 
         public override void OnGamePause()
@@ -113,6 +122,7 @@ namespace Game.Mini_Games
         public override void GameEnded()
         {
             base.GameEnded();
+            questionLayout.enabled = false;
         }
 
         private bool HasAnswered(CelluloPlayer player) { return player.getOneTouch(); }
@@ -122,18 +132,21 @@ namespace Game.Mini_Games
             return player.Key == question.Answer;
         }
 
-        private void NextQuestion(Question[] set)
+        private void NextQuestion()
         {
+            Debug.Log("ready3");
             int rand = Random.Range(0, NumQuestions - 1);
-            _currentQuestion = set[rand];
-            
+            _currentQuestion = _current_set[rand];
+
             Debug.Log("Question : " + _currentQuestion.Question1 + "\n");
             Debug.Log("Anwer : " + _currentQuestion.Answer + "\n");
 
             q.text = _currentQuestion.Question1;
-            a1.text = _currentQuestion.Responses[1];
+            a1.text = _currentQuestion.Responses[0];
             a2.text = _currentQuestion.Responses[2];
-            a3.text = _currentQuestion.Responses[3];
+            a3.text = _currentQuestion.Responses[4];
+
+            questionLayout.enabled = true;
             
             timer.StartTimer(TimeQuestions + 10, this);
             timerText.SetText(string.Format("{0:00}:{1:00}", 0, 0));
@@ -268,10 +281,27 @@ namespace Game.Mini_Games
             public Dictionary<int, string> Responses => _responses;
         }
         
+        private bool _isCoroutineExecuting = false;
+        
         private enum InnerGameStatus
         {
             REFLEXION,
             NEXT
+        }
+        
+        private IEnumerator ExecuteAfterTime(float time, Action task)
+        {
+            if (_isCoroutineExecuting)
+                yield break;
+            _isCoroutineExecuting = true;
+            yield return new WaitForSeconds(time);
+            task();
+            _isCoroutineExecuting = false;
+        }
+
+        private void ExecuteAfterDelay(float time, Action task)
+        {
+            StartCoroutine(ExecuteAfterTime(time, task));
         }
     }
 }
