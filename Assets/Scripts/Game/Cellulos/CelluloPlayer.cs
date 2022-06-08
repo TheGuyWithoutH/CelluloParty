@@ -98,6 +98,7 @@ namespace Game.Cellulos
         {
             base.OnCelluloTouchReleased(key);
             _isTouch = false;
+            _isReady = false;
         }
 
         public override void OnCelluloGoalPoseReached()

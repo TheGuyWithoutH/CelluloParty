@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
             player2.playerName = "Player 2";
         }
 
-        if (PlayerPrefs.HasKey("couleur1"))
+        /*if (PlayerPrefs.HasKey("couleur1"))
         {
             player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, getColor("couleur1"), 255);
         }
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
         else
         {
             player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.blue, 255);
-        }
+        }*/
 
 
 
@@ -89,11 +89,6 @@ public class GameManager : MonoBehaviour
         _state = GameState.None;
         _player1Tile = GameCell.Cell1;
         _player2Tile = GameCell.Cell1;
-        ExecuteAfterDelay(10, () =>
-        {
-            Debug.Log("10s after");
-            _state = GameState.Start;
-        });
         _miniGameRunning = false;
         _currentWinner = Player.NONE;
         _diceThrown = false;
@@ -102,6 +97,12 @@ public class GameManager : MonoBehaviour
         player1.SetNotReady();
         player2.SetNotReady();
         DisplayStart(true);
+        
+        ExecuteAfterDelay(10, () =>
+        {
+            Debug.Log("10s after");
+            _state = GameState.Start;
+        });
     }
 
     // Update is called once per frame
@@ -115,20 +116,21 @@ public class GameManager : MonoBehaviour
                 player1.player.SetGoalPosition(GameCell.Cell1.GetCellPosition().x, GameCell.Cell1.GetCellPosition().z, 1);
                 ExecuteAfterDelay(5, () => player1.SetTargetCell(GameCell.Cell10));
                 _state = GameState.End;*/
-                Debug.Log("start the game");
-                _miniGameRunning = true;
-                quiz.StartGame();
-                _state = GameState.MiniGame;
+                // Debug.Log("start the game");
+                // _miniGameRunning = true;
+                // quiz.StartGame();
+                // _state = GameState.MiniGame;
                 
                 //////////////////////////////////////////////////////////////////
                 
-                /*if (player1.IsReady && player2.IsReady)
+                if (player1.IsReady && player2.IsReady)
                 {
                     DisplayStart(false);
+                    Debug.Log("goooo");
                     player1.SetNotReady();
                     player2.SetNotReady();
                     _state = GameState.DiceRollPlayer1;
-                }*/
+                }
                 break;
             case GameState.MiniGame:
                 if (!_miniGameRunning)
@@ -162,6 +164,7 @@ public class GameManager : MonoBehaviour
             case GameState.DiceRollPlayer1:
                 if (player1.IsReady)
                 {
+                    Debug.Log("Player 1 throw");
                     if (_currentWinner == Player.PLAYER1)
                     {
                         SetDiceThrow(winnerDice);

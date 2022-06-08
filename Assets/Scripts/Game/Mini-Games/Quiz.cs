@@ -52,6 +52,7 @@ namespace Game.Mini_Games
                     {
                         ++player1.Score;
                         _innerStatus = InnerGameStatus.NEXT;
+                        Debug.Log("bonne réponse 1\n");
                         //faire un truc graphique pour dire que c'est tout bon
                     }
                     else { timer.ResumeTimer(); }
@@ -65,6 +66,7 @@ namespace Game.Mini_Games
                     {
                         ++player2.Score;
                         _innerStatus = InnerGameStatus.NEXT;
+                        Debug.Log("bonne réponse 2\n");
                         //faire un truc graphique pour dire que c'est tout bon
                     }
                     else
@@ -78,7 +80,8 @@ namespace Game.Mini_Games
         public override void StartGame()
         {
             base.StartGame();
-
+            
+            _innerStatus = InnerGameStatus.NONE;
             _sets = new List<Question[]>{ _questions_set_one, _questions_set_two };
             int rand = Random.Range(0, NumSets - 1);
             Debug.Log("Set : " + rand + "\n");
@@ -141,8 +144,11 @@ namespace Game.Mini_Games
 
             q.text = _currentQuestion.Question1;
             a1.text = _currentQuestion.Responses[0];
+            Debug.Log("0 : " + _currentQuestion.Responses[0] + "\n");
             a2.text = _currentQuestion.Responses[2];
+            Debug.Log("2 : " + _currentQuestion.Responses[2] + "\n");
             a3.text = _currentQuestion.Responses[4];
+            Debug.Log("4 : " + _currentQuestion.Responses[4] + "\n");
 
             questionLayout.enabled = true;
             
@@ -280,6 +286,7 @@ namespace Game.Mini_Games
         
         private enum InnerGameStatus
         {
+            NONE,
             REFLEXION,
             NEXT
         }
