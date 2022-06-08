@@ -19,6 +19,8 @@ namespace Game.Mini_Games
         private const int NumSets = 2;
         private const int NumQuestions = 6;
         private const int TimeQuestions = 18;
+
+        private int _curr_index;
         
         private int _curr_seconds;
         private int _curr_value;
@@ -88,6 +90,8 @@ namespace Game.Mini_Games
             _false_one = false;
             _false_two = false;
 
+            _curr_index = 0;
+
             player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
                         player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
                         player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
@@ -109,7 +113,6 @@ namespace Game.Mini_Games
             player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
             player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
             
-            Debug.Log("ready2");
             Invoke(nameof(NextQuestion), 5f);
         }
 
@@ -133,9 +136,10 @@ namespace Game.Mini_Games
 
         private void NextQuestion()
         {
-            Debug.Log("ready3");
-            int rand = Random.Range(0, NumQuestions - 1);
-            _currentQuestion = _current_set[rand];
+            if(_curr_index == NumQuestions){ GameEnded(); }
+            
+            _currentQuestion = _current_set[_curr_index];
+            ++_curr_index;
 
             Debug.Log("Question : " + _currentQuestion.Question1 + "\n");
             Debug.Log("Anwer : " + _currentQuestion.Answer + "\n");
