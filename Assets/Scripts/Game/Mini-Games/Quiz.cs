@@ -16,7 +16,10 @@ namespace Game.Mini_Games
 
         private const int NumSets = 2;
         private const int NumQuestions = 6;
-        private const int TimeQuestions = 15;
+        private const int TimeQuestions = 18;
+        
+        private int _curr_seconds;
+        private int _curr_value;
 
         public TextMeshProUGUI timerText;
         public TextMeshProUGUI q;
@@ -34,6 +37,7 @@ namespace Game.Mini_Games
             base.Update();
             
             timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, timer.Seconds));
+            LedBot();
 
             if (GameStatus == GameStatus.STARTED)
             {
@@ -88,9 +92,13 @@ namespace Game.Mini_Games
 
             NextQuestion(_current_set);
 
-            player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.cyan, 0);
-            player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.green, 85);
-            player1.player.SetVisualEffect(VisualEffect.VisualEffectDirection, Color.red, 170);
+            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
+            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+            player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+            
+            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
+            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+            player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
         }
 
         public override void OnGamePause()
@@ -103,10 +111,7 @@ namespace Game.Mini_Games
             base.GameEnded();
         }
 
-        private bool HasAnswered(CelluloPlayer player)
-        {
-            return player.Key != -1;
-        }
+        private bool HasAnswered(CelluloPlayer player) { return player.Key != -1; }
 
         private bool CheckAnswer(CelluloPlayer player, Question question)
         {
@@ -126,7 +131,20 @@ namespace Game.Mini_Games
             timer.StartTimer(TimeQuestions, this);
             timerText.SetText(string.Format("{0:00}:{1:00}", 0, 0));
             
+            _curr_seconds = 0;
+            _curr_value = 0;
+            
             _innerStatus = InnerGameStatus.REFLEXION;
+        }
+
+        private void LedBot()
+        {
+            if (timer.Seconds == _curr_seconds + 3)
+            {
+                _curr_seconds += 3;
+                _curr_value += 42;
+                bot.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectProgress, Color.red, _curr_value);
+            }
         }
 
         private Question[] _questions_set_one =
@@ -134,90 +152,90 @@ namespace Game.Mini_Games
             new Question("Which city is the capital of Spain ?", 2, 
                 new Dictionary<int, string>
                 {
-                    {1, "Barcelona"},
+                    {0, "Barcelona"},
                     {2, "Madrid"},
-                    {3, "Liverpool"}
+                    {4, "Liverpool"}
                 }),
-            new Question("How many synonyms for snow has Scotland ?", 1,
+            new Question("How many synonyms for snow has Scotland ?", 0,
                 new Dictionary<int, string>
                 {
-                    {1, "421"},
+                    {0, "421"},
                     {2, "373"},
-                    {3, "53"}
+                    {4, "53"}
                 }),
-            new Question("What is the prefect size ?", 1,
+            new Question("What is the prefect size ?", 0,
                 new Dictionary<int, string>
                 {
-                    {1, "5 inches"},
+                    {0, "5 inches"},
                     {2, "2 inches"},
-                    {3, "It doesnt matter"}
+                    {4, "It doesnt matter"}
                 }),
-            new Question("Which country has the most pyramids in the world ?", 1, 
+            new Question("Which country has the most pyramids in the world ?", 0, 
                 new Dictionary<int, string>
                 {
-                    {1, "Sudan"},
+                    {0, "Sudan"},
                     {2, "Egypt"},
-                    {3, "Peru"}
+                    {4, "Peru"}
                 }),
-            new Question("Which part of the body does not contain a sigle blood vessel ?", 3,
+            new Question("Which part of the body does not contain a sigle blood vessel ?", 4,
                 new Dictionary<int, string>
                 {
-                    {1, "Ear lobes"},
+                    {0, "Ear lobes"},
                     {2, "Tits"},
-                    {3, "Cornea"}
+                    {4, "Cornea"}
                 }),
             new Question("Which aliment is entirely consumed by the human body ?", 2, 
                 new Dictionary<int, string>
                 {
-                    {1, "Rice"},
+                    {0, "Rice"},
                     {2, "Honey"},
-                    {3, "Milk"}
+                    {4, "Milk"}
                 })
         };
         
         private Question[] _questions_set_two =
         {
-            new Question("Where was the first animated feature movie made ?", 1,
+            new Question("Where was the first animated feature movie made ?", 0,
                 new Dictionary<int, string>
                 {
-                    {1, "Argentina"},
+                    {0, "Argentina"},
                     {2, "United States"},
-                    {3, "France"}
+                    {4, "France"}
                 }),
-            new Question("How many islands constitute de Philippines ?", 3,
+            new Question("How many islands constitute de Philippines ?", 4,
                 new Dictionary<int, string>
                 {
-                    {1, "15"},
+                    {0, "15"},
                     {2, "52"},
-                    {3, "7641"}
+                    {4, "7641"}
                 }),
             new Question("What is the weirdest flavor McDonald' once made for their bubblegums ?", 2,
                 new Dictionary<int, string>
                 {
-                    {1, "Petrol"},
+                    {0, "Petrol"},
                     {2, "Broccoli"},
-                    {3, "Olive"}
+                    {4, "Olive"}
                 }),
-            new Question("Biggest feature of the tropical fungus Ophiocordyceps", 1, 
+            new Question("Biggest feature of the tropical fungus Ophiocordyceps", 0, 
                 new Dictionary<int, string>
                 {
-                    {1, "It can control ants"},
+                    {0, "It can control ants"},
                     {2, "It has amazing vertues for skincare"},
-                    {3, "It the world's second biggest type of fungus"}
+                    {4, "It the world's second biggest type of fungus"}
                 }),
-            new Question("Which single letter does not appear in the states of the United States", 3, 
+            new Question("Which single letter does not appear in the states of the United States", 4, 
                 new Dictionary<int, string>
                 {
-                    {1, "Z"},
+                    {0, "Z"},
                     {2, "X"},
-                    {3, "Q"}
+                    {4, "Q"}
                 }),
-            new Question("How is named a cow-bison hypbrid ?", 1, 
+            new Question("How is named a cow-bison hypbrid ?", 0, 
                 new Dictionary<int, string>
                 {
-                    {1, "Beefalo"},
+                    {0, "Beefalo"},
                     {2, "Cow-Bison"},
-                    {3, "Cowfalo"}
+                    {4, "Cowfalo"}
                 })
         };
 

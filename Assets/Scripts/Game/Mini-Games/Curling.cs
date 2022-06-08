@@ -9,9 +9,12 @@ namespace Game.Mini_Games
     {
         private InnerGameStatus _innerStatus;
         
-        private const int PowerFactor = 7;
+        private const int PowerFactor = 3;
         private Vector3 _vect_null = new Vector3(0, 0, 0);
         private Vector3 _target = new Vector3(7.12f, 0f, -4.76f);
+
+        private bool OK_one;
+        private bool OK_two;
         
         protected override void Start()
         {
@@ -24,26 +27,40 @@ namespace Game.Mini_Games
 
             if (GameStatus == GameStatus.STARTED)
             {
-                if (_innerStatus == InnerGameStatus.PREPARATION && player1.IsTouch) { _innerStatus = InnerGameStatus.FIRST_THROW; }
+                if (_innerStatus == InnerGameStatus.PREPARATION && player1.IsTouch)
+                {
+                    _innerStatus = InnerGameStatus.FIRST_THROW;
+                    player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectBlink, Color.green, 20);
+                }
 
                 if (_innerStatus == InnerGameStatus.FIRST_THROW && !player1.IsTouch)
                 {
                     Throw(player1, StartOne);
                     _innerStatus = InnerGameStatus.PREPARATION;
+                    OK_one = true;
+                    player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.cyan, 0);
                 }
 
                 if (_innerStatus == InnerGameStatus.PREPARATION && player2.IsTouch)
                 {
                     _innerStatus = InnerGameStatus.SECOND_THROW;
+                    player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectBlink, Color.green, 20);
                 }
 
                 if (_innerStatus == InnerGameStatus.SECOND_THROW && !player2.IsTouch)
                 {
                     Throw(player2, StartTwo);
-                    _innerStatus = InnerGameStatus.END;
+                    _innerStatus = InnerGameStatus.PREPARATION;
+                    OK_two = true;
+                    player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
                 }
 
-                if (_innerStatus == InnerGameStatus.END && player2.GetSteering().linear == _vect_null) { GameEnded(); }
+                if (_innerStatus == InnerGameStatus.PREPARATION && OK_one && OK_two) { _innerStatus = InnerGameStatus.END; }
+
+                if (_innerStatus == InnerGameStatus.END 
+                    && player2.GetSteering().linear == _vect_null 
+                    && player1.GetSteering().linear == _vect_null)
+                { GameEnded(); }
             }
         }
 
@@ -51,6 +68,8 @@ namespace Game.Mini_Games
         {
             base.StartGame();
             _innerStatus = InnerGameStatus.PREPARATION;
+            OK_one = false;
+            OK_two = false;
         }
         
         public override void OnGamePause()
