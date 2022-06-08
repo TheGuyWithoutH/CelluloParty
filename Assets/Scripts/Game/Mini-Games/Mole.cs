@@ -52,10 +52,12 @@ namespace Game.Mini_Games
                 {
                     if (player1.Key == _led)
                     {
+                        Debug.Log("Player 1 +");
                         player1.Score += 1;
                     }
                     else
                     {
+                        Debug.Log("Player 1 -");
                         player1.Score -= 1;
                     }
                 }
@@ -64,10 +66,12 @@ namespace Game.Mini_Games
                 {
                     if (player2.Key == _led)
                     {
+                        Debug.Log("Player 2 +");
                         player2.Score += 1;
                     }
                     else
                     {
+                        Debug.Log("Player 2 -");
                         player2.Score -= 1;
                     }
                 }
@@ -79,6 +83,8 @@ namespace Game.Mini_Games
             base.StartGame();
             _latence = 0.4f;
             bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.white, 0);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.white, 0);
             PlayerReady();
         }
 
@@ -139,8 +145,8 @@ namespace Game.Mini_Games
         {
             if (GameStatus == GameStatus.STARTED)
             {
-                player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _led);
-                player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, _led);
+                player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
+                player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
                 _led = -1;
             }
         }
