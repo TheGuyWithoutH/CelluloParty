@@ -70,6 +70,12 @@ public class GameManager : MonoBehaviour
                 player1.player.SetGoalPosition(GameCell.Cell1.GetCellPosition().x, GameCell.Cell1.GetCellPosition().z, 1);
                 ExecuteAfterDelay(5, () => player1.SetTargetCell(GameCell.Cell10));
                 _state = GameState.End;*/
+                _miniGameRunning = true;
+                quiz.StartGame();
+                _state = GameState.MiniGame;
+                
+                //////////////////////////////////////////////////////////////////
+                
                 /*if (player1.IsReady && player2.IsReady)
                 {
                     DisplayStart(false);
@@ -77,9 +83,6 @@ public class GameManager : MonoBehaviour
                     player2.SetNotReady();
                     _state = GameState.DiceRollPlayer1;
                 }*/
-                _miniGameRunning = true;
-                mole.StartGame();
-                _state = GameState.MiniGame;
                 break;
             case GameState.MiniGame:
                 if (!_miniGameRunning)

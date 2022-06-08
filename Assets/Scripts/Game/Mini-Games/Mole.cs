@@ -84,15 +84,14 @@ namespace Game.Mini_Games
             base.StartGame();
             _latence = 0.4f;
             bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
-            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.white, 0);
-            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.white, 0);
-            PlayerReady();
         }
 
         protected override void PlayerReady()
         {
             base.PlayerReady();
-            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectAlertAll, Color.red, 0);
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectWaiting, Color.red, 0);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.white, 0);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.white, 0);
             Invoke(nameof(GameBegin), 3.0f);
             Invoke(nameof(MoleAppear), Random.Range(3.0f, 6.0f));
         }
@@ -139,19 +138,16 @@ namespace Game.Mini_Games
                 _led = Random.Range(0, 6);
                 player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
                 player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
-                Invoke(nameof(MoleDisappear), _latence);
-                Invoke(nameof(MoleAppear), Random.Range(0.5f, 3.0f));
+                Invoke(nameof(MoleDisappear), 2f);
+                Invoke(nameof(MoleAppear), 3f);
             }
         }
 
         private void MoleDisappear()
         {
-            if (GameStatus == GameStatus.STARTED)
-            {
-                player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
-                player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
-                _isMole = false;
-            }
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
+            _isMole = false;
         }
     }
 }
