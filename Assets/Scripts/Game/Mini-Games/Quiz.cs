@@ -100,12 +100,14 @@ namespace Game.Mini_Games
             _curr_index = 0;
 
             player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
-                        player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
-                        player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
                         
-                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
-                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
-                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+            
+            Invoke(nameof(NextQuestion), 5f);
         }
 
         protected override void PlayerReady()
@@ -131,7 +133,7 @@ namespace Game.Mini_Games
         public override void GameEnded()
         {
             base.GameEnded();
-            questionLayout.enabled = false;
+            questionLayout.gameObject.SetActive(false);
         }
 
         private bool HasAnswered(CelluloPlayer player) { return player.getOneTouch(); }
@@ -159,7 +161,7 @@ namespace Game.Mini_Games
             a3.text = _currentQuestion.Responses[4];
             Debug.Log("4 : " + _currentQuestion.Responses[4] + "\n");
 
-            questionLayout.enabled = true;
+            questionLayout.gameObject.SetActive(true);
             
             timer.StartTimer(TimeQuestions + 10, this);
             timerText.SetText(string.Format("{0:00}:{1:00}", 0, 0));
