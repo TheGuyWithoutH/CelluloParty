@@ -27,30 +27,28 @@ namespace Game.Mini_Games
 
             if (GameStatus == GameStatus.STARTED)
             {
-                if (_innerStatus == InnerGameStatus.PREPARATION && player1.IsTouch)
+                if (_innerStatus == InnerGameStatus.PREPARATION && player1.getOneTouch())
                 {
                     _innerStatus = InnerGameStatus.FIRST_THROW;
-                    player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectBlink, Color.green, 20);
+                    player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectBlink, Color.cyan, 20);
                 }
 
-                if (_innerStatus == InnerGameStatus.FIRST_THROW && !player1.IsTouch)
+                if (_innerStatus == InnerGameStatus.FIRST_THROW)
                 {
                     Throw(player1, StartOne);
-                    _innerStatus = InnerGameStatus.PREPARATION;
                     OK_one = true;
                     player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.cyan, 0);
                 }
 
-                if (_innerStatus == InnerGameStatus.PREPARATION && player2.IsTouch)
+                if (_innerStatus == InnerGameStatus.PREPARATION && player2.getOneTouch())
                 {
                     _innerStatus = InnerGameStatus.SECOND_THROW;
-                    player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectBlink, Color.green, 20);
+                    player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectBlink, Color.red, 20);
                 }
 
-                if (_innerStatus == InnerGameStatus.SECOND_THROW && !player2.IsTouch)
+                if (_innerStatus == InnerGameStatus.SECOND_THROW)
                 {
                     Throw(player2, StartTwo);
-                    _innerStatus = InnerGameStatus.PREPARATION;
                     OK_two = true;
                     player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
                 }
@@ -98,8 +96,13 @@ namespace Game.Mini_Games
         
         private void Throw(CelluloPlayer player, Vector3 start)
         {
-            Vector3 power_throw = (start - player.transform.position) * PowerFactor;
-            player.celluloAgent.SetGoalPosition(power_throw.x, power_throw.z, 2f);
+            _innerStatus = InnerGameStatus.PREPARATION;
+            
+            ExecuteAfterDelay(5f, () =>
+            {
+                Vector3 power_throw = (start - player.transform.position) * PowerFactor;
+                player.celluloAgent.SetGoalPosition(power_throw.x, power_throw.z, 2f);
+            });
         }
 
         private double eucl_dist(Vector3 vec_a, Vector3 vec_b)
@@ -113,6 +116,23 @@ namespace Game.Mini_Games
             FIRST_THROW,
             SECOND_THROW,
             END
+        }
+        
+        private bool _isCoroutineExecuting = false;
+        
+        private IEnumerator ExecuteAfterTime(float time, Action task)
+        {
+            if (_isCoroutineExecuting)
+                yield break;
+            _isCoroutineExecuting = true;
+            yield return new WaitForSeconds(time);
+            task();
+            _isCoroutineExecuting = false;
+        }
+
+        private void ExecuteAfterDelay(float time, Action task)
+        {
+            StartCoroutine(ExecuteAfterTime(time, task));
         }
     }
 }
