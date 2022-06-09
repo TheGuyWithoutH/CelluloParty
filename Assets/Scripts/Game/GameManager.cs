@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private GameCell _player2Tile;
     private Player _currentWinner;
     private int _round;
+    private bool _specialMove;
 
     public Mini_Game curling;
     public Mini_Game mole;
@@ -68,10 +69,12 @@ public class GameManager : MonoBehaviour
         _currentWinner = Player.NONE;
         _diceThrown = false;
         _round = 1;
+        _specialMove = false;
 
         player1.SetNotReady();
         player2.SetNotReady();
         DisplayStart(true);
+        GameCell.Cell15.SetCellOccupied(true);
         
         ExecuteAfterDelay(5, () =>
         {
@@ -105,7 +108,9 @@ public class GameManager : MonoBehaviour
                     Debug.Log("goooo");
                     player1.SetNotReady();
                     player2.SetNotReady();
-                    _state = GameState.DiceRollPlayer1;
+                    player1.GoBackInCell();
+                    player2.GoBackInCell();
+                    ExecuteAfterDelay(10, () => _state = GameState.DiceRollPlayer1);
                 }
                 break;
             case GameState.MiniGame:
@@ -214,6 +219,7 @@ public class GameManager : MonoBehaviour
                         ExecuteAfterDelay(3, () =>
                         {
                             EnableCamera(CameraView.MainCamera);
+                            _currentWinner = Player.PLAYER1;
                             _state = GameState.End;
                         });
                     }
@@ -222,6 +228,7 @@ public class GameManager : MonoBehaviour
                         ExecuteAfterDelay(3, () =>
                         {
                             EnableCamera(CameraView.MainCamera);
+                            _currentWinner = Player.PLAYER2;
                             _state = GameState.DiceRollPlayer2;
                         });
                     }
@@ -241,6 +248,7 @@ public class GameManager : MonoBehaviour
                     }
                     else
                     {
+                        CheckForSpecialCells();
                         ExecuteAfterDelay(3, () =>
                         {
                             EnableCamera(CameraView.MainCamera);
@@ -250,14 +258,22 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameState.AdditionalFeatures:
-                DisplayEndRound(true);
-                ExecuteAfterDelay(5, () =>
+                if (_specialMove)
                 {
-                    DisplayEndRound(false);
-                    ++_round; 
-                    _state = GameState.MiniGame;
-                });
-                _state = GameState.None;
+                    
+                }
+                else
+                {
+                    DisplayEndRound(true);
+                    ExecuteAfterDelay(5, () =>
+                    {
+                        DisplayEndRound(false);
+                        ++_round; 
+                        _state = GameState.MiniGame;
+                    });
+                    _state = GameState.None;
+                }
+                
                 break;
             case GameState.End:
                 endScreen.gameObject.SetActive(true);
@@ -351,6 +367,17 @@ public class GameManager : MonoBehaviour
         TextMeshProUGUI text = endRoundScreen.GetComponentInChildren<TextMeshProUGUI>();
         text.text = String.Format("End of Round #{0}", _round);
         endRoundScreen.gameObject.SetActive(disp);
+    }
+
+    private void CheckForSpecialCells()
+    {
+        _specialMove = GameCell.CellPlane.GetCellOccupied() || GameCell.CellVolcano.GetCellOccupied() ||
+            GameCell.CellRiver.GetCellOccupied();
+    }
+
+    private void OrderSpecialMove()
+    {
+        
     }
 
     private string getName(string name)
