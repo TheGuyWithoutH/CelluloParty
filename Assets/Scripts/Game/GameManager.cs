@@ -40,19 +40,29 @@ public class GameManager : MonoBehaviour
 
     public Image startScreen;
     public Image startMiniGameScreen;
+    public Image endMiniGameScreen;
+    public TextMeshProUGUI currentWinner;
     public Image endRoundScreen;
     public Image endScreen;
+    public TextMeshProUGUI winner;
+    public TextMeshProUGUI looser;
+    public TextMeshProUGUI infos;
 
     private GameState _state;
 
+    private const string DICE_TEXT = "To throw the dice, press on the Cellulo";
+    
     public void Awake()
     {
         EnableCamera(CameraView.MainCamera);
         SetDiceThrow(null);
         
-        player1.GetComponentInChildren<TextMesh>().text = PlayerPrefs.HasKey("name1") ? getName("name1") : "Player 1";
+        player1.playerName = PlayerPrefs.HasKey("name1") ? getName("name1") : "Player 1";
+        player1.GetComponentInChildren<TextMesh>().text = player1.playerName;
 
-        player2.GetComponentInChildren<TextMesh>().text = PlayerPrefs.HasKey("name2") ? getName("name2") : "Player 2";
+        
+        player2.playerName = PlayerPrefs.HasKey("name2") ? getName("name2") : "Player 2";
+        player2.GetComponentInChildren<TextMesh>().text = player2.playerName;
 
         player1.celluloAgent.initialColor = PlayerPrefs.HasKey("couleur1") ? getColor("couleur1") : Color.red;
 
@@ -110,7 +120,12 @@ public class GameManager : MonoBehaviour
                     player2.SetNotReady();
                     player1.GoBackInCell();
                     player2.GoBackInCell();
-                    ExecuteAfterDelay(10, () => _state = GameState.DiceRollPlayer1);
+                    ExecuteAfterDelay(10, () =>
+                    {
+                        infos.text = DICE_TEXT;
+                        infos.gameObject.SetActive(true);
+                        _state = GameState.DiceRollPlayer1;
+                    });
                 }
                 break;
             case GameState.MiniGame:
@@ -160,6 +175,7 @@ public class GameManager : MonoBehaviour
                     }
                                         
                     _currentDice.ThrowDice();
+                    infos.gameObject.SetActive(false);
                     _diceThrown = true;
                     player1.SetNotReady();
                 }
@@ -194,6 +210,7 @@ public class GameManager : MonoBehaviour
                     }
                                         
                     _currentDice.ThrowDice();
+                    infos.gameObject.SetActive(false);
                     _diceThrown = true;
                 }
                 else if (_diceThrown)
@@ -229,6 +246,8 @@ public class GameManager : MonoBehaviour
                         {
                             EnableCamera(CameraView.MainCamera);
                             _currentWinner = Player.PLAYER2;
+                            infos.text = DICE_TEXT;
+                            infos.gameObject.SetActive(true);
                             _state = GameState.DiceRollPlayer2;
                         });
                     }
@@ -276,7 +295,10 @@ public class GameManager : MonoBehaviour
                 
                 break;
             case GameState.End:
+                winner.text = _currentWinner == Player.PLAYER1 ? player1.playerName : player2.playerName;
+                looser.text = _currentWinner == Player.PLAYER1 ? player2.playerName : player1.playerName;
                 endScreen.gameObject.SetActive(true);
+                _state = GameState.None;
                 break;
         }
 
@@ -314,9 +336,14 @@ public class GameManager : MonoBehaviour
         _currentWinner = winner;
         player1.GoBackInCell();
         player2.GoBackInCell();
+        currentWinner.text = _currentWinner == Player.PLAYER1 ? player1.playerName : player2.playerName;
+        endMiniGameScreen.gameObject.SetActive(true);
         ExecuteAfterDelay(10, () =>
         {
+            endMiniGameScreen.gameObject.SetActive(false);
             _miniGameRunning = false;
+            infos.text = DICE_TEXT;
+            infos.gameObject.SetActive(true);
             _state = GameState.DiceRollPlayer1;
         });
     }
