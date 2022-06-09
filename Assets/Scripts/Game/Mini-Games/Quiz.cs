@@ -295,15 +295,15 @@ namespace Game.Mini_Games
 
             public Dictionary<int, string> Responses => _responses;
         }
-        
-        private bool _isCoroutineExecuting = false;
-        
+
         private enum InnerGameStatus
         {
             NONE,
             REFLEXION,
             NEXT
         }
+        
+        private bool _isCoroutineExecuting = false;
         
         private IEnumerator ExecuteAfterTime(float time, Action task)
         {
