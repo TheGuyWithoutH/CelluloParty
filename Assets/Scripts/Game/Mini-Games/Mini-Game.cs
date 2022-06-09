@@ -63,7 +63,7 @@ namespace Game.Mini_Games
             player2.celluloAgent.SetGoalPosition(StartTwo.x, StartTwo.z, 2f);
             bot.celluloAgent.SetGoalPosition(StartBot.x, StartBot.z, 2f);
             GameStatus = GameStatus.READY;
-            //startScreen.enabled = true;
+            startScreen.gameObject.SetActive(true);
         }
         
         public virtual void OnGamePause()
@@ -83,8 +83,8 @@ namespace Game.Mini_Games
         public virtual void GameEnded()
         {
             GameStatus = GameStatus.ENDED;
-            //startScreen.enabled = false;
-            //endScreen.enabled = true;
+            startScreen.gameObject.SetActive(false);
+            endScreen.gameObject.SetActive(true);
             if (player1.Score > player2.Score)
             {
                 _winner = GameManager.Player.PLAYER1;
@@ -97,9 +97,11 @@ namespace Game.Mini_Games
         
         private void GameQuit()
         {
-            endScreen.enabled = false;
+            endScreen.gameObject.SetActive(false);
             GameStatus = GameStatus.NONE;
             _winner = GameManager.Player.NONE;
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, player1.celluloAgent.initialColor, 0);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, player2.celluloAgent.initialColor, 0);
             manager.MiniGameQuit(_winner);
         }
     }

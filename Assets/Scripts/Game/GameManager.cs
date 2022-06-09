@@ -5,7 +5,9 @@ using Game.Cellulos;
 using Game.Dices;
 using Game.Map;
 using Game.Mini_Games;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -35,52 +37,25 @@ public class GameManager : MonoBehaviour
     public Camera player1Camera;
     public Camera player2Camera;
 
+    public Image startScreen;
+    public Image startMiniGameScreen;
+    public Image endRoundScreen;
+    public Image endScreen;
+
     private GameState _state;
 
     public void Awake()
     {
         EnableCamera(CameraView.MainCamera);
         SetDiceThrow(null);
+        
+        player1.GetComponentInChildren<TextMesh>().text = PlayerPrefs.HasKey("name1") ? getName("name1") : "Player 1";
 
-        //default case not managed
-        if (PlayerPrefs.HasKey("name1"))
-        {
-            player1.playerName = getName("name1");
-        }
-        else
-        {
-            player1.playerName = "Player 1";
-        }
+        player2.GetComponentInChildren<TextMesh>().text = PlayerPrefs.HasKey("name2") ? getName("name2") : "Player 2";
 
-        if (PlayerPrefs.HasKey("name2"))
-        {
-            player2.playerName = getName("name2");
-        }
-        else
-        {
-            player2.playerName = "Player 2";
-        }
+        player1.celluloAgent.initialColor = PlayerPrefs.HasKey("couleur1") ? getColor("couleur1") : Color.red;
 
-        /*if (PlayerPrefs.HasKey("couleur1"))
-        {
-            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, getColor("couleur1"), 255);
-        }
-        else
-        {
-            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 255);
-        }
-
-        if (PlayerPrefs.HasKey("couleur2"))
-        {
-            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, getColor("couleur2"), 255);
-        }
-        else
-        {
-            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.blue, 255);
-        }*/
-
-
-
+        player2.celluloAgent.initialColor = PlayerPrefs.HasKey("couleur2") ? getColor("couleur2") : Color.blue;
     }
 
     // Start is called before the first frame update
@@ -98,7 +73,7 @@ public class GameManager : MonoBehaviour
         player2.SetNotReady();
         DisplayStart(true);
         
-        ExecuteAfterDelay(10, () =>
+        ExecuteAfterDelay(5, () =>
         {
             Debug.Log("10s after");
             _state = GameState.Start;
@@ -116,10 +91,11 @@ public class GameManager : MonoBehaviour
                 player1.player.SetGoalPosition(GameCell.Cell1.GetCellPosition().x, GameCell.Cell1.GetCellPosition().z, 1);
                 ExecuteAfterDelay(5, () => player1.SetTargetCell(GameCell.Cell10));
                 _state = GameState.End;*/
-                // Debug.Log("start the game");
-                // _miniGameRunning = true;
-                // quiz.StartGame();
-                // _state = GameState.MiniGame;
+                
+                /*Debug.Log("start the game");
+                _miniGameRunning = true;
+                quiz.StartGame();
+                _state = GameState.MiniGame;*/
                 
                 //////////////////////////////////////////////////////////////////
                 
@@ -278,12 +254,13 @@ public class GameManager : MonoBehaviour
                 ExecuteAfterDelay(5, () =>
                 {
                     DisplayEndRound(false);
-                    ++_round;
+                    ++_round; 
                     _state = GameState.MiniGame;
                 });
                 _state = GameState.None;
                 break;
             case GameState.End:
+                endScreen.gameObject.SetActive(true);
                 break;
         }
 
@@ -361,17 +338,19 @@ public class GameManager : MonoBehaviour
     
     private void DisplayStart(bool disp)
     {
-        
+        startScreen.gameObject.SetActive(disp);
     }
 
     private void DisplayMiniGame(bool disp)
     {
-        
+        startMiniGameScreen.gameObject.SetActive(disp);
     }
 
     private void DisplayEndRound(bool disp)
     {
-        
+        TextMeshProUGUI text = endRoundScreen.GetComponentInChildren<TextMeshProUGUI>();
+        text.text = String.Format("End of Round #{0}", _round);
+        endRoundScreen.gameObject.SetActive(disp);
     }
 
     private string getName(string name)
