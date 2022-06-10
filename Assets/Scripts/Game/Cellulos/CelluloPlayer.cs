@@ -64,7 +64,7 @@ namespace Game.Cellulos
         public void GoBackInCell()
         {
             celluloAgent.isMoved = false;
-            Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellPosition(_cell) : _cell.GetCellShiftedPosition();
+            Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellShiftedPosition(_cell) : _cell.GetCellPosition();
             celluloAgent.SetGoalPosition(pos.x, pos.z, 1);
         }
 
@@ -135,8 +135,9 @@ namespace Game.Cellulos
             {
                 if (_cell == _targetCell)
                 {
-                    if (_specialMove && _notify)
+                    if (_notify)
                     {
+                        Debug.Log("notification");
                         _notify = false;
                         gameManager.EndSpecialMove();
                     }

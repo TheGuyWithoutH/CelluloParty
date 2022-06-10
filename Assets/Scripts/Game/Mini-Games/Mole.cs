@@ -59,7 +59,7 @@ namespace Game.Mini_Games
                     if (player1.Key == _led && _isMole)
                     {
                         player1.Score += 1;
-                        player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.yellow, _led);
+                        player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, _led);
                         _isMole = false;
                     }
                     else
@@ -73,7 +73,7 @@ namespace Game.Mini_Games
                     if (player2.Key == _led && _isMole)
                     {
                         player2.Score += 1;
-                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
+                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, _led);
                         _isMole = false;
                     }
                     else

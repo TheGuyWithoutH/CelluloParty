@@ -32,7 +32,10 @@ namespace Game.Mini_Games
             base.Update();
             if (GameStatus == GameStatus.STARTED) {
                 if (_status == Status.Pattern) {
+                    _numKeys += 1;
                     GenerateKeys();
+                    _player1Keys = new List<int>();
+                    _player2Keys = new List<int>();
                     _status = Status.None;
                     _actualIndex = 0;
                     for (int i = 0; i < _numKeys; i++)
@@ -54,6 +57,7 @@ namespace Game.Mini_Games
                     {
                         int key = player1.Key;
                         if (player1KeysCount < _numKeys) {
+                            Debug.Log("key player 1 : " + key);
                             if (_gameKeys[player1KeysCount] == key)
                             {
                                 _player1Keys.Add(key);
@@ -70,6 +74,7 @@ namespace Game.Mini_Games
                         int key = player2.Key;
                         if (player2KeysCount < _numKeys)
                         {
+                            Debug.Log("key player 2 : " + key);
                             if (_gameKeys[player2KeysCount] == key)
                             {
                                 _player2Keys.Add(key);
@@ -80,20 +85,17 @@ namespace Game.Mini_Games
                             }
                         }
                     }
+                    
+                    if ((player1.Score == 1 && player2.Score == 1) || (player1KeysCount == _numKeys && player2.Score == 1) || (player2KeysCount == _numKeys && player1.Score == 1))
+                    {
+                        GameEnded();
+                    }
 
                     if (player1KeysCount == _numKeys && player2KeysCount == _numKeys)
                     {
                         _gameKeys = new List<int>();
-                        _player1Keys = new List<int>();
-                        _player2Keys = new List<int>();
-                        _numKeys += 1;
                         _latence -= _latence > 0.2f ? 0.2f : 0f;
                         _status = Status.Pattern;
-                    }
-
-                    if ((player1.Score == 1 && player2.Score == 1) || (player1KeysCount == _numKeys && player2.Score == 1) || (player2KeysCount == _numKeys && player1.Score == 1))
-                    {
-                        GameEnded();
                     }
                 }
             }

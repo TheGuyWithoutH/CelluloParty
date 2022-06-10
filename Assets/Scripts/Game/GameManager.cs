@@ -81,8 +81,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _state = GameState.None;
-        _player1Tile = GameCell.Cell1;
-        _player2Tile = GameCell.Cell1;
+        _player1Tile = GameCell.Cell22;
+        _player2Tile = GameCell.Cell20;
         _miniGameRunning = false;
         _currentWinner = Player.NONE;
         _diceThrown = false;
@@ -113,11 +113,11 @@ public class GameManager : MonoBehaviour
                 ExecuteAfterDelay(5, () => player1.SetTargetCell(GameCell.Cell10));
                 _state = GameState.End;*/
                 
-                Debug.Log("start the game");
+                /*Debug.Log("start the game");
                 _miniGameRunning = true;
-                curling.StartGame();
+                mole.StartGame();
                 _state = GameState.MiniGame;
-                break;
+                break;*/
                 
                 //////////////////////////////////////////////////////////////////
                 
@@ -272,7 +272,7 @@ public class GameManager : MonoBehaviour
                 if (player1.MoveIsDone())
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
-                    if (_player1Tile > GameCell.Cell40)
+                    if (_player1Tile == GameCell.Cell40)
                     {
                         ExecuteAfterDelay(3, () =>
                         {
@@ -298,7 +298,7 @@ public class GameManager : MonoBehaviour
                 if (player2.MoveIsDone())
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
-                    if (_player2Tile > GameCell.Cell40)
+                    if (_player2Tile == GameCell.Cell40)
                     {
                         ExecuteAfterDelay(3, () =>
                         {
@@ -461,32 +461,37 @@ public class GameManager : MonoBehaviour
             {
                 player1.SetSpecialMove(CelluloPlayer.SpecialMove.River, true);
                 _player1Tile = GameCell.Cell5;
+                infos.text = player1.playerName + " has fallen into the river";
             }
             else
             {
                 player2.SetSpecialMove(CelluloPlayer.SpecialMove.River, true);
                 _player2Tile = GameCell.Cell5;
+                infos.text = player2.playerName + " has fallen into the river";
             }
         } 
         else if (GameCell.CellPlane.GetCellOccupied())
         {
             (_player1Tile, _player2Tile) = (_player2Tile, _player1Tile);
-
+            infos.text = "Due to airline mistake, players swap their destination";
             player1.SetSpecialMove(CelluloPlayer.SpecialMove.Airplane, true, _player1Tile);
             player2.SetSpecialMove(CelluloPlayer.SpecialMove.Airplane, false, _player2Tile);
         } 
         else if (GameCell.CellVolcano.GetCellOccupied())
         {
+            infos.text = "Major eruption at Vesuvio, players should move back";
             player1.SetSpecialMove(CelluloPlayer.SpecialMove.Volcano, true);
             player2.SetSpecialMove(CelluloPlayer.SpecialMove.Volcano, false);
             _player1Tile = _player1Tile - 3 < GameCell.Cell1 ? GameCell.Cell1 : _player1Tile - 3;
             _player2Tile = _player2Tile - 3 < GameCell.Cell1 ? GameCell.Cell1 : _player2Tile - 3;
         }
+        infos.gameObject.SetActive(true);
     }
 
     public void EndSpecialMove()
     {
         _isInSpecialMove = false;
+        infos.gameObject.SetActive(false);
     }
 
     private string getName(string name)
@@ -531,9 +536,9 @@ public class GameManager : MonoBehaviour
     private enum MiniGame
     {
         Curling,
-        Mole,
+        SimonSays,
         Quiz,
-        SimonSays
+        Mole,
     }
     
     public enum Player
