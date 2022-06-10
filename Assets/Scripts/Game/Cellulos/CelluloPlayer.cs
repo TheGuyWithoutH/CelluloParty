@@ -36,7 +36,7 @@ namespace Game.Cellulos
         {
             if (_isActive)
             {
-                if (_cell != _targetCell )//&& _cell > GameCell.Cell1 && _cell < GameCell.Cell40)
+                if (_cell != _targetCell)
                 {
                     _cell.SetCellOccupied(false);
                     if (_cell < _targetCell) ++_cell;
@@ -46,10 +46,6 @@ namespace Game.Cellulos
                     _cell.SetCellOccupied(true);
                     celluloAgent.SetGoalPosition(pos.x, pos.z, 1);
                 }
-                // else if (_cell != _targetCell)
-                // {
-                //     _moveDone = true;
-                // }
             }
         }
 
@@ -75,6 +71,7 @@ namespace Game.Cellulos
         public void SetSpecialMove(SpecialMove move, bool notify, GameCell cell = GameCell.Cell1)
         {
             _notify = notify;
+            Debug.Log(move);
             switch (move)
             {
                 case SpecialMove.River:
@@ -156,6 +153,7 @@ namespace Game.Cellulos
                 _cell = _targetCell;
                 if (_notify)
                 {
+                    Debug.Log("notification");
                     _notify = false;
                     gameManager.EndSpecialMove();
                 }

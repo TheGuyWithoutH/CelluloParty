@@ -113,11 +113,11 @@ public class GameManager : MonoBehaviour
                 ExecuteAfterDelay(5, () => player1.SetTargetCell(GameCell.Cell10));
                 _state = GameState.End;*/
                 
-                /*Debug.Log("start the game");
+                Debug.Log("start the game");
                 _miniGameRunning = true;
                 curling.StartGame();
                 _state = GameState.MiniGame;
-                break;*/
+                break;
                 
                 //////////////////////////////////////////////////////////////////
                 
@@ -271,6 +271,7 @@ public class GameManager : MonoBehaviour
             case GameState.MovementPlayer1:
                 if (player1.MoveIsDone())
                 {
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
                     if (_player1Tile > GameCell.Cell40)
                     {
                         ExecuteAfterDelay(3, () =>
@@ -296,6 +297,7 @@ public class GameManager : MonoBehaviour
             case GameState.MovementPlayer2:
                 if (player2.MoveIsDone())
                 {
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
                     if (_player2Tile > GameCell.Cell40)
                     {
                         ExecuteAfterDelay(3, () =>
