@@ -8,7 +8,7 @@ namespace Game.Mini_Games
 {
     public class Curling : Mini_Game
     {
-        private InnerGameStatus _innerStatus = InnerGameStatus.PREPARATION;
+        private InnerGameStatus _innerStatus = InnerGameStatus.NONE;
 
         private const int PowerFactor = 3;
         private Vector3 _target = new Vector3(7.12f, 0f, -4.76f);
@@ -75,6 +75,7 @@ namespace Game.Mini_Games
         public override void StartGame()
         {
             base.StartGame();
+            _innerStatus = InnerGameStatus.NONE;
             OK_one = false;
             OK_two = false;
             float posZ = Random.Range(-9, -1);
@@ -128,6 +129,7 @@ namespace Game.Mini_Games
 
         public enum InnerGameStatus
         {
+            NONE,
             PREPARATION,
             FIRST_THROW,
             SECOND_THROW,
