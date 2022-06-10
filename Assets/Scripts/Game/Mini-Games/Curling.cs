@@ -73,7 +73,7 @@ namespace Game.Mini_Games
                 if (_innerStatus == InnerGameStatus.PREPARATION && OK_one && OK_two)
                 {
                     _innerStatus = InnerGameStatus.NONE;
-                    Invoke(nameof(WaitToEnd), 2f);
+                    Invoke(nameof(WaitToEnd), 10f);
                 }
 
                 if (_innerStatus == InnerGameStatus.END 
