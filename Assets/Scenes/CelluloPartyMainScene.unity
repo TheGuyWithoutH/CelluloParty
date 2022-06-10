@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10867,7 +10867,7 @@ MonoBehaviour:
     m_Bits: 1
   celluloAgent: {fileID: 1804942522}
   playerName: 
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 92888238}
 --- !u!114 &1804942522 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
@@ -11650,7 +11650,7 @@ MonoBehaviour:
     m_Bits: 1
   celluloAgent: {fileID: 1929773133}
   playerName: 
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 92888238}
 --- !u!114 &1929773133 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
