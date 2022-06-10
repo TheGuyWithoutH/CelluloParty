@@ -18,8 +18,12 @@ namespace Game.Mini_Games
 
         private bool OK_one;
         private bool OK_two;
+        
         public bool OkOne => OK_one;
         public bool OkTwo => OK_two;
+        public Vector3 ThrowOne => _throw_one;
+
+        public Vector3 ThrowTwo => _throw_two;
 
         
         protected override void Start()
@@ -41,7 +45,7 @@ namespace Game.Mini_Games
 
                 if (_innerStatus == InnerGameStatus.FIRST_THROW)
                 {
-                    Throw(player1, StartOne);
+                    Throw(player1, StartOne, _throw_one);
                     OK_one = true;
                     player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.cyan, 0);
                 }
@@ -54,7 +58,7 @@ namespace Game.Mini_Games
 
                 if (_innerStatus == InnerGameStatus.SECOND_THROW)
                 {
-                    Throw(player2, StartTwo);
+                    Throw(player2, StartTwo, _throw_two);
                     OK_two = true;
                     player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
                 }
@@ -109,13 +113,14 @@ namespace Game.Mini_Games
             base.GameEnded();
         }
         
-        private void Throw(CelluloPlayer player, Vector3 start)
+        private void Throw(CelluloPlayer player, Vector3 start, Vector3 throw_x)
         {
             _innerStatus = InnerGameStatus.PREPARATION;
             
             ExecuteAfterDelay(5f, () =>
             {
-                Vector3 powerThrow = start + (start - player.transform.position) * PowerFactor;
+                throw_x = (start - player.transform.position);
+                Vector3 powerThrow = start + throw_x * PowerFactor;
                 player.celluloAgent.SetGoalPosition(powerThrow.x, powerThrow.z, 2f);
             });
         }
