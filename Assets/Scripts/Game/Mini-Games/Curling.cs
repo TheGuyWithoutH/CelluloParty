@@ -9,13 +9,16 @@ namespace Game.Mini_Games
     public class Curling : Mini_Game
     {
         private InnerGameStatus _innerStatus = InnerGameStatus.PREPARATION;
-        
+
         private const int PowerFactor = 3;
         private Vector3 _vect_null = new Vector3(0, 0, 0);
         private Vector3 _target = new Vector3(7.12f, 0f, -4.76f);
 
         private bool OK_one;
         private bool OK_two;
+        public bool OkOne => OK_one;
+        public bool OkTwo => OK_two;
+
         
         protected override void Start()
         {
@@ -97,6 +100,9 @@ namespace Game.Mini_Games
                 player1.Score = 0;
                 player2.Score = 1;
             }
+
+            OK_one = false;
+            OK_two = false;
             
             base.GameEnded();
         }
@@ -117,7 +123,7 @@ namespace Game.Mini_Games
             return Math.Sqrt(Math.Pow(vec_a.x - vec_b.x, 2) + Math.Pow(vec_a.z - vec_b.z, 2));
         }
 
-        private enum InnerGameStatus
+        public enum InnerGameStatus
         {
             PREPARATION,
             FIRST_THROW,
