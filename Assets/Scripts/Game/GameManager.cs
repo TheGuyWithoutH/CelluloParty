@@ -124,8 +124,10 @@ public class GameManager : MonoBehaviour
                     Debug.Log("goooo");
                     player1.SetNotReady();
                     player2.SetNotReady();
-                    player1.GoBackInCell();
-                    player2.GoBackInCell();
+                    Vector3 pos = GameCell.Cell1.GetCellPosition();
+                    player1.celluloAgent.SetGoalPosition(pos.x, pos.z, 1);
+                    pos = GameCell.Cell1.GetCellShiftedPosition();
+                    player2.celluloAgent.SetGoalPosition(pos.x, pos.z, 1);
                     ExecuteAfterDelay(10, () =>
                     {
                         infos.text = DiceText;
