@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -180,8 +180,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press a LED in both player's cellulo simultaneously until the first sequence
-    appears.
+  m_text: Press a LED in both player's cellulo simultaneously until the pattern of
+    red LEDs appears in the 3rd cellulo.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1786,8 +1786,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press a LED in both player's cellulo simultaneously until the first sequence
-    appears.
+  m_text: Press a LED in both player's cellulo simultaneously until the 3rd cellulo
+    blinks. Wait until it stops blinking to throw, one cellulo at a time.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3785,7 +3785,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 566992838}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 14d0caab63501714d999c71ce8b9eaf2, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 782d446373ea04148a63f33e5c164f8a, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -8001,7 +8001,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Description in words of how the game is supposed to be played
+  m_text: Drag your cellulo in the opposite direction to the 3rd cellulo to throw
+    it as close as possible towards it.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8064,7 +8065,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -87.052185, y: 0, z: -323.7162, w: 0}
+  m_margin: {x: -87.052185, y: 0, z: -535.34076, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -9040,7 +9041,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1530341714}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 14d0caab63501714d999c71ce8b9eaf2, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: cbdba6a964afc34469fdc426175d7d3d, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -9980,8 +9981,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 6 questions and their correspondent answers will be displayed one by one
-    at the screen. The player with the most correct answers wins.
+  m_text: 6 questions and their corresponding answers will be displayed one by one
+    on the screen. The player with the most correct answers wins.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11334,7 +11335,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Description via words of how to use the cellulos
+  m_text: Press one LED of your cellulo and drag the cellulo while holding the LED
+    pressed. Once you have moved enough, release the cellulo.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
