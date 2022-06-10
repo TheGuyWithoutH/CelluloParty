@@ -16,11 +16,15 @@ namespace Game.Cellulos
             if (curl.OkOne && collision.collider.CompareTag("Player_one"))
             {
                 player_one.celluloAgent.SetSteering(new Steering());
+                Vector3 rebound = player_one.celluloAgent.transform.position - 0.25f * curl.ThrowOne;
+                player_one.celluloAgent.SetGoalPosition(rebound.x, rebound.z, 1f);
             }
 
             if (curl.OkTwo && collision.collider.CompareTag("Player_two"))
             {
                 player_two.celluloAgent.SetSteering(new Steering());
+                Vector3 rebound = player_two.celluloAgent.transform.position - 0.25f * curl.ThrowTwo;
+                player_two.celluloAgent.SetGoalPosition(rebound.x, rebound.z, 1f);
             }
         }
     }
