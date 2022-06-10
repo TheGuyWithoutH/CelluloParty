@@ -27,27 +27,27 @@ namespace Game.Mini_Games
                 if (timer.CurrentTime >= 10 && timer.CurrentTime < 20)
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 0);
-                    _latence = 0.1f;
+                    _latence = 1.4f;
                 } 
                 if (timer.CurrentTime >= 20 && timer.CurrentTime < 30)
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 1);
-                    _latence = 0.85f;
+                    _latence = 1.2f;
                 } 
                 if (timer.CurrentTime >= 30 && timer.CurrentTime < 40)
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 2);
-                    _latence = 0.7f;
+                    _latence = 1.0f;
                 } 
                 if (timer.CurrentTime >= 40 && timer.CurrentTime < 50)
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 3);
-                    _latence = 0.55f;
+                    _latence = 0.8f;
                 } 
                 if (timer.CurrentTime >= 50 && timer.CurrentTime < 60)
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
-                    _latence = 0.4f;
+                    _latence = 0.6f;
                 }
                 if (timer.CurrentTime >= 60)
                 {
@@ -87,7 +87,7 @@ namespace Game.Mini_Games
         public override void StartGame()
         {
             base.StartGame();
-            _latence = 0.4f;
+            _latence = 1.6f;
             bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
         }
 
@@ -127,6 +127,8 @@ namespace Game.Mini_Games
         {
             _firstStart = true;
             bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.white, 0);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.white, 0);
             timer.StartTimer(_maxSeconds, this);
         }
 
