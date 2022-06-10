@@ -70,6 +70,7 @@ namespace Game.Mini_Games
                 if (_innerStatus == InnerGameStatus.REFLEXION && (timer.Seconds >= TimeQuestions ||
                     _false_one && _false_two))
                 {
+                    timer.PauseTimer();
                     _innerStatus = InnerGameStatus.NEXT;
                 }
 
