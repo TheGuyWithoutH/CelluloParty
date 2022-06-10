@@ -84,7 +84,14 @@ namespace Game.Mini_Games
 
         protected override void PlayerReady()
         {
-            ExecuteAfterDelay(5f, () => { _innerStatus = InnerGameStatus.PREPARATION; });
+            
+            ExecuteAfterDelay(5f, () =>
+            {
+                _innerStatus = InnerGameStatus.PREPARATION;
+                Debug.Log("-------READY-------");
+                player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.cyan, 0);
+                player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.magenta, 0);
+            });
         }
         
         public override void OnGamePause()
