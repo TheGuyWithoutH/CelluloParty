@@ -11,7 +11,6 @@ namespace Game.Mini_Games
         private InnerGameStatus _innerStatus = InnerGameStatus.PREPARATION;
 
         private const int PowerFactor = 3;
-        private Vector3 _vect_null = new Vector3(0, 0, 0);
         private Vector3 _target = new Vector3(7.12f, 0f, -4.76f);
 
         private bool OK_one;
@@ -60,8 +59,8 @@ namespace Game.Mini_Games
                 if (_innerStatus == InnerGameStatus.PREPARATION && OK_one && OK_two) { _innerStatus = InnerGameStatus.END; }
 
                 if (_innerStatus == InnerGameStatus.END 
-                    && player2.GetSteering().linear == _vect_null 
-                    && player1.GetSteering().linear == _vect_null)
+                    && player2.GetSteering().linear == Vector3.zero 
+                    && player1.GetSteering().linear == Vector3.zero)
                 { GameEnded(); }
             }
         }
