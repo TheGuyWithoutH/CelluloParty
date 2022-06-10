@@ -27,32 +27,31 @@ namespace Game.Mini_Games
                 if (timer.CurrentTime >= 10 && timer.CurrentTime < 20)
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 0);
-                    _latence = 0.35f;
+                    _latence = 0.1f;
                 } 
                 if (timer.CurrentTime >= 20 && timer.CurrentTime < 30)
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 1);
-                    _latence = 0.3f;
+                    _latence = 0.85f;
                 } 
                 if (timer.CurrentTime >= 30 && timer.CurrentTime < 40)
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 2);
-                    _latence = 0.25f;
+                    _latence = 0.7f;
                 } 
                 if (timer.CurrentTime >= 40 && timer.CurrentTime < 50)
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 3);
-                    _latence = 0.2f;
+                    _latence = 0.55f;
                 } 
                 if (timer.CurrentTime >= 50 && timer.CurrentTime < 60)
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
-                    _latence = 0.15f;
+                    _latence = 0.4f;
                 }
                 if (timer.CurrentTime >= 60)
                 {
                     bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 5);
-                    _latence = 0.15f;
                 }
 
                 if (player1.getOneTouch())
@@ -60,6 +59,8 @@ namespace Game.Mini_Games
                     if (player1.Key == _led && _isMole)
                     {
                         player1.Score += 1;
+                        player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.yellow, _led);
+                        _isMole = false;
                     }
                     else
                     {
@@ -72,6 +73,8 @@ namespace Game.Mini_Games
                     if (player2.Key == _led && _isMole)
                     {
                         player2.Score += 1;
+                        player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
+                        _isMole = false;
                     }
                     else
                     {
@@ -135,8 +138,8 @@ namespace Game.Mini_Games
                 _led = Random.Range(0, 6);
                 player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
                 player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
-                Invoke(nameof(MoleDisappear), 2f);
-                Invoke(nameof(MoleAppear), 3f);
+                Invoke(nameof(MoleDisappear), _latence);
+                Invoke(nameof(MoleAppear), Random.Range(0.6f, 3f));
             }
         }
 
