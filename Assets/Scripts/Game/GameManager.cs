@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private Player _currentWinner;
     private int _round;
     private bool _specialMove;
+    private bool _isInSpecialMove;
 
     public Mini_Game curling;
     public Mini_Game mole;
@@ -85,6 +86,7 @@ public class GameManager : MonoBehaviour
         _diceThrown = false;
         _round = 1;
         _specialMove = false;
+        _isInSpecialMove = false;
 
         player1.SetNotReady();
         player2.SetNotReady();
@@ -276,7 +278,6 @@ public class GameManager : MonoBehaviour
                     }
                     else
                     {
-                        CheckForSpecialCells();
                         ExecuteAfterDelay(3, () =>
                         {
                             EnableCamera(CameraView.MainCamera);
@@ -286,22 +287,27 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameState.AdditionalFeatures:
-                if (_specialMove)
+                if (!_isInSpecialMove)
                 {
-                    
-                }
-                else
-                {
-                    DisplayEndRound(true);
-                    ExecuteAfterDelay(5, () =>
+                    CheckForSpecialCells();
+                    if (_specialMove)
                     {
-                        DisplayEndRound(false);
-                        ++_round; 
-                        _state = GameState.MiniGame;
-                    });
-                    _state = GameState.None;
+                        OrderSpecialMove();
+                        _isInSpecialMove = true;
+                    }
+                    else
+                    {
+                        DisplayEndRound(true);
+                        ExecuteAfterDelay(5, () =>
+                        {
+                            DisplayEndRound(false);
+                            ++_round; 
+                            _state = GameState.MiniGame;
+                        });
+                        _state = GameState.None;
+                    }
+                                    
                 }
-                
                 break;
             case GameState.End:
                 winner.text = _currentWinner == Player.PLAYER1 ? player1.playerName : player2.playerName;
@@ -415,7 +421,36 @@ public class GameManager : MonoBehaviour
 
     private void OrderSpecialMove()
     {
-        
+        if (GameCell.CellRiver.GetCellOccupied())
+        {
+            if (_player1Tile == GameCell.CellRiver)
+            {
+                player1.SetSpecialMove(CelluloPlayer.SpecialMove.River, true);
+                _player1Tile = GameCell.Cell5;
+            }
+            else
+            {
+                player2.SetSpecialMove(CelluloPlayer.SpecialMove.River, true);
+                _player2Tile = GameCell.Cell5;
+            }
+        } 
+        else if (GameCell.CellPlane.GetCellOccupied())
+        {
+            (_player1Tile, _player2Tile) = (_player2Tile, _player1Tile);
+
+            player1.SetSpecialMove(CelluloPlayer.SpecialMove.Airplane, true, _player1Tile);
+            player2.SetSpecialMove(CelluloPlayer.SpecialMove.Airplane, false, _player2Tile);
+        } 
+        else if (GameCell.CellVolcano.GetCellOccupied())
+        {
+            player1.SetSpecialMove(CelluloPlayer.SpecialMove.Volcano, true);
+            player2.SetSpecialMove(CelluloPlayer.SpecialMove.Volcano, false);
+        }
+    }
+
+    public void EndSpecialMove()
+    {
+        _isInSpecialMove = false;
     }
 
     private string getName(string name)
