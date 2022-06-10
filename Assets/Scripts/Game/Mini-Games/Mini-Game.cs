@@ -2,6 +2,7 @@ using System;
 using Game.Cellulos;
 using UnityEngine;
 using System.Collections;
+using TMPro;
 using UnityEngine.UI;
 
 namespace Game.Mini_Games
@@ -64,6 +65,7 @@ namespace Game.Mini_Games
             bot.celluloAgent.SetGoalPosition(StartBot.x, StartBot.z, 2f);
             GameStatus = GameStatus.READY;
             startScreen.gameObject.SetActive(true);
+            _winner = GameManager.Player.NONE;
         }
         
         public virtual void OnGamePause()
@@ -84,7 +86,6 @@ namespace Game.Mini_Games
         {
             GameStatus = GameStatus.ENDED;
             startScreen.gameObject.SetActive(false);
-            endScreen.gameObject.SetActive(true);
             if (player1.Score > player2.Score)
             {
                 _winner = GameManager.Player.PLAYER1;
@@ -93,6 +94,21 @@ namespace Game.Mini_Games
             {
                 _winner = GameManager.Player.PLAYER2;
             }
+            
+            switch (_winner)
+            {
+                case GameManager.Player.PLAYER1:
+                    endScreen.GetComponentsInChildren<TextMeshProUGUI>()[2].text = player1.playerName;
+                    break;
+                case GameManager.Player.PLAYER2:
+                    endScreen.GetComponentsInChildren<TextMeshProUGUI>()[2].text = player2.playerName;
+                    break;
+                case GameManager.Player.NONE:
+                    endScreen.GetComponentsInChildren<TextMeshProUGUI>()[2].text = "Nobody";
+                    break;
+            }
+            endScreen.gameObject.SetActive(true);
+            
             Invoke(nameof(GameQuit), 5f);
         }
         
@@ -100,7 +116,6 @@ namespace Game.Mini_Games
         {
             endScreen.gameObject.SetActive(false);
             GameStatus = GameStatus.NONE;
-            _winner = GameManager.Player.NONE;
             player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, player1.celluloAgent.initialColor, 0);
             player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, player2.celluloAgent.initialColor, 0);
             manager.MiniGameQuit(_winner);

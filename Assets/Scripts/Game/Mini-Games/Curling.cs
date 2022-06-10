@@ -40,27 +40,31 @@ namespace Game.Mini_Games
                 if (_innerStatus == InnerGameStatus.PREPARATION && player1.IsTouch)
                 {
                     _innerStatus = InnerGameStatus.FIRST_THROW;
-                    player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectBlink, Color.cyan, 20);
+                    player1.celluloAgent
+                        .SetVisualEffect(VisualEffect.VisualEffectBlink, player1.celluloAgent.initialColor, 20);
                 }
 
                 if (_innerStatus == InnerGameStatus.FIRST_THROW && !player1.IsTouch)
                 {
                     Throw(player1, StartOne, _throw_one);
                     OK_one = true;
-                    player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.cyan, 0);
+                    player1.celluloAgent
+                        .SetVisualEffect(VisualEffect.VisualEffectConstAll, player1.celluloAgent.initialColor, 0);
                 }
 
                 if (_innerStatus == InnerGameStatus.PREPARATION && player2.IsTouch)
                 {
                     _innerStatus = InnerGameStatus.SECOND_THROW;
-                    player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectBlink, Color.red, 20);
+                    player2.celluloAgent
+                        .SetVisualEffect(VisualEffect.VisualEffectBlink, player2.celluloAgent.initialColor, 20);
                 }
 
                 if (_innerStatus == InnerGameStatus.SECOND_THROW && !player2.IsTouch)
                 {
                     Throw(player2, StartTwo, _throw_two);
                     OK_two = true;
-                    player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
+                    player2.celluloAgent
+                        .SetVisualEffect(VisualEffect.VisualEffectConstAll, player2.celluloAgent.initialColor, 0);
                 }
 
                 if (_innerStatus == InnerGameStatus.PREPARATION && OK_one && OK_two) { _innerStatus = InnerGameStatus.END; }
@@ -84,13 +88,11 @@ namespace Game.Mini_Games
 
         protected override void PlayerReady()
         {
-            
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectBlink, Color.white, 20);
             ExecuteAfterDelay(5f, () =>
             {
                 _innerStatus = InnerGameStatus.PREPARATION;
-                Debug.Log("-------READY-------");
-                player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.cyan, 0);
-                player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.magenta, 0);
+                bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.white, 0);
             });
         }
         
