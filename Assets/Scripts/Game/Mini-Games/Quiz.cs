@@ -16,7 +16,7 @@ namespace Game.Mini_Games
         private Question[] _current_set;
         private Question _currentQuestion;
 
-        private const int NumSets = 3;
+        private const int NumSets = 4;
         private const int NumQuestions = 6;
         private const int TimeQuestions = 18;
 
@@ -112,7 +112,8 @@ namespace Game.Mini_Games
             base.StartGame();
             
             _innerStatus = InnerGameStatus.NONE;
-            _sets = new List<Question[]>{ _questions_set_one, _questions_set_two, _questions_set_three };
+            _sets = new List<Question[]>{ _questions_set_one, _questions_set_two, 
+                _questions_set_three, _questions_set_four };
             int rand = Random.Range(0, NumSets - 1);
             Debug.Log("Set : " + rand + "\n");
             _current_set = _sets[rand];
@@ -267,7 +268,7 @@ namespace Game.Mini_Games
                 {
                     {0, "15"},
                     {2, "52"},
-                    {4, "7641"}
+                    {4, "7'641"}
                 }),
             new Question("What is the weirdest flavor McDonald' once made for their bubblegums ?", 2,
                 new Dictionary<int, string>
@@ -312,8 +313,8 @@ namespace Game.Mini_Games
                 new Dictionary<int, string>
                 {
                     {0, "45"},
-                    {2, "189,819"},
-                    {4, "7641"}
+                    {2, "189'819"},
+                    {4, "4'641"}
                 }),
             new Question("What Kleenex was originally intended ?", 4,
                 new Dictionary<int, string>
@@ -342,6 +343,52 @@ namespace Game.Mini_Games
                     {0, "Earthquakes"},
                     {2, "Volcano erruptions"},
                     {4, "Tsunamis"}
+                })
+        };
+        
+        private Question[] _questions_set_four =
+        {
+            new Question("Which letter isn't contained in the numbers before 1000 ?", 4,
+                new Dictionary<int, string>
+                {
+                    {0, "Y"},
+                    {2, "U"},
+                    {4, "A"}
+                }),
+            new Question("When where movie trailers originally played ?", 0,
+                new Dictionary<int, string>
+                {
+                    {0, "After movies"},
+                    {2, "During movies"},
+                    {4, "Before movies"}
+                }),
+            new Question("What does H&M stands for ?", 2,
+                new Dictionary<int, string>
+                {
+                    {0, "Her&Me"},
+                    {2, "Hennes&Mauritz"},
+                    {4, "Halt&Malt"}
+                }),
+            new Question("How long can be giraffes' tongues", 2, 
+                new Dictionary<int, string>
+                {
+                    {0, "30 inches"},
+                    {2, "20 inches"},
+                    {4, "10 inches"}
+                }),
+            new Question("How many dollars did the inventor of the microwave won ?", 0, 
+                new Dictionary<int, string>
+                {
+                    {0, "2$"},
+                    {2, "Millions of dollars"},
+                    {4, "28$ per microwave constructed"}
+                }),
+            new Question("For which price was the script of Terminator sold for ?", 4, 
+                new Dictionary<int, string>
+                {
+                    {0, "15'000$"},
+                    {2, "9'000$"},
+                    {4, "1$"}
                 })
         };
 
