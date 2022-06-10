@@ -13,6 +13,9 @@ namespace Game.Mini_Games
         private const int PowerFactor = 3;
         private Vector3 _target = new Vector3(7.12f, 0f, -4.76f);
 
+        private Vector3 _throw_one;
+        private Vector3 _throw_two;
+
         private bool OK_one;
         private bool OK_two;
         public bool OkOne => OK_one;
@@ -76,7 +79,7 @@ namespace Game.Mini_Games
 
         protected override void PlayerReady()
         {
-            _innerStatus = InnerGameStatus.PREPARATION;
+            ExecuteAfterDelay(5f, () => { _innerStatus = InnerGameStatus.PREPARATION; });
         }
         
         public override void OnGamePause()
