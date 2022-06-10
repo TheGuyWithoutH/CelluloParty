@@ -143,8 +143,8 @@ namespace Game.Mini_Games
         private void Throw(CelluloPlayer player, Vector3 start, Vector3 throw_x, Vector3 yellowCircle)
         {
             _innerStatus = InnerGameStatus.PREPARATION;
+            throw_x = start - player.transform.position;
             Vector3 powerThrow = yellowCircle + throw_x * PowerFactor;
-            throw_x = powerThrow;
             player.celluloAgent.SetGoalPosition(powerThrow.x, powerThrow.z, 2f);
         }
 
