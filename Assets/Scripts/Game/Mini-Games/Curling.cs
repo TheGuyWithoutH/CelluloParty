@@ -13,6 +13,8 @@ namespace Game.Mini_Games
         private const float PowerFactor = 2f;
         private Vector3 _target = new Vector3(7.12f, 0f, -4.76f);
 
+        public Vector3 Target => _target;
+
         private Vector3 _curl_start_one;
         private Vector3 _curl_start_two;
 
@@ -141,8 +143,8 @@ namespace Game.Mini_Games
         private void Throw(CelluloPlayer player, Vector3 start, Vector3 throw_x, Vector3 yellowCircle)
         {
             _innerStatus = InnerGameStatus.PREPARATION;
-            throw_x = start - player.transform.position;
             Vector3 powerThrow = yellowCircle + throw_x * PowerFactor;
+            throw_x = powerThrow;
             player.celluloAgent.SetGoalPosition(powerThrow.x, powerThrow.z, 2f);
         }
 
