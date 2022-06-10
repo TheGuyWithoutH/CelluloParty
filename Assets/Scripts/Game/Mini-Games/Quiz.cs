@@ -276,14 +276,14 @@ namespace Game.Mini_Games
                     {2, "Broccoli"},
                     {4, "Olive"}
                 }),
-            new Question("Biggest feature of the tropical fungus Ophiocordyceps", 0, 
+            new Question("Biggest feature of the tropical fungus Ophiocordyceps is that ?", 0, 
                 new Dictionary<int, string>
                 {
                     {0, "It can control ants"},
                     {2, "It has amazing vertues for skincare"},
                     {4, "It the world's second biggest type of fungus"}
                 }),
-            new Question("Which single letter does not appear in the states of the United States", 4, 
+            new Question("Which single letter does not appear in the states of the United States ?", 4, 
                 new Dictionary<int, string>
                 {
                     {0, "Z"},
@@ -301,47 +301,47 @@ namespace Game.Mini_Games
         
         private Question[] _questions_set_three =
         {
-            new Question("What armadillo's shells are known for ?", 0,
+            new Question("What armadillo's shells are known for ?", 2,
                 new Dictionary<int, string>
                 {
                     {0, "Being able to resist to predators"},
                     {2, "Being bulletproof"},
                     {4, "Being waterproof"}
                 }),
-            new Question("How long is the longuest English word ?", 4,
+            new Question("How many letters long is the longest word in the Oxford English dictionnary ?", 0,
                 new Dictionary<int, string>
                 {
-                    {0, "15"},
-                    {2, "52"},
+                    {0, "45"},
+                    {2, "189,819"},
                     {4, "7641"}
                 }),
-            new Question("What is the weirdest flavor McDonald' once made for their bubblegums ?", 2,
+            new Question("What Kleenex was originally intended ?", 4,
                 new Dictionary<int, string>
                 {
-                    {0, "Petrol"},
-                    {2, "Broccoli"},
-                    {4, "Olive"}
+                    {0, "As tissues"},
+                    {2, "As sex related toys"},
+                    {4, "For gas masks"}
                 }),
-            new Question("Biggest feature of the tropical fungus Ophiocordyceps", 0, 
+            new Question("Who designed to current American flag ?", 0, 
                 new Dictionary<int, string>
                 {
-                    {0, "It can control ants"},
-                    {2, "It has amazing vertues for skincare"},
-                    {4, "It the world's second biggest type of fungus"}
+                    {0, "A student"},
+                    {2, "Ralph Lauren"},
+                    {4, "Roy Halston Frowick"}
                 }),
-            new Question("Which single letter does not appear in the states of the United States", 4, 
+            new Question("Which percentage of the Sahara desert is made out of sand", 4, 
                 new Dictionary<int, string>
                 {
-                    {0, "Z"},
-                    {2, "X"},
-                    {4, "Q"}
+                    {0, "5%"},
+                    {2, "100%"},
+                    {4, "25%"}
                 }),
-            new Question("How is named a cow-bison hypbrid ?", 0, 
+            new Question("What natural catastrophe happened on the moon ?", 2, 
                 new Dictionary<int, string>
                 {
-                    {0, "Beefalo"},
-                    {2, "Cow-Bison"},
-                    {4, "Cowfalo"}
+                    {0, "Earthquakes"},
+                    {2, "Volcano erruptions"},
+                    {4, "Tsunamis"}
                 })
         };
 
