@@ -25,27 +25,32 @@ namespace Game.Mini_Games
             {
                 if (timer.CurrentTime >= 10 && timer.CurrentTime < 20)
                 {
-                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, 0);
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 0);
                     _latence = 0.35f;
                 } 
                 if (timer.CurrentTime >= 20 && timer.CurrentTime < 30)
                 {
-                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, 1);
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 1);
                     _latence = 0.3f;
                 } 
                 if (timer.CurrentTime >= 30 && timer.CurrentTime < 40)
                 {
-                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, 2);
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 2);
                     _latence = 0.25f;
                 } 
                 if (timer.CurrentTime >= 40 && timer.CurrentTime < 50)
                 {
-                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, 3);
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 3);
                     _latence = 0.2f;
                 } 
                 if (timer.CurrentTime >= 50 && timer.CurrentTime < 60)
                 {
-                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, 4);
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
+                    _latence = 0.15f;
+                }
+                if (timer.CurrentTime >= 60)
+                {
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 5);
                     _latence = 0.15f;
                 }
 
@@ -109,25 +114,17 @@ namespace Game.Mini_Games
             base.OnGameResume();
             bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectAlertAll, Color.red, 0);
             Invoke(nameof(timer.ResumeTimer), 3.0f);
-            Invoke(nameof(BotLedsOn), 3.0f);
             Invoke(nameof(MoleAppear), Random.Range(3.0f, 6.0f));
         }
 
         public override void GameEnded()
         {
             base.GameEnded();
-            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
         }
 
         private void GameBegin()
         {
             timer.StartTimer(_maxSeconds, this);
-            BotLedsOn();
-        }
-
-        private void BotLedsOn()
-        {
-            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
         }
 
         private void MoleAppear()

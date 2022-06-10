@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Game.Cellulos;
 using Game.Dices;
 using Game.Map;
@@ -19,6 +18,7 @@ public class GameManager : MonoBehaviour
     private Player _currentWinner;
     private int _round;
     private bool _specialMove;
+    private bool _isInSpecialMove;
 
     public Mini_Game curling;
     public Mini_Game mole;
@@ -48,9 +48,15 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI looser;
     public TextMeshProUGUI infos;
 
+    public AudioSource background;
+    public AudioSource backgroundGames;
+    public AudioSource cling;
+    public AudioSource gameEffect;
+    
+
     private GameState _state;
 
-    private const string DICE_TEXT = "To throw the dice, press on the Cellulo";
+    private const string DiceText = "To throw the dice, press on the Cellulo";
     
     public void Awake()
     {
@@ -80,12 +86,12 @@ public class GameManager : MonoBehaviour
         _diceThrown = false;
         _round = 1;
         _specialMove = false;
+        _isInSpecialMove = false;
 
         player1.SetNotReady();
         player2.SetNotReady();
         DisplayStart(true);
-        GameCell.Cell15.SetCellOccupied(true);
-        
+
         ExecuteAfterDelay(5, () =>
         {
             Debug.Log("10s after");
@@ -118,11 +124,13 @@ public class GameManager : MonoBehaviour
                     Debug.Log("goooo");
                     player1.SetNotReady();
                     player2.SetNotReady();
-                    player1.GoBackInCell();
-                    player2.GoBackInCell();
+                    Vector3 pos = GameCell.Cell1.GetCellPosition();
+                    player1.celluloAgent.SetGoalPosition(pos.x, pos.z, 1);
+                    pos = GameCell.Cell1.GetCellShiftedPosition();
+                    player2.celluloAgent.SetGoalPosition(pos.x, pos.z, 1);
                     ExecuteAfterDelay(10, () =>
                     {
-                        infos.text = DICE_TEXT;
+                        infos.text = DiceText;
                         infos.gameObject.SetActive(true);
                         _state = GameState.DiceRollPlayer1;
                     });
@@ -133,10 +141,13 @@ public class GameManager : MonoBehaviour
                 {
                     _miniGameRunning = true;
                     DisplayMiniGame(true);
+                    gameEffect.Play();
                     
                     ExecuteAfterDelay(5, () =>
                     {
                         DisplayMiniGame(false);
+                        background.Stop();
+                        backgroundGames.Play();
                         MiniGame randomGame = (MiniGame)Random.Range(0.0f, 3.0f);
                         
                         switch (randomGame)
@@ -183,6 +194,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (_currentDice.DiceThrowDone())
                     {
+                        cling.Play();
                         _diceResultPlayer1 = _currentDice.GetDiceScore();
                         EnableCamera(CameraView.Player1);
                         _player1Tile += _diceResultPlayer1;
@@ -217,6 +229,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (_currentDice.DiceThrowDone())
                     {
+                        cling.Play();
                         player2.SetNotReady();
                         _diceResultPlayer2 = _currentDice.GetDiceScore();
                         EnableCamera(CameraView.Player2);
@@ -246,7 +259,7 @@ public class GameManager : MonoBehaviour
                         {
                             EnableCamera(CameraView.MainCamera);
                             _currentWinner = Player.PLAYER2;
-                            infos.text = DICE_TEXT;
+                            infos.text = DiceText;
                             infos.gameObject.SetActive(true);
                             _state = GameState.DiceRollPlayer2;
                         });
@@ -267,7 +280,6 @@ public class GameManager : MonoBehaviour
                     }
                     else
                     {
-                        CheckForSpecialCells();
                         ExecuteAfterDelay(3, () =>
                         {
                             EnableCamera(CameraView.MainCamera);
@@ -277,22 +289,27 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameState.AdditionalFeatures:
-                if (_specialMove)
+                if (!_isInSpecialMove)
                 {
-                    
-                }
-                else
-                {
-                    DisplayEndRound(true);
-                    ExecuteAfterDelay(5, () =>
+                    CheckForSpecialCells();
+                    if (_specialMove)
                     {
-                        DisplayEndRound(false);
-                        ++_round; 
-                        _state = GameState.MiniGame;
-                    });
-                    _state = GameState.None;
+                        OrderSpecialMove();
+                        _isInSpecialMove = true;
+                    }
+                    else
+                    {
+                        DisplayEndRound(true);
+                        ExecuteAfterDelay(5, () =>
+                        {
+                            DisplayEndRound(false);
+                            ++_round; 
+                            _state = GameState.MiniGame;
+                        });
+                        _state = GameState.None;
+                    }
+                                    
                 }
-                
                 break;
             case GameState.End:
                 winner.text = _currentWinner == Player.PLAYER1 ? player1.playerName : player2.playerName;
@@ -342,9 +359,11 @@ public class GameManager : MonoBehaviour
         {
             endMiniGameScreen.gameObject.SetActive(false);
             _miniGameRunning = false;
-            infos.text = DICE_TEXT;
+            infos.text = DiceText;
             infos.gameObject.SetActive(true);
             _state = GameState.DiceRollPlayer1;
+            backgroundGames.Stop();
+            background.Play();
         });
     }
 
@@ -404,7 +423,36 @@ public class GameManager : MonoBehaviour
 
     private void OrderSpecialMove()
     {
-        
+        if (GameCell.CellRiver.GetCellOccupied())
+        {
+            if (_player1Tile == GameCell.CellRiver)
+            {
+                player1.SetSpecialMove(CelluloPlayer.SpecialMove.River, true);
+                _player1Tile = GameCell.Cell5;
+            }
+            else
+            {
+                player2.SetSpecialMove(CelluloPlayer.SpecialMove.River, true);
+                _player2Tile = GameCell.Cell5;
+            }
+        } 
+        else if (GameCell.CellPlane.GetCellOccupied())
+        {
+            (_player1Tile, _player2Tile) = (_player2Tile, _player1Tile);
+
+            player1.SetSpecialMove(CelluloPlayer.SpecialMove.Airplane, true, _player1Tile);
+            player2.SetSpecialMove(CelluloPlayer.SpecialMove.Airplane, false, _player2Tile);
+        } 
+        else if (GameCell.CellVolcano.GetCellOccupied())
+        {
+            player1.SetSpecialMove(CelluloPlayer.SpecialMove.Volcano, true);
+            player2.SetSpecialMove(CelluloPlayer.SpecialMove.Volcano, false);
+        }
+    }
+
+    public void EndSpecialMove()
+    {
+        _isInSpecialMove = false;
     }
 
     private string getName(string name)

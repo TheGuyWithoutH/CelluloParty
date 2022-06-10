@@ -93,6 +93,7 @@ namespace Game.Mini_Games
             {
                 _winner = GameManager.Player.PLAYER2;
             }
+            Invoke(nameof(GameQuit), 5f);
         }
         
         private void GameQuit()
