@@ -77,8 +77,8 @@ namespace Game.Mini_Games
                 }
 
                 if (_innerStatus == InnerGameStatus.END 
-                    && player2.GetSteering().linear == Vector3.zero 
-                    && player1.GetSteering().linear == Vector3.zero)
+                    && player2.GetComponent<Rigidbody>().velocity == Vector3.zero 
+                    && player1.GetComponent<Rigidbody>().velocity == Vector3.zero)
                 { GameEnded(); }
             }
         }
