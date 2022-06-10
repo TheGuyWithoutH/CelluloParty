@@ -8,7 +8,7 @@ namespace Game.Mini_Games
 {
     public class Curling : Mini_Game
     {
-        private InnerGameStatus _innerStatus;
+        private InnerGameStatus _innerStatus = InnerGameStatus.PREPARATION;
         
         private const int PowerFactor = 3;
         private Vector3 _vect_null = new Vector3(0, 0, 0);
