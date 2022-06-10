@@ -128,7 +128,11 @@ namespace Game.Mini_Games
         {
             _innerStatus = InnerGameStatus.PREPARATION;
             throw_x = start - player.transform.position;
+            Debug.Log("Vector x : "+ throw_x.x + "\n");
+            Debug.Log("Vector z : "+ throw_x.z + "\n");
             Vector3 powerThrow = start + throw_x * PowerFactor;
+            Debug.Log("Power_Throw x : "+ powerThrow.x + "\n");
+            Debug.Log("Power_Throw z : "+ powerThrow.z + "\n");
             player.celluloAgent.SetGoalPosition(powerThrow.x, powerThrow.z, 2f);
         }
 
