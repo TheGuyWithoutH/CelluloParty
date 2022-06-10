@@ -118,6 +118,9 @@ namespace Game.Mini_Games
             _false_two = false;
 
             _curr_index = 0;
+            
+            player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
+            player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
 
             player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
             player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
