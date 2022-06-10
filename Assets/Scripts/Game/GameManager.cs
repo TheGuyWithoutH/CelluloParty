@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Game.Cellulos;
 using Game.Dices;
 using Game.Map;
@@ -48,9 +47,15 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI looser;
     public TextMeshProUGUI infos;
 
+    public AudioSource background;
+    public AudioSource backgroundGames;
+    public AudioSource cling;
+    public AudioSource gameEffect;
+    
+
     private GameState _state;
 
-    private const string DICE_TEXT = "To throw the dice, press on the Cellulo";
+    private const string DiceText = "To throw the dice, press on the Cellulo";
     
     public void Awake()
     {
@@ -84,12 +89,11 @@ public class GameManager : MonoBehaviour
         player1.SetNotReady();
         player2.SetNotReady();
         DisplayStart(true);
-        GameCell.Cell15.SetCellOccupied(true);
-        
+
         ExecuteAfterDelay(5, () =>
         {
             Debug.Log("10s after");
-            _state = GameState.Start;
+            _state = GameState.MiniGame;
         });
     }
 
@@ -122,7 +126,7 @@ public class GameManager : MonoBehaviour
                     player2.GoBackInCell();
                     ExecuteAfterDelay(10, () =>
                     {
-                        infos.text = DICE_TEXT;
+                        infos.text = DiceText;
                         infos.gameObject.SetActive(true);
                         _state = GameState.DiceRollPlayer1;
                     });
@@ -133,10 +137,13 @@ public class GameManager : MonoBehaviour
                 {
                     _miniGameRunning = true;
                     DisplayMiniGame(true);
+                    gameEffect.Play();
                     
                     ExecuteAfterDelay(5, () =>
                     {
                         DisplayMiniGame(false);
+                        background.Stop();
+                        backgroundGames.Play();
                         MiniGame randomGame = (MiniGame)Random.Range(0.0f, 3.0f);
                         
                         switch (randomGame)
@@ -183,6 +190,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (_currentDice.DiceThrowDone())
                     {
+                        cling.Play();
                         _diceResultPlayer1 = _currentDice.GetDiceScore();
                         EnableCamera(CameraView.Player1);
                         _player1Tile += _diceResultPlayer1;
@@ -217,6 +225,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (_currentDice.DiceThrowDone())
                     {
+                        cling.Play();
                         player2.SetNotReady();
                         _diceResultPlayer2 = _currentDice.GetDiceScore();
                         EnableCamera(CameraView.Player2);
@@ -246,7 +255,7 @@ public class GameManager : MonoBehaviour
                         {
                             EnableCamera(CameraView.MainCamera);
                             _currentWinner = Player.PLAYER2;
-                            infos.text = DICE_TEXT;
+                            infos.text = DiceText;
                             infos.gameObject.SetActive(true);
                             _state = GameState.DiceRollPlayer2;
                         });
@@ -342,9 +351,11 @@ public class GameManager : MonoBehaviour
         {
             endMiniGameScreen.gameObject.SetActive(false);
             _miniGameRunning = false;
-            infos.text = DICE_TEXT;
+            infos.text = DiceText;
             infos.gameObject.SetActive(true);
             _state = GameState.DiceRollPlayer1;
+            backgroundGames.Stop();
+            background.Play();
         });
     }
 
