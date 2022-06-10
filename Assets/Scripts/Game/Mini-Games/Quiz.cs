@@ -42,7 +42,7 @@ namespace Game.Mini_Games
 
             if (GameStatus == GameStatus.STARTED)
             {
-                timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, timer.Seconds));
+                timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, TimeQuestions - timer.Seconds));
                 LedBot();
 
                 if (_innerStatus == InnerGameStatus.NEXT)
@@ -67,24 +67,25 @@ namespace Game.Mini_Games
                     Invoke(nameof(NextQuestion), 5f);
                 }
 
-                if (_innerStatus == InnerGameStatus.REFLEXION && timer.Seconds >= TimeQuestions ||
-                    _false_one && _false_two)
+                if (_innerStatus == InnerGameStatus.REFLEXION && (timer.Seconds >= TimeQuestions ||
+                    _false_one && _false_two))
                 {
                     _innerStatus = InnerGameStatus.NEXT;
                 }
 
                 if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player1) && !_false_one)
                 {
-                    Debug.Log("Answer of player one : " + player1.Key + "\n");
                     timer.PauseTimer();
                     if (CheckAnswer(player1, _currentQuestion))
                     {
                         ++player1.Score;
                         _innerStatus = InnerGameStatus.NEXT;
-                        Debug.Log("bonne réponse 1\n");
-                        //faire un truc graphique pour dire que c'est tout bon
                     }
-                    else { timer.ResumeTimer(); }
+                    else
+                    {
+                        timer.ResumeTimer();
+                        _false_one = true;
+                    }
                 }
             
                 if (_innerStatus == InnerGameStatus.REFLEXION && HasAnswered(player2) && !_false_two)
@@ -95,11 +96,12 @@ namespace Game.Mini_Games
                     {
                         ++player2.Score;
                         _innerStatus = InnerGameStatus.NEXT;
-                        Debug.Log("bonne réponse 2\n");
-                        //faire un truc graphique pour dire que c'est tout bon
                     }
                     else
-                    { timer.ResumeTimer(); }
+                    {
+                        timer.ResumeTimer();
+                        _false_two = true;
+                    }
                 }
             }
         }
@@ -175,16 +177,10 @@ namespace Game.Mini_Games
             _currentQuestion = _current_set[_curr_index];
             ++_curr_index;
 
-            Debug.Log("Question : " + _currentQuestion.Question1 + "\n");
-            Debug.Log("Anwer : " + _currentQuestion.Answer + "\n");
-
             q.text = _currentQuestion.Question1;
             a1.text = _currentQuestion.Responses[0];
-            Debug.Log("0 : " + _currentQuestion.Responses[0] + "\n");
             a2.text = _currentQuestion.Responses[2];
-            Debug.Log("2 : " + _currentQuestion.Responses[2] + "\n");
             a3.text = _currentQuestion.Responses[4];
-            Debug.Log("4 : " + _currentQuestion.Responses[4] + "\n");
 
             questionLayout.gameObject.SetActive(true);
             
