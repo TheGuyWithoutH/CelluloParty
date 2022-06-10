@@ -83,7 +83,7 @@ namespace Game.Cellulos
                     MoveToTarget();
                     break;
                 case SpecialMove.Volcano:
-                    _targetCell = _cell - 3;
+                    _targetCell = _cell - 3 < GameCell.Cell1 ? GameCell.Cell1 : _cell - 3;
                     _moveDone = false;
                     MoveToTarget();
                     break;

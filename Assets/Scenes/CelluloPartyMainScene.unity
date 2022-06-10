@@ -686,6 +686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1: {fileID: 1804942521}
   player2: {fileID: 1929773132}
+  bot: {fileID: 528867638}
   curling: {fileID: 36271548}
   mole: {fileID: 7520442}
   quiz: {fileID: 1460964404}
@@ -7843,7 +7844,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -6.96, y: 261.17}
-  m_SizeDelta: {x: 810.1, y: 50}
+  m_SizeDelta: {x: 1732, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1340215311
 MonoBehaviour:

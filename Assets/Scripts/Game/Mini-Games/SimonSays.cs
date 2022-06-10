@@ -37,7 +37,6 @@ namespace Game.Mini_Games
                     _actualIndex = 0;
                     for (int i = 0; i < _numKeys; i++)
                     {
-                        Debug.Log("key : " + _gameKeys[i]);
                         Invoke(nameof(LedOn), (i+1)*_latence);
                         if (i == _numKeys - 1)
                         {
@@ -54,7 +53,6 @@ namespace Game.Mini_Games
                     if (player1.getOneTouch() && player2.Score == 0)
                     {
                         int key = player1.Key;
-                        Debug.Log("Player 1 : " + key);
                         if (player1KeysCount < _numKeys) {
                             if (_gameKeys[player1KeysCount] == key)
                             {
@@ -70,7 +68,6 @@ namespace Game.Mini_Games
                     if (player2.getOneTouch() && player1.Score == 0)
                     {
                         int key = player2.Key;
-                        Debug.Log("Player 2 : " + key);
                         if (player2KeysCount < _numKeys)
                         {
                             if (_gameKeys[player2KeysCount] == key)
@@ -125,7 +122,6 @@ namespace Game.Mini_Games
         public override void GameEnded()
         {
             base.GameEnded();
-            Debug.Log("fin : " + player1.Score + " " + player2.Score);
         }
 
         private void StartPlaying()

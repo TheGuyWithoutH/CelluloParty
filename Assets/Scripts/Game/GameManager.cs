@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public CelluloPlayer player1;
     private GameCell _player1Tile;
     public CelluloPlayer player2;
+    public CelluloBot bot;
     private GameCell _player2Tile;
     private Player _currentWinner;
     private int _round;
@@ -185,7 +186,7 @@ public class GameManager : MonoBehaviour
                     {
                         SetDiceThrow(normalDice);
                     }
-                                        
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectWaiting, player1.celluloAgent.initialColor, 0);
                     _currentDice.ThrowDice();
                     infos.gameObject.SetActive(false);
                     _diceThrown = true;
@@ -197,8 +198,19 @@ public class GameManager : MonoBehaviour
                     {
                         cling.Play();
                         _diceResultPlayer1 = _currentDice.GetDiceScore();
+                        for (int i = 0; i < 6; i++)
+                        {
+                            if (i < _diceResultPlayer1)
+                            {
+                                bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, player1.celluloAgent.initialColor, i);
+                            }
+                            else
+                            {
+                                bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, i);
+                            }
+                        }
                         EnableCamera(CameraView.Player1);
-                        _player1Tile += _diceResultPlayer1;
+                        _player1Tile = _diceResultPlayer1 + _player1Tile > GameCell.Cell40 ? GameCell.Cell40 : _diceResultPlayer1 + _player1Tile ;
                         player1.SetTargetCell(_player1Tile);
                         _state = GameState.MovementPlayer1;
                         _diceThrown = false;
@@ -221,7 +233,7 @@ public class GameManager : MonoBehaviour
                     {
                         SetDiceThrow(normalDice);
                     }
-                                        
+                    bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectWaiting, player2.celluloAgent.initialColor, 0);
                     _currentDice.ThrowDice();
                     Debug.Log("throw 2");
                     infos.gameObject.SetActive(false);
@@ -235,8 +247,19 @@ public class GameManager : MonoBehaviour
                         Debug.Log("done 2");
                         cling.Play();
                         _diceResultPlayer2 = _currentDice.GetDiceScore();
+                        for (int i = 0; i < 6; i++)
+                        {
+                            if (i < _diceResultPlayer2)
+                            {
+                                bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, player2.celluloAgent.initialColor, i);
+                            }
+                            else
+                            {
+                                bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.black, i);
+                            }
+                        }
                         EnableCamera(CameraView.Player2);
-                        _player2Tile += _diceResultPlayer2;
+                        _player2Tile = _diceResultPlayer2 + _player2Tile > GameCell.Cell40 ? GameCell.Cell40 : _diceResultPlayer2 + _player2Tile ;
                         player2.SetTargetCell(_player2Tile);
                         _state = GameState.MovementPlayer2;
                         _diceThrown = false;
@@ -450,6 +473,8 @@ public class GameManager : MonoBehaviour
         {
             player1.SetSpecialMove(CelluloPlayer.SpecialMove.Volcano, true);
             player2.SetSpecialMove(CelluloPlayer.SpecialMove.Volcano, false);
+            _player1Tile = _player1Tile - 3 < GameCell.Cell1 ? GameCell.Cell1 : _player1Tile - 3;
+            _player2Tile = _player2Tile - 3 < GameCell.Cell1 ? GameCell.Cell1 : _player2Tile - 3;
         }
     }
 
