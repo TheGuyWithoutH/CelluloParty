@@ -14,6 +14,7 @@ namespace Game.Dices
 
         void OnTriggerStay(Collider col)
         {
+            Debug.Log(("trigger dés/plateau"));
             if (_diceVelocity.x == 0f && _diceVelocity.y == 0f && _diceVelocity.z == 0f)
             {
                 switch (col.gameObject.name) {

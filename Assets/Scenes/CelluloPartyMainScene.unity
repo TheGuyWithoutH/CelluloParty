@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -307,7 +307,7 @@ MonoBehaviour:
   bot: {fileID: 528867638}
   playButton: {fileID: 0}
   startScreen: {fileID: 2047444235}
-  endScreen: {fileID: 0}
+  endScreen: {fileID: 1445669445}
   timer: {fileID: 60792173}
 --- !u!1 &36271546
 GameObject:
@@ -358,7 +358,7 @@ MonoBehaviour:
   bot: {fileID: 528867638}
   playButton: {fileID: 0}
   startScreen: {fileID: 1655705873}
-  endScreen: {fileID: 0}
+  endScreen: {fileID: 1445669445}
 --- !u!1001 &48491318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8532,7 +8532,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1435386665
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8851,7 +8851,7 @@ MonoBehaviour:
   bot: {fileID: 528867638}
   playButton: {fileID: 0}
   startScreen: {fileID: 1435386666}
-  endScreen: {fileID: 0}
+  endScreen: {fileID: 1445669445}
   timerText: {fileID: 771899282}
   q: {fileID: 508027474}
   a1: {fileID: 1540788327}
@@ -11789,7 +11789,7 @@ MonoBehaviour:
   bot: {fileID: 528867638}
   playButton: {fileID: 0}
   startScreen: {fileID: 1646949546}
-  endScreen: {fileID: 0}
+  endScreen: {fileID: 1445669445}
 --- !u!1 &1987914318
 GameObject:
   m_ObjectHideFlags: 0

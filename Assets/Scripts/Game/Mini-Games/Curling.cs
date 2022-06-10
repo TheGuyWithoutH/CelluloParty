@@ -88,6 +88,7 @@ namespace Game.Mini_Games
 
         protected override void PlayerReady()
         {
+            base.PlayerReady();
             bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectBlink, Color.white, 20);
             ExecuteAfterDelay(5f, () =>
             {

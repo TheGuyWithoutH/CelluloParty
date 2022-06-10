@@ -35,9 +35,7 @@ namespace Game.Dices
             float dirZ = Random.Range(-3000, 3000);
             transform.position = new Vector3 (9.5f, 9f, -9f);
             transform.rotation = Quaternion.Euler(new Vector3(rotX, rotY, rotZ));
-            
-            Debug.Log(dirX + " " + dirY + " " + dirZ);
-            
+
             _rb.AddForce (transform.up * 200);
             _rb.AddTorque (dirX, dirY, dirZ);
         }

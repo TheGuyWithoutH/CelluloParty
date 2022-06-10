@@ -36,7 +36,7 @@ namespace Game.Cellulos
         {
             if (_isActive)
             {
-                if (_cell != _targetCell)
+                if (_cell != _targetCell )//&& _cell > GameCell.Cell1 && _cell < GameCell.Cell40)
                 {
                     _cell.SetCellOccupied(false);
                     if (_cell < _targetCell) ++_cell;
@@ -46,6 +46,10 @@ namespace Game.Cellulos
                     _cell.SetCellOccupied(true);
                     celluloAgent.SetGoalPosition(pos.x, pos.z, 1);
                 }
+                // else if (_cell != _targetCell)
+                // {
+                //     _moveDone = true;
+                // }
             }
         }
 

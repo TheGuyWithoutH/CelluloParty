@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     private GameState _state;
 
-    private const string DiceText = "To throw the dice, press on the Cellulo";
+    private const string DiceText = ", press on the Cellulo to throw the dice";
     
     public void Awake()
     {
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         player2.SetNotReady();
         DisplayStart(true);
 
-        ExecuteAfterDelay(5, () =>
+        ExecuteAfterDelay(15, () =>
         {
             Debug.Log("10s after");
             _state = GameState.Start;
@@ -113,8 +113,9 @@ public class GameManager : MonoBehaviour
                 
                 /*Debug.Log("start the game");
                 _miniGameRunning = true;
-                quiz.StartGame();
-                _state = GameState.MiniGame;*/
+                curling.StartGame();
+                _state = GameState.MiniGame;
+                break;*/
                 
                 //////////////////////////////////////////////////////////////////
                 
@@ -130,7 +131,7 @@ public class GameManager : MonoBehaviour
                     player2.celluloAgent.SetGoalPosition(pos.x, pos.z, 1);
                     ExecuteAfterDelay(10, () =>
                     {
-                        infos.text = DiceText;
+                        infos.text = player1.playerName + DiceText;
                         infos.gameObject.SetActive(true);
                         _state = GameState.DiceRollPlayer1;
                     });
@@ -222,15 +223,17 @@ public class GameManager : MonoBehaviour
                     }
                                         
                     _currentDice.ThrowDice();
+                    Debug.Log("throw 2");
                     infos.gameObject.SetActive(false);
                     _diceThrown = true;
+                    player2.SetNotReady();
                 }
                 else if (_diceThrown)
                 {
                     if (_currentDice.DiceThrowDone())
                     {
+                        Debug.Log("done 2");
                         cling.Play();
-                        player2.SetNotReady();
                         _diceResultPlayer2 = _currentDice.GetDiceScore();
                         EnableCamera(CameraView.Player2);
                         _player2Tile += _diceResultPlayer2;
@@ -258,8 +261,7 @@ public class GameManager : MonoBehaviour
                         ExecuteAfterDelay(3, () =>
                         {
                             EnableCamera(CameraView.MainCamera);
-                            _currentWinner = Player.PLAYER2;
-                            infos.text = DiceText;
+                            infos.text = player2.playerName + DiceText;
                             infos.gameObject.SetActive(true);
                             _state = GameState.DiceRollPlayer2;
                         });
@@ -275,6 +277,7 @@ public class GameManager : MonoBehaviour
                         ExecuteAfterDelay(3, () =>
                         {
                             EnableCamera(CameraView.MainCamera);
+                            _currentWinner = Player.PLAYER2;
                             _state = GameState.End;
                         });
                     }
@@ -359,7 +362,7 @@ public class GameManager : MonoBehaviour
         {
             endMiniGameScreen.gameObject.SetActive(false);
             _miniGameRunning = false;
-            infos.text = DiceText;
+            infos.text = player1.playerName + DiceText;
             infos.gameObject.SetActive(true);
             _state = GameState.DiceRollPlayer1;
             backgroundGames.Stop();
