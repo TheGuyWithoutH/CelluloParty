@@ -13,6 +13,9 @@ namespace Game.Mini_Games
         private const int PowerFactor = 3;
         private Vector3 _target = new Vector3(7.12f, 0f, -4.76f);
 
+        private Vector3 _curl_start_one;
+        private Vector3 _curl_start_two;
+
         private Vector3 _throw_one;
         private Vector3 _throw_two;
 
@@ -46,7 +49,7 @@ namespace Game.Mini_Games
 
                 if (_innerStatus == InnerGameStatus.FIRST_THROW && !player1.IsTouch)
                 {
-                    Throw(player1, StartOne, _throw_one);
+                    Throw(player1, _curl_start_one, _throw_one);
                     OK_one = true;
                     player1.celluloAgent
                         .SetVisualEffect(VisualEffect.VisualEffectConstAll, player1.celluloAgent.initialColor, 0);
@@ -61,7 +64,7 @@ namespace Game.Mini_Games
 
                 if (_innerStatus == InnerGameStatus.SECOND_THROW && !player2.IsTouch)
                 {
-                    Throw(player2, StartTwo, _throw_two);
+                    Throw(player2, _curl_start_two, _throw_two);
                     OK_two = true;
                     player2.celluloAgent
                         .SetVisualEffect(VisualEffect.VisualEffectConstAll, player2.celluloAgent.initialColor, 0);
@@ -83,12 +86,17 @@ namespace Game.Mini_Games
             OK_one = false;
             OK_two = false;
             float posZ = Random.Range(-9, -1);
+            _target.z = posZ;
             bot.celluloAgent.SetGoalPosition(StartBot.x, posZ, 2f);
         }
 
         protected override void PlayerReady()
         {
             base.PlayerReady();
+            
+            _curl_start_one = player1.transform.position;
+            _curl_start_two = player2.transform.position;
+            
             bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectBlink, Color.white, 20);
             ExecuteAfterDelay(5f, () =>
             {
