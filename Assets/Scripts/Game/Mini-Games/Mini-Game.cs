@@ -21,13 +21,15 @@ namespace Game.Mini_Games
         
         private GameManager.Player _winner;
         
-        protected Vector3 StartOne = new Vector3(2.26f, 0, -4.76f);
+        protected Vector3 StartOne = new Vector3(2.26f, 0f, -4.76f);
         protected Vector3 StartTwo = new Vector3(11.98f, 0f, -4.76f);
         protected Vector3 StartBot = new Vector3(7.12f, 0f, -4.76f);
 
         protected virtual void Start()
         {
             GameStatus = GameStatus.NONE;
+            player1.Score = 0;
+            player2.Score = 0;
             _winner = GameManager.Player.NONE;
         }
 

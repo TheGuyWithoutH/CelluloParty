@@ -141,7 +141,7 @@ namespace Game.Mini_Games
                 player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
                 player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
                 Invoke(nameof(MoleDisappear), _latence);
-                Invoke(nameof(MoleAppear), Random.Range(0.6f, 3f));
+                Invoke(nameof(MoleAppear), Random.Range(_latence + 0.2f, 3f));
             }
         }
 

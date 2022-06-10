@@ -10,7 +10,7 @@ namespace Game.Mini_Games
     {
         private InnerGameStatus _innerStatus = InnerGameStatus.NONE;
 
-        private const int PowerFactor = 3;
+        private const float PowerFactor = 2f;
         private Vector3 _target = new Vector3(7.12f, 0f, -4.76f);
 
         private Vector3 _curl_start_one;
@@ -49,7 +49,7 @@ namespace Game.Mini_Games
 
                 if (_innerStatus == InnerGameStatus.FIRST_THROW && !player1.IsTouch)
                 {
-                    Throw(player1, _curl_start_one, _throw_one);
+                    Throw(player1, _curl_start_one, _throw_one, StartOne);
                     OK_one = true;
                     player1.celluloAgent
                         .SetVisualEffect(VisualEffect.VisualEffectConstAll, player1.celluloAgent.initialColor, 0);
@@ -64,7 +64,7 @@ namespace Game.Mini_Games
 
                 if (_innerStatus == InnerGameStatus.SECOND_THROW && !player2.IsTouch)
                 {
-                    Throw(player2, _curl_start_two, _throw_two);
+                    Throw(player2, _curl_start_two, _throw_two, StartTwo);
                     OK_two = true;
                     player2.celluloAgent
                         .SetVisualEffect(VisualEffect.VisualEffectConstAll, player2.celluloAgent.initialColor, 0);
@@ -132,15 +132,11 @@ namespace Game.Mini_Games
             base.GameEnded();
         }
         
-        private void Throw(CelluloPlayer player, Vector3 start, Vector3 throw_x)
+        private void Throw(CelluloPlayer player, Vector3 start, Vector3 throw_x, Vector3 yellowCircle)
         {
             _innerStatus = InnerGameStatus.PREPARATION;
             throw_x = start - player.transform.position;
-            Debug.Log("Vector x : "+ throw_x.x + "\n");
-            Debug.Log("Vector z : "+ throw_x.z + "\n");
-            Vector3 powerThrow = start + throw_x * PowerFactor;
-            Debug.Log("Power_Throw x : "+ powerThrow.x + "\n");
-            Debug.Log("Power_Throw z : "+ powerThrow.z + "\n");
+            Vector3 powerThrow = yellowCircle + throw_x * PowerFactor;
             player.celluloAgent.SetGoalPosition(powerThrow.x, powerThrow.z, 2f);
         }
 

@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38bbd92948f64414a411ac318d58e628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
+  manager: {fileID: 92888238}
   player1: {fileID: 1804942521}
   player2: {fileID: 1929773132}
   bot: {fileID: 528867638}
@@ -10428,11 +10428,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2916047611232586596, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.93
+      value: 2.23
       objectReference: {fileID: 0}
     - target: {fileID: 2916047611232586596, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.52
+      value: -4.74
       objectReference: {fileID: 0}
     - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
       propertyPath: isMoved
@@ -11787,7 +11787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a47a237d7214947a3493d2c8d40e00d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
+  manager: {fileID: 92888238}
   player1: {fileID: 1804942521}
   player2: {fileID: 1929773132}
   bot: {fileID: 528867638}
