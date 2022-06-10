@@ -106,8 +106,6 @@ namespace Game.Mini_Games
             player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.cyan, 0);
             player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, 2);
             player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, 4);
-            
-            Invoke(nameof(NextQuestion), 5f);
         }
 
         protected override void PlayerReady()

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Game.Cellulos;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game.Mini_Games
 {
@@ -65,9 +66,15 @@ namespace Game.Mini_Games
         public override void StartGame()
         {
             base.StartGame();
-            _innerStatus = InnerGameStatus.PREPARATION;
             OK_one = false;
             OK_two = false;
+            float posZ = Random.Range(-9, -1);
+            bot.celluloAgent.SetGoalPosition(StartBot.x, posZ, 2f);
+        }
+
+        protected override void PlayerReady()
+        {
+            _innerStatus = InnerGameStatus.PREPARATION;
         }
         
         public override void OnGamePause()
@@ -100,8 +107,8 @@ namespace Game.Mini_Games
             
             ExecuteAfterDelay(5f, () =>
             {
-                Vector3 power_throw = (start - player.transform.position) * PowerFactor;
-                player.celluloAgent.SetGoalPosition(power_throw.x, power_throw.z, 2f);
+                Vector3 powerThrow = start + (start - player.transform.position) * PowerFactor;
+                player.celluloAgent.SetGoalPosition(powerThrow.x, powerThrow.z, 2f);
             });
         }
 
