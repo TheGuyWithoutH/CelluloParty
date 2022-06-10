@@ -163,7 +163,11 @@ namespace Game.Mini_Games
 
         private void NextQuestion()
         {
-            if(_curr_index == NumQuestions){ GameEnded(); }
+            if (_curr_index == NumQuestions)
+            {
+                GameEnded();
+                return;
+            }
             
             _currentQuestion = _current_set[_curr_index];
             ++_curr_index;

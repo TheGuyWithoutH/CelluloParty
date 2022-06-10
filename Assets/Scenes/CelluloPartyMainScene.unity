@@ -691,6 +691,7 @@ MonoBehaviour:
   mole: {fileID: 7520442}
   quiz: {fileID: 1460964404}
   simonSays: {fileID: 1976407222}
+  checkZone: {fileID: 642520001}
   normalDice: {fileID: 1296300441}
   winnerDice: {fileID: 693394301}
   looserDice: {fileID: 849226517}

@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public Mini_Game simonSays;
     private bool _miniGameRunning;
 
+    public DiceCheckZoneScript checkZone;
     public Dice normalDice;
     public Dice winnerDice;
     public Dice looserDice;
@@ -401,12 +402,14 @@ public class GameManager : MonoBehaviour
             looserDice.gameObject.SetActive(false);
             winnerDice.gameObject.SetActive(false);
             _currentDice = normalDice;
+            checkZone.dice = normalDice;
         } else if (dice == winnerDice) 
         {
             normalDice.gameObject.SetActive(false);
             looserDice.gameObject.SetActive(false);
             winnerDice.gameObject.SetActive(true);
             _currentDice = winnerDice;
+            checkZone.dice = winnerDice;
         }
         else if(dice == looserDice)
         {
@@ -414,6 +417,7 @@ public class GameManager : MonoBehaviour
             looserDice.gameObject.SetActive(true);
             winnerDice.gameObject.SetActive(false);
             _currentDice = looserDice;
+            checkZone.dice = looserDice;
         }
         else
         {
