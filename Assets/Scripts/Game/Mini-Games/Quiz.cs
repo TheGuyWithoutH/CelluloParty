@@ -44,8 +44,28 @@ namespace Game.Mini_Games
             {
                 timerText.SetText(string.Format("{0:00}:{1:00}", timer.Minutes, timer.Seconds));
                 LedBot();
-                
-                if (_innerStatus == InnerGameStatus.NEXT) { NextQuestion(); }
+
+                if (_innerStatus == InnerGameStatus.NEXT)
+                {
+                    switch (_currentQuestion.Answer)
+                    {
+                        case 0:
+                            a2.text = "";
+                            a3.text = "";
+                            break;
+                        case 2:
+                            a1.text = "";
+                            a3.text = "";
+                            break;
+                        case 4:
+                            a1.text = "";
+                            a2.text = "";
+                            break;
+                            
+                    }
+                    _innerStatus = InnerGameStatus.NONE;
+                    Invoke(nameof(NextQuestion), 5f);
+                }
 
                 if (_innerStatus == InnerGameStatus.REFLEXION && timer.Seconds >= TimeQuestions ||
                     _false_one && _false_two)
