@@ -10,6 +10,7 @@ namespace Game.Mini_Games
         private int _led;
         private int _maxSeconds;
         private bool _isMole;
+        private bool _firstStart;
 
         protected override void Start()
         {
@@ -21,7 +22,7 @@ namespace Game.Mini_Games
         {
             base.Update();
 
-            if (GameStatus == GameStatus.STARTED)
+            if (GameStatus == GameStatus.STARTED && _firstStart)
             {
                 if (timer.CurrentTime >= 10 && timer.CurrentTime < 20)
                 {
@@ -58,12 +59,10 @@ namespace Game.Mini_Games
                 {
                     if (player1.Key == _led && _isMole)
                     {
-                        Debug.Log("Player 1 +");
                         player1.Score += 1;
                     }
                     else
                     {
-                        Debug.Log("Player 1 -");
                         player1.Score -= 1;
                     }
                 }
@@ -72,12 +71,10 @@ namespace Game.Mini_Games
                 {
                     if (player2.Key == _led && _isMole)
                     {
-                        Debug.Log("Player 2 +");
                         player2.Score += 1;
                     }
                     else
                     {
-                        Debug.Log("Player 2 -");
                         player2.Score -= 1;
                     }
                 }
@@ -120,10 +117,13 @@ namespace Game.Mini_Games
         public override void GameEnded()
         {
             base.GameEnded();
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
         }
 
         private void GameBegin()
         {
+            _firstStart = true;
+            bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
             timer.StartTimer(_maxSeconds, this);
         }
 
