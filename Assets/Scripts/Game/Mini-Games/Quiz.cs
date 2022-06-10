@@ -16,7 +16,7 @@ namespace Game.Mini_Games
         private Question[] _current_set;
         private Question _currentQuestion;
 
-        private const int NumSets = 2;
+        private const int NumSets = 3;
         private const int NumQuestions = 6;
         private const int TimeQuestions = 18;
 
@@ -112,7 +112,7 @@ namespace Game.Mini_Games
             base.StartGame();
             
             _innerStatus = InnerGameStatus.NONE;
-            _sets = new List<Question[]>{ _questions_set_one, _questions_set_two };
+            _sets = new List<Question[]>{ _questions_set_one, _questions_set_two, _questions_set_three };
             int rand = Random.Range(0, NumSets - 1);
             Debug.Log("Set : " + rand + "\n");
             _current_set = _sets[rand];
@@ -263,6 +263,52 @@ namespace Game.Mini_Games
                     {4, "France"}
                 }),
             new Question("How many islands constitute de Philippines ?", 4,
+                new Dictionary<int, string>
+                {
+                    {0, "15"},
+                    {2, "52"},
+                    {4, "7641"}
+                }),
+            new Question("What is the weirdest flavor McDonald' once made for their bubblegums ?", 2,
+                new Dictionary<int, string>
+                {
+                    {0, "Petrol"},
+                    {2, "Broccoli"},
+                    {4, "Olive"}
+                }),
+            new Question("Biggest feature of the tropical fungus Ophiocordyceps", 0, 
+                new Dictionary<int, string>
+                {
+                    {0, "It can control ants"},
+                    {2, "It has amazing vertues for skincare"},
+                    {4, "It the world's second biggest type of fungus"}
+                }),
+            new Question("Which single letter does not appear in the states of the United States", 4, 
+                new Dictionary<int, string>
+                {
+                    {0, "Z"},
+                    {2, "X"},
+                    {4, "Q"}
+                }),
+            new Question("How is named a cow-bison hypbrid ?", 0, 
+                new Dictionary<int, string>
+                {
+                    {0, "Beefalo"},
+                    {2, "Cow-Bison"},
+                    {4, "Cowfalo"}
+                })
+        };
+        
+        private Question[] _questions_set_three =
+        {
+            new Question("What armadillo's shells are known for ?", 0,
+                new Dictionary<int, string>
+                {
+                    {0, "Being able to resist to predators"},
+                    {2, "Being bulletproof"},
+                    {4, "Being waterproof"}
+                }),
+            new Question("How long is the longuest English word ?", 4,
                 new Dictionary<int, string>
                 {
                     {0, "15"},
