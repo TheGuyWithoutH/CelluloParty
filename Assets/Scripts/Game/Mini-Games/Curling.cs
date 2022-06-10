@@ -49,7 +49,7 @@ namespace Game.Mini_Games
 
                 if (_innerStatus == InnerGameStatus.FIRST_THROW && !player1.IsTouch)
                 {
-                    Throw(player1, _curl_start_one, _throw_one);
+                    Throw(player1, StartOne, _throw_one);
                     OK_one = true;
                     player1.celluloAgent
                         .SetVisualEffect(VisualEffect.VisualEffectConstAll, player1.celluloAgent.initialColor, 0);
@@ -64,7 +64,7 @@ namespace Game.Mini_Games
 
                 if (_innerStatus == InnerGameStatus.SECOND_THROW && !player2.IsTouch)
                 {
-                    Throw(player2, _curl_start_two, _throw_two);
+                    Throw(player2, StartTwo, _throw_two);
                     OK_two = true;
                     player2.celluloAgent
                         .SetVisualEffect(VisualEffect.VisualEffectConstAll, player2.celluloAgent.initialColor, 0);
