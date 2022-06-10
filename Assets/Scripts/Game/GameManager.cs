@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
         ExecuteAfterDelay(5, () =>
         {
             Debug.Log("10s after");
-            _state = GameState.MiniGame;
+            _state = GameState.Start;
         });
     }
 
