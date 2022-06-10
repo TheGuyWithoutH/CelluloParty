@@ -37,26 +37,26 @@ namespace Game.Mini_Games
 
             if (GameStatus == GameStatus.STARTED)
             {
-                if (_innerStatus == InnerGameStatus.PREPARATION && player1.getOneTouch())
+                if (_innerStatus == InnerGameStatus.PREPARATION && player1.IsTouch)
                 {
                     _innerStatus = InnerGameStatus.FIRST_THROW;
                     player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectBlink, Color.cyan, 20);
                 }
 
-                if (_innerStatus == InnerGameStatus.FIRST_THROW)
+                if (_innerStatus == InnerGameStatus.FIRST_THROW && !player1.IsTouch)
                 {
                     Throw(player1, StartOne, _throw_one);
                     OK_one = true;
                     player1.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.cyan, 0);
                 }
 
-                if (_innerStatus == InnerGameStatus.PREPARATION && player2.getOneTouch())
+                if (_innerStatus == InnerGameStatus.PREPARATION && player2.IsTouch)
                 {
                     _innerStatus = InnerGameStatus.SECOND_THROW;
                     player2.GetComponent<CelluloAgentRigidBody>().SetVisualEffect(VisualEffect.VisualEffectBlink, Color.red, 20);
                 }
 
-                if (_innerStatus == InnerGameStatus.SECOND_THROW)
+                if (_innerStatus == InnerGameStatus.SECOND_THROW && !player2.IsTouch)
                 {
                     Throw(player2, StartTwo, _throw_two);
                     OK_two = true;
@@ -116,13 +116,9 @@ namespace Game.Mini_Games
         private void Throw(CelluloPlayer player, Vector3 start, Vector3 throw_x)
         {
             _innerStatus = InnerGameStatus.PREPARATION;
-            
-            ExecuteAfterDelay(5f, () =>
-            {
-                throw_x = (start - player.transform.position);
-                Vector3 powerThrow = start + throw_x * PowerFactor;
-                player.celluloAgent.SetGoalPosition(powerThrow.x, powerThrow.z, 2f);
-            });
+            throw_x = start - player.transform.position;
+            Vector3 powerThrow = start + throw_x * PowerFactor;
+            player.celluloAgent.SetGoalPosition(powerThrow.x, powerThrow.z, 2f);
         }
 
         private double eucl_dist(Vector3 vec_a, Vector3 vec_b)
