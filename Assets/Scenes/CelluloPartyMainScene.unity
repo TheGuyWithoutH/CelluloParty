@@ -7716,7 +7716,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 23
 --- !u!114 &1310673945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10359,8 +10359,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1300460603572157312, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1300460603572157317, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1300460603572157319, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: m_LayoutPriority
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1300460603662249420, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
@@ -10507,6 +10515,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0.000000059604645
       objectReference: {fileID: 0}
+    - target: {fileID: 7697060318665940490, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7697060318665940494, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -10582,6 +10594,10 @@ PrefabInstance:
     - target: {fileID: 9104769650438931821, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104769650438931825, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9104769650438931826, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
       propertyPath: m_RootOrder
@@ -10844,6 +10860,7 @@ MonoBehaviour:
     m_Bits: 1
   celluloAgent: {fileID: 1804942522}
   playerName: 
+  gameManager: {fileID: 0}
 --- !u!114 &1804942522 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
@@ -11622,6 +11639,7 @@ MonoBehaviour:
     m_Bits: 1
   celluloAgent: {fileID: 1929773133}
   playerName: 
+  gameManager: {fileID: 0}
 --- !u!114 &1929773133 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
