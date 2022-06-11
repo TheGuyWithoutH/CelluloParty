@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
                 
                 /*Debug.Log("start the game");
                 _miniGameRunning = true;
-                mole.StartGame();
+                curling.StartGame();
                 _state = GameState.MiniGame;
                 break;*/
                 

@@ -64,7 +64,7 @@ namespace Game.Cellulos
         public void GoBackInCell()
         {
             celluloAgent.isMoved = false;
-            Vector3 pos = _cell.GetCellOccupied() ? Map.GameCells.GetCellShiftedPosition(_cell) : _cell.GetCellPosition();
+            Vector3 pos = _cell.GetCellPosition();
             celluloAgent.SetGoalPosition(pos.x, pos.z, 1);
         }
 

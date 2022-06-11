@@ -8,6 +8,7 @@ namespace Game.Dices
     {
         private Rigidbody _rb;
         public Vector3 diceVelocity;
+        public AudioSource effect;
         protected bool _done;
         protected int _result;
         
@@ -38,6 +39,7 @@ namespace Game.Dices
 
             _rb.AddForce (transform.up * 200);
             _rb.AddTorque (dirX, dirY, dirZ);
+            effect.Play();
         }
 
         public bool DiceThrowDone()
