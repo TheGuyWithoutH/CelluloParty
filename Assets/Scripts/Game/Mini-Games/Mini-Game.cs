@@ -13,7 +13,6 @@ namespace Game.Mini_Games
         public CelluloPlayer player1;
         public CelluloPlayer player2;
         public CelluloBot bot;
-        public Button playButton;
         public Image startScreen;
         public Image endScreen;
 
@@ -39,7 +38,6 @@ namespace Game.Mini_Games
             {
                 if (GameStatus == GameStatus.READY)
                 {
-                    Debug.Log("Ready");
                     PlayerReady();
                     player1.SetNotReady();
                     player2.SetNotReady();
@@ -67,6 +65,8 @@ namespace Game.Mini_Games
             bot.celluloAgent.SetGoalPosition(StartBot.x, StartBot.z, 2f);
             GameStatus = GameStatus.READY;
             startScreen.gameObject.SetActive(true);
+            player1.Score = 0;
+            player2.Score = 0;
             _winner = GameManager.Player.NONE;
         }
         

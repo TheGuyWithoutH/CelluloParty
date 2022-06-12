@@ -34,8 +34,6 @@ namespace Game.Mini_Games
                 if (_status == Status.Pattern) {
                     _numKeys += 1;
                     GenerateKeys();
-                    _player1Keys = new List<int>();
-                    _player2Keys = new List<int>();
                     _status = Status.None;
                     _actualIndex = 0;
                     for (int i = 0; i < _numKeys; i++)
@@ -57,7 +55,6 @@ namespace Game.Mini_Games
                     {
                         int key = player1.Key;
                         if (player1KeysCount < _numKeys) {
-                            Debug.Log("key player 1 : " + key);
                             if (_gameKeys[player1KeysCount] == key)
                             {
                                 _player1Keys.Add(key);
@@ -74,7 +71,6 @@ namespace Game.Mini_Games
                         int key = player2.Key;
                         if (player2KeysCount < _numKeys)
                         {
-                            Debug.Log("key player 2 : " + key);
                             if (_gameKeys[player2KeysCount] == key)
                             {
                                 _player2Keys.Add(key);
@@ -86,15 +82,17 @@ namespace Game.Mini_Games
                         }
                     }
                     
-                    if ((player1.Score == 1 && player2.Score == 1) || (player1KeysCount == _numKeys && player2.Score == 1) || (player2KeysCount == _numKeys && player1.Score == 1))
+                    if ((player1.Score == 1 && player2.Score == 1) || (player1KeysCount == _numKeys && player1.Score == 1) || (player2KeysCount == _numKeys && player2.Score == 1))
                     {
                         GameEnded();
                     }
 
-                    if (player1KeysCount == _numKeys && player2KeysCount == _numKeys)
+                    if (player1KeysCount == _numKeys && player2KeysCount == _numKeys && player1.Score != 1 && player2.Score != 1)
                     {
                         _gameKeys = new List<int>();
                         _latence -= _latence > 0.2f ? 0.2f : 0f;
+                        _player1Keys = new List<int>();
+                        _player2Keys = new List<int>();
                         _status = Status.Pattern;
                     }
                 }
@@ -114,6 +112,7 @@ namespace Game.Mini_Games
                 player2.GetComponent<CelluloAgentRigidBody>()
                     .SetVisualEffect(VisualEffect.VisualEffectConstSingle, getColor(i), i);
             }
+            PlayerReady();
         }
         
         public override void OnGamePause()

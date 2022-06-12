@@ -9,7 +9,8 @@ namespace Game.Mini_Games
         private float _latence;
         private int _led;
         private int _maxSeconds;
-        private bool _isMole;
+        private bool _isMole1;
+        private bool _isMole2;
         private bool _firstStart;
 
         protected override void Start()
@@ -56,11 +57,11 @@ namespace Game.Mini_Games
 
                 if (player1.getOneTouch())
                 {
-                    if (player1.Key == _led && _isMole)
+                    if (player1.Key == _led && _isMole1)
                     {
                         player1.Score += 1;
                         player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, _led);
-                        _isMole = false;
+                        _isMole1 = false;
                     }
                     else
                     {
@@ -70,11 +71,11 @@ namespace Game.Mini_Games
                 
                 if (player2.getOneTouch())
                 {
-                    if (player2.Key == _led && _isMole)
+                    if (player2.Key == _led && _isMole2)
                     {
                         player2.Score += 1;
                         player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.green, _led);
-                        _isMole = false;
+                        _isMole2 = false;
                     }
                     else
                     {
@@ -106,7 +107,8 @@ namespace Game.Mini_Games
             base.OnGamePause();
             timer.PauseTimer();
             bot.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectWaiting, Color.red, 0);
-            _isMole = false;
+            _isMole1 = false;
+            _isMole2 = false;
         }
 
         public override void OnGameResume()
@@ -136,7 +138,8 @@ namespace Game.Mini_Games
         {
             if (GameStatus == GameStatus.STARTED)
             {
-                _isMole = true;
+                _isMole1 = true;
+                _isMole2 = true;
                 _led = Random.Range(0, 6);
                 player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
                 player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.red, _led);
@@ -149,7 +152,8 @@ namespace Game.Mini_Games
         {
             player1.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
             player2.celluloAgent.SetVisualEffect(VisualEffect.VisualEffectConstSingle, Color.white, _led);
-            _isMole = false;
+            _isMole1 = false;
+            _isMole2 = false;
         }
     }
 }

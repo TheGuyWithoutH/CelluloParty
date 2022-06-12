@@ -96,7 +96,6 @@ public class GameManager : MonoBehaviour
 
         ExecuteAfterDelay(15, () =>
         {
-            Debug.Log("10s after");
             _state = GameState.Start;
         });
     }
@@ -113,9 +112,8 @@ public class GameManager : MonoBehaviour
                 ExecuteAfterDelay(5, () => player1.SetTargetCell(GameCell.Cell10));
                 _state = GameState.End;*/
                 
-                /*Debug.Log("start the game");
-                _miniGameRunning = true;
-                curling.StartGame();
+                /*_miniGameRunning = true;
+                simonSays.StartGame();
                 _state = GameState.MiniGame;
                 break;*/
                 
